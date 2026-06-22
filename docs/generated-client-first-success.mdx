@@ -1,0 +1,370 @@
+---
+
+sidebar_position: 4
+title: From generated client to first-success documentation
+-----------------------------------------------------------
+
+# From generated client to first-success documentation
+
+This experiment explores what needs to happen after an OpenAPI contract generates a client library.
+
+The previous experiment showed that a real OpenAPI contract can generate a substantial TypeScript Fetch client. The generated output included API classes, methods, models, package files, generated endpoint documentation, authentication schemes, and a README.
+
+But generation alone did not create a complete SDK developer experience.
+
+The larger question behind this experiment is:
+
+> If a contract can generate a client surface, what human-authored documentation layer is still needed to help a developer reach first success?
+
+## Why this experiment matters
+
+For many developers, the SDK is the main way they experience an API.
+
+They may not start by reading every endpoint in the API reference. They may start with a question like:
+
+```text
+How do I install this?
+How do I authenticate?
+What is the smallest working request?
+What does success look like?
+What happens if it fails?
+Where do I go next?
+```
+
+A generated SDK can provide methods and types, but it does not automatically answer those questions in a trustworthy way.
+
+That is the role of first-success documentation.
+
+## What first success means
+
+First success is the point where a developer can complete one meaningful task with confidence.
+
+For an SDK, first success usually means the developer can:
+
+* install the package
+* configure authentication
+* initialize the client
+* make one small request
+* inspect a successful response
+* understand at least one common failure mode
+* know what to try next
+
+The first-success path should be short, tested, and explicit.
+
+It is not the same as a full API reference.
+
+It is the smallest reliable bridge from interest to working code.
+
+## What the generated client gave us
+
+The generated TypeScript Fetch client gave us useful structure:
+
+```text
+OpenAPI contract
+    ↓
+Generated client package
+    ↓
+API classes
+    ↓
+Methods
+    ↓
+Request and response types
+    ↓
+Generated model documentation
+```
+
+That structure is valuable.
+
+It means the OpenAPI contract can power more than static reference pages. It can also create a client surface that developers could potentially use in code.
+
+## What the generated client did not give us
+
+The generated client did not fully solve the developer journey.
+
+The generated README had several gaps:
+
+* the package install command assumed the package was published
+* the first example included placeholder request-body content
+* the method names inherited controller-style operation names
+* the authentication section listed schemes but did not explain usage
+* the endpoint and model lists were complete but overwhelming
+* error recovery guidance was missing
+* there was no tested first request
+* there was no snippet validation strategy
+
+This showed that generated SDK output can be structurally complete but still not ready for production developer onboarding.
+
+## The documentation layer I would add
+
+Before treating a generated client as production-ready, I would add a human-authored SDK guide around it.
+
+That guide would include:
+
+```text
+1. Install the SDK
+2. Configure authentication
+3. Initialize the client
+4. Make the first request
+5. Understand the response
+6. Handle a common error
+7. Link to relevant reference pages
+8. Show what to do next
+```
+
+This layer should be authored, reviewed, and tested.
+
+It should not rely only on the generated README.
+
+## Example first-success guide structure
+
+A production SDK first-success guide might look like this:
+
+```text
+Title
+    Make your first request with the TypeScript SDK
+
+Before you start
+    API key requirement
+    Node.js version
+    Environment variable setup
+
+Install
+    npm install package-name
+
+Configure
+    export API_KEY=...
+
+Initialize the client
+    Create a client with the API key
+
+Make a request
+    Run one small, safe request
+
+Understand the response
+    Show the important response fields
+
+Handle common errors
+    401 authentication failure
+    403 permission issue
+    422 validation error
+    429 rate limit
+
+Next steps
+    Link to API reference
+    Link to SDK reference
+    Link to troubleshooting
+```
+
+The important part is not only the code.
+
+The important part is the sequence.
+
+Developers need to know what to do, why it matters, and what success looks like.
+
+## Example SDK guide copy
+
+This is the kind of guide I would write around a generated client after the package, method names, and examples had been reviewed.
+
+````md
+# Make your first request with the TypeScript SDK
+
+Use this guide to install the TypeScript SDK, configure authentication, and make your first request.
+
+## Before you start
+
+You need:
+
+- Node.js installed locally
+- an API key with access to the API
+- a safe local environment for testing
+
+Store your API key as an environment variable:
+
+```bash
+export WORKOS_API_KEY="your_api_key_here"
+````
+
+Do not hard-code API keys in source files.
+
+## Install the SDK
+
+```bash
+npm install package-name
+```
+
+## Initialize the client
+
+```ts
+import { Configuration, ApiKeysApi } from "package-name";
+
+const config = new Configuration({
+  accessToken: process.env.WORKOS_API_KEY,
+});
+
+const apiKeys = new ApiKeysApi(config);
+```
+
+## Make a request
+
+```ts
+async function main() {
+  const response = await apiKeys.apiKeysControllerValidateApiKey({
+    validateApiKeyDto: {
+      apiKey: "example_key",
+    },
+  });
+
+  console.log(response);
+}
+
+main().catch((error) => {
+  console.error("Request failed:", error);
+});
+```
+
+## What success looks like
+
+A successful response confirms that the request was authenticated, the SDK was configured correctly, and the API returned a valid response.
+
+## Common errors
+
+### 401 Unauthorized
+
+The API key may be missing, expired, or invalid.
+
+Check that:
+
+* the environment variable is set
+* the token is being passed to the SDK configuration
+* the token has not expired
+
+### 403 Forbidden
+
+The token may be valid but may not have permission for the requested operation.
+
+Check that the key has access to the API area you are using.
+
+### 422 Validation error
+
+The request body may be missing required fields or using invalid values.
+
+Check the request schema and compare your payload with the expected model.
+
+## Next steps
+
+After your first request works, continue to:
+
+* SDK reference
+* API reference
+* authentication guide
+* error troubleshooting guide
+
+````
+
+In this portfolio experiment, I would not publish that guide as final user-facing SDK documentation until the example was tested against a real published package and valid credentials.
+
+But the structure shows the documentation layer that a generated client would need before release.
+
+## Snippet testing strategy
+
+First-success examples should be tested.
+
+A lightweight snippet testing strategy would check:
+
+```text
+Does the TypeScript example compile?
+Are imports valid?
+Are method names still correct?
+Are required request fields still present?
+Does the example fail safely without real credentials?
+Can a mocked response validate the expected shape?
+````
+
+In a production pipeline, I would separate tests into two levels.
+
+```text
+Static snippet checks
+    Compile examples
+    Validate imports
+    Catch renamed methods
+    Catch missing types
+
+Integration checks
+    Run selected examples against a sandbox or mocked API
+    Validate successful responses
+    Validate common error responses
+```
+
+This matters because SDK docs drift can happen even when the OpenAPI contract is valid.
+
+A generated client may change method names, request types, or models. If examples are not tested, the first-success path can silently break.
+
+## Production readiness checklist
+
+Before publishing generated SDK documentation, I would review:
+
+* package installation path
+* package publishing status
+* authentication setup
+* environment variable naming
+* runnable first request
+* method naming ergonomics
+* request and response examples
+* error handling
+* pagination guidance
+* retry and rate-limit guidance
+* versioning and changelog process
+* snippet tests
+* links to generated API reference
+* links to troubleshooting pages
+
+This checklist helps distinguish generated output from a production developer experience.
+
+## What this taught me
+
+Generated clients can be valuable, but they are not the end of SDK documentation work.
+
+They create the surface.
+
+Documentation creates the path.
+
+The generated client can answer:
+
+> What methods and models exist?
+
+The first-success guide answers:
+
+> How do I use this correctly for the first time?
+
+Those are different jobs.
+
+## Early takeaway
+
+This experiment sharpened the overall mental model:
+
+```text
+The contract gives structure.
+The generated reference gives coverage.
+The generated client gives a usable surface.
+Information architecture gives findability.
+SDK documentation gives first success.
+Snippet tests and monitoring create trust.
+```
+
+That is the difference between documentation generation and documentation engineering.
+
+## Next step
+
+The next step is to make this site publicly available and observable.
+
+That means:
+
+* hosting the site
+* adding analytics
+* adding build checks
+* adding availability monitoring
+* documenting the docs observability model
+
+The next question is:
+
+> How do we know whether the documentation system is healthy once it is public?
