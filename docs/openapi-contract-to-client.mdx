@@ -1,0 +1,324 @@
+---
+
+sidebar_position: 3
+title: From OpenAPI contract to generated client
+------------------------------------------------
+
+# From OpenAPI contract to generated client
+
+This experiment explores how the same OpenAPI contract used to generate API reference documentation can also be used to generate a TypeScript client library.
+
+The larger question behind this experiment is:
+
+> What can a contract-generated SDK/client provide, and what still needs review before it becomes a production developer experience?
+
+## Why this experiment matters
+
+API documentation does not stop at reference pages.
+
+For many developers, the SDK or client library becomes the practical entry point into an API. They may spend more time reading installation instructions, authentication examples, method examples, and error-handling guidance than reading raw endpoint reference pages.
+
+That means SDK documentation needs to be more than a generated package. It needs to help a developer reach first success.
+
+This experiment examines the gap between:
+
+```text
+Generated client output
+    Types, API classes, models, methods, package structure
+
+Production SDK experience
+    Installation guidance, authentication setup, runnable examples, error recovery, ergonomic naming, release governance
+```
+
+## Source contract
+
+This experiment uses the same WorkOS OpenAPI contract used in the API reference generation experiment.
+
+The local source contract is stored at:
+
+```text
+external/workos/open-api-spec.yaml
+```
+
+This project is an independent learning and documentation engineering experiment. It is not affiliated with, sponsored by, or endorsed by WorkOS.
+
+## What I generated
+
+I used OpenAPI Generator to generate a TypeScript Fetch client from the WorkOS OpenAPI contract.
+
+The generated client used the `typescript-fetch` generator.
+
+The generated output was written locally to:
+
+```text
+generated-clients/workos-typescript-fetch/
+```
+
+The generated client output produced:
+
+```text
+Size: 5.6M
+Files: 941
+```
+
+Because the generated output created 941 files, I chose not to commit the full generated client into this portfolio repository.
+
+Instead, I kept the generation setup and evaluation notes under version control.
+
+That decision is intentional. In a production system, generated SDK output may belong in a dedicated SDK repository, package pipeline, or build artifact rather than being committed directly into a documentation site.
+
+## What the generator produced
+
+The generated TypeScript client had a recognizable SDK/package structure:
+
+```text
+README.md
+package.json
+src/
+docs/
+tsconfig.json
+tsconfig.esm.json
+.openapi-generator-ignore
+.npmignore
+```
+
+The generated README included:
+
+* package name and version
+* installation command
+* TypeScript usage example
+* generated API classes
+* endpoint table
+* model list
+* authentication schemes
+* build instructions
+* publishing instructions
+
+This showed that the OpenAPI contract could produce a substantial SDK-like client surface, not just static API reference pages.
+
+## What looked useful
+
+The generated client was useful in several ways.
+
+It created a package structure that a developer could recognize.
+
+It generated API classes such as:
+
+```text
+AdminPortalApi
+ApiKeysApi
+ApplicationsApi
+AuditLogsApi
+AuthorizationApi
+SsoApi
+UserManagementUsersApi
+WebhooksApi
+```
+
+It also generated method names, request types, model files, and endpoint-level documentation.
+
+This is valuable because it shows how an OpenAPI contract can become a source for multiple downstream artifacts:
+
+```text
+OpenAPI contract
+    ↓
+API reference
+    ↓
+Generated client
+    ↓
+Generated models and types
+    ↓
+Generated SDK documentation
+```
+
+That is a powerful automation pattern.
+
+## What looked rough
+
+The generated client also surfaced several production concerns.
+
+### The README was structurally useful but not fully trustworthy
+
+The README included an npm install command for the generated package:
+
+```bash
+npm install @netra/workos-typescript-fetch --save
+```
+
+However, this package was generated locally and is not published to npm.
+
+That means the generated README is misleading unless the package is actually published or the README is edited to explain that this is local experimental output.
+
+### The first example was not copy-paste runnable
+
+The generated usage example included placeholder request-body content:
+
+```ts
+const body = {
+  generateLinkDto: ...,
+}
+```
+
+That is not a runnable developer example.
+
+For SDK documentation, this matters because the first example is often the developer’s first trust test. If the example cannot run, the SDK may feel unreliable even if the generated client code is structurally correct.
+
+### Method names inherited implementation language
+
+The generated methods reflected controller-style operation names from the OpenAPI contract.
+
+Examples include:
+
+```text
+portalSessionsControllerCreate
+apiKeysControllerValidateApiKey
+authorizationOrganizationRolesControllerCreate
+```
+
+These names are technically traceable to the source contract, but they are not necessarily ergonomic SDK method names.
+
+A hand-designed SDK might expose simpler names such as:
+
+```text
+createPortalSession
+validateApiKey
+createOrganizationRole
+```
+
+This showed that generated SDKs can inherit internal implementation naming unless the OpenAPI operation IDs are intentionally designed for SDK ergonomics.
+
+### The generated documentation was complete but hard to navigate
+
+The generated README included a very large endpoint table and model list.
+
+That improves coverage, but it does not automatically create findability.
+
+This mirrored the earlier API reference finding: generated output often reflects the structure of the contract more than the mental model of the developer.
+
+### Auth guidance was present but thin
+
+The generated README listed bearer-style authentication schemes, but it did not explain which token a developer should use for which workflow.
+
+Production SDK docs would need clearer guidance for:
+
+* where to get the token
+* whether the token is secret or publishable
+* which environments it applies to
+* how to store it safely
+* how auth failures appear
+* how to debug common authentication errors
+
+## What this taught me
+
+Generated SDK/client output can provide real value, but it should not be treated as production-ready by default.
+
+The generator produced:
+
+* package structure
+* API classes
+* request and response types
+* endpoint methods
+* model documentation
+* basic README content
+
+But it did not fully solve:
+
+* runnable first-success examples
+* ergonomic naming
+* task-based SDK documentation
+* authentication explanation
+* error recovery guidance
+* pagination guidance
+* rate-limit guidance
+* release/versioning decisions
+* package publishing decisions
+* snippet testing
+
+The generated client gave structure and coverage.
+
+It did not automatically create a polished SDK developer experience.
+
+## Production implications
+
+In a production documentation or developer experience system, I would treat SDK generation as a governed pipeline.
+
+A stronger workflow would include these gates:
+
+```text
+Contract quality
+    Are operation IDs, tags, schemas, examples, and errors designed well enough to generate usable SDKs?
+
+Generated client quality
+    Does the generated client build, type-check, and expose predictable method names?
+
+Developer ergonomics
+    Are the generated APIs intuitive for developers in the target language?
+
+Documentation quality
+    Are install, auth, first request, common tasks, errors, and troubleshooting clearly documented?
+
+Snippet reliability
+    Do SDK examples compile or run in CI?
+
+Release governance
+    Is the generated package versioned, tested, published, and aligned with API changes?
+```
+
+This is where documentation engineering, SDK engineering, and platform governance meet.
+
+The generator can create the client surface. A team still needs to decide whether that surface is good enough to publish.
+
+## What I would not publish as-is
+
+I would not publish this generated client as an official SDK without further review.
+
+Before publishing, I would want to review:
+
+* operation IDs and method names
+* generated README accuracy
+* runnable examples
+* authentication setup
+* error handling
+* pagination behavior
+* retries and rate limits
+* package versioning
+* release notes
+* generated docs structure
+* CI tests for generated examples
+
+The generated output is a good spike.
+
+It is not, by itself, a production SDK experience.
+
+## Early takeaway
+
+This experiment gave me a sharper mental model:
+
+```text
+The contract gives structure.
+The generated reference gives coverage.
+The generated client gives a usable surface.
+SDK documentation gives first success.
+Tests and governance create trust.
+```
+
+The generated client showed that OpenAPI can support SDK automation.
+
+It also showed that generated SDKs still need documentation engineering judgment before they become trustworthy developer products.
+
+## Next step
+
+The next step is to design a small SDK documentation layer on top of the generated client.
+
+That layer should include:
+
+* installation guidance for local/generated use
+* authentication setup
+* one runnable first request
+* one common error scenario
+* guidance on what is generated versus hand-authored
+* a snippet test strategy
+
+The next question is:
+
+> How do we turn generated SDK output into a trustworthy first-success journey?

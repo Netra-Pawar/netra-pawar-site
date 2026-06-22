@@ -19,3 +19,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Generated SDK/client spike output
+/generated-clients/workos-typescript-fetch/

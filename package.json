@@ -12,7 +12,8 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "generate:workos-client": "openapi-generator-cli generate -i external/workos/open-api-spec.yaml -g typescript-fetch -o generated-clients/workos-typescript-fetch --additional-properties=npmName=@netra/workos-typescript-fetch,npmVersion=0.0.1,supportsES6=true,withInterfaces=true,useSingleRequestParameter=true,stringEnums=true,enumUnknownDefaultCase=true"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",
@@ -30,6 +31,7 @@
     "@docusaurus/module-type-aliases": "3.10.1",
     "@docusaurus/tsconfig": "3.10.1",
     "@docusaurus/types": "3.10.1",
+    "@openapitools/openapi-generator-cli": "^2.39.0",
     "@types/react": "^19.0.0",
     "typescript": "~6.0.2"
   },
