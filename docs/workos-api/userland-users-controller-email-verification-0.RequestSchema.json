@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string","description":"The one-time email verification code.","example":"123456"}},"required":["code"],"title":"VerifyEmailAddressDto"}}}}}

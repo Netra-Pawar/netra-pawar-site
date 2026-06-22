@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"slug":{"type":"string","description":"The slug of the permission to add to the role.","example":"reports:export"}},"required":["slug"],"title":"AddRolePermissionDto"}}}}}

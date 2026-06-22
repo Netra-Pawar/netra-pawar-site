@@ -1,0 +1,70 @@
+---
+id: authorization-group-role-assignments-controller-remove-group-role-assignments
+title: "Remove group role assignments by criteria"
+description: "Remove role assignments from a group that match the provided criteria. Returns 404 when no matching active assignment is found."
+sidebar_label: "Remove group role assignments by criteria"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV1tTGzcU/iuafUk7g20uJi1+qjHmkpRCbKcJyTBG3pW9gl1pK2kBx+P/3nMkrb3rNSkPeehMywMs0tG56/uOFkHEdKh4ZrgUQScYsFQ+MqJkwgjVms9EyoTRZKpkSiiZKZlnxMTUkJSaMIZPRjIlH3nEIgJ6DFOcNsmAmVwJTdq7bfIUM0GEdAe4mBEaGv5YVk84GJC5iJrBTiAzpih6cxGBP93cxFLxb3blDK0PwLXu2rOeFAa8TZgaK+v7NiFQm1FFUwbu6aDzdREI+AfU23jGPAIBxf7KuWJg1Kic7QQc05FRE8NeNUcjiPnihMipjd6qQMd1GLOUBp1FYOYZKtdGQbiww55pmiVre7t7559vvuztH7QP3/7y61H3uHfSPz07v3gXLJe3zhOmzbGM5qht07EQIoagcItmWcJDm5vWvUbnFnU35OSehQZToDC3hjNt1UKKxjrJZ9s8rgeMkkXItjuMJC7h1T6RqlmJmEYpZHKJUWmZq5Bhtl9lcZ3i4miTXOYmp0kyJ+w5THKNbfTETUzuVtrZM9RY0ATM3BEqotIWmrQR3224CD32bbwSe6E6lRhKVl4XTHFgW1QVZ6BI9w2wXDG38vx1xopzBEVt5eo2sCWWy3Lbfy21BHSh4cYKn7AErs22W3U87/kLf2IkKHPqdCaFdi22v9vGP1UH/5Ck5zsY5Nu7B3WRU6kmPIqYCH5Yt6dMazpj/5y/LonzlIqGYjSiE+jz0nZROabUZptfqRkVHqYA7IzDsw55I9UMOqp//uHy5s+3l8fvD44+9A6vv3w+vzk86h28adaKUHh66xLa3p5DQ07RwP8JCtr7+/UEfRQQXYiC6GFfQDPP//O5gj1DZ8h/FvJWtIq3/bkxZRQ4mzWmCQWYCXLNVMPSlW4gLjTWKN9gAoOJrM+QTw06HKs+MGCsTV07wSNNcvZKnUiAwNOxRPaPLPZY9gYe7gStit8tp6q1KFh82bIIRivEDzYfC9bPVQJaYmMy3Wm1aMabT1I9SN0MZVor3rWSUR7af5Y7L59tGODqrQqGkG3sCgxJszBX2IToxoRRxRR83pa3hth9rsEKAd+SmDu/tOM/ACJhnoL1d59GsOjbEL2ruXEDXEA+ga9XQ9K9viBQJBjZ2JQ/w8jm2FM/jO+a5BoSR7gBPodJ79iaAZZ/YKJD7ipzWKfYhXO+a8crvgRyhUajId6+sT3+g+LoCjIcXhGn2TkGTIdzJsRh51O8TmcMAiBQuynHERYGgJGVZCLKJBfG3RG88YP1mNUvrl5lLPKzy8bo8tpx4aVpYc3w2wl+zc44g06lRRnPxa6Ktcz44g76wxFWGG8cdLzb22vueuCDsRt1+cl3para15X7AGDIcVPnWSaV+a20Cc4BfMLdZyWdlxejmkLATeHnHECvlj/UQlEsRCa1AYQsKfEvEPfSqL1DJvPVK2MzDYs1vP8LnjG+kw3UvpUl1M3ANjULj2abKLzjXgeIWZ3yu2QT0gAyYsgaKlgsJlSzjypZLnEZ+lkhwtwi5EIAE2wawJuIaweunSlNNPtO3n4aePL4mbzwytkal1+kYl5Ce/h0fLAKZnkLsjFwoQW/gi78NNgYoZL18RpBIwi7E12AgMx8V7bMIif93/ujPkKOf1GlMsJTij5hfuG3dVbafLi3Ea4tgoSKWW6JPnBa8edvaGJIcg==
+sidebar_class_name: "delete api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Remove group role assignments by criteria"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/authorization/groups/{group_id}/role_assignments"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Remove role assignments from a group that match the provided criteria. Returns 404 when no matching active assignment is found.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-group-role-assignments-controller-remove-group-role-assignments.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-group-role-assignments-controller-remove-group-role-assignments.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-group-role-assignments-controller-remove-group-role-assignments.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

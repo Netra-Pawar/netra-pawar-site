@@ -1,0 +1,75 @@
+---
+id: userland-user-organization-memberships-controller-reactivate
+title: "Reactivate an organization membership"
+description: "Reactivates an `inactive` organization membership, retaining the pre-existing role(s). Emits an [organization_membership.updated](/events/organization-membership) event upon successful reactivation."
+sidebar_label: "Reactivate an organization membership"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "put api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Reactivate an organization membership"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/user_management/organization_memberships/{id}/reactivate"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Reactivates an `inactive` organization membership, retaining the pre-existing role(s). Emits an [organization_membership.updated](/events/organization-membership) event upon successful reactivation.
+
+- Reactivating an `active` membership is a no-op and does not emit an event.
+- Reactivating a `pending` membership returns an error. The user needs to [accept the invitation](/authkit/invitations) instead.
+
+See the [membership management documentation](/authkit/users-organizations/organizations/membership-management) for additional details.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./userland-user-organization-memberships-controller-reactivate.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./userland-user-organization-memberships-controller-reactivate.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./userland-user-organization-memberships-controller-reactivate.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: audit-log-exports-controller-export
+title: "Get Export"
+description: "Get an Audit Log Export. The URL will expire after 10 minutes. If the export is needed again at a later time, refetching the export will regenerate the URL."
+sidebar_label: "Get Export"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNV2lv2zgQ/SuEvnQXsGXZufVpcydtgxx2002CwGGksc1GJlWSylFD/31nKPlQ5Gbb3QK7QIBQPGYeZ968oSdeDCbSIrVCSS/0DsEyLtl2FgvLPqoh239OlbY+642Afbr4yJ5EkjB4ToUGxgcWNGsHbCxkZsH47HjALG4Ed4gJwyRADDHjQy4k42ibJZwOWTGGBtMwABuNhBwuHnMuNAxBgsbNbgld+17DUylNIdTjGME6lAiywGh2lbRaJQnofmEJD6Rc8zGgR+OFNxNP4gce5JWDaKvhafia4Z3QrNUZNDxB0Ui5HeFaNUQUiUyKrxmw4z2mihvXAobHTDSCMffCiWdfUnJrrMar4go883GazJD0EzUsIfeD9uHO9Ye1k7ON3l77avfg/OjgotNpbwaXXp7fEk6TKmnAkN1OENC/Or7XcJi6/wKRQxVhlEBaOsfTNBGRi2fri6HDkzro4iSFUlP0rShcl9NLLldFsyeMxflMmBGYpaFawPb9uBTAjV22lGO24r9H8sN5+4fZwYRbpOvSfMtsjPzzUpBxMaOBxy+0orXS3u0yrM7aFCeUZXimjBH3CbBHnmRgQlaapFpCiw3mDFZvUfhCfJlO5uhu5vBkliR1DNuu3q1y/ne7l2wgEvDZqUxeWAwDIbGun0YglycVa9/5rUIZWZuasNUqrmN8F+AmBtj4kRq3Zp/NckO50Y/MI10gQpMW4j53xBsoPaaRF+NkkxQFfb3NgW3JjrunbHM9aDsJwhiP0yrETtBZbwbtZnut1+6EQYB/fhAE1y6Aafwf+s8XVepmXpiC9KvgXiVEFbyYXius81CVzfdU+PkCgnltL6tCqrSfqotZWcw472j4r6hQZQKFrNMMtppBp9feCNur4dqGH2ytXlcj8Ma+PKfgrgardTWtEVsqywYqk/EvFFMkguHDpdLxuiZH2ZjLJoWSkwwsLM+koq4Ap3rIpfjmwM0vELJ3Sg8xd/tH5ydXl+snOx9Wts53186u/zy6WtvaXXnn10g3RXpbZczsAm/EC939BG+cb5cWy4fUvL05QYjM2NRHirg4hKLPY6cOvdbMw5QvpjV53e1z4iTox+mjoMpHngr/SekH5XhYy8CZVnEWuY+88f2zTXwO2aUGungfSi01cwNRpoV9cTDugWvQOLxdXOoShQqWTDeUvKJol1ONcnAwVaT3n3tzLSJ0NRhXKtPsM2I97bLts2P2AC8sxfeYeCZZF3bE7sxD/w47DjeGYUq5wcfbjnODTeEBZMjutjNMgi6JFU5X8VxJjX67s7K6tr6xuXXnk8bwKEKi9N3xX3QPVNQuKmphuQCGjcdmmtrTQKuxqwn3rGWYO+ph+MCNWc/txOaZKiFtQXQhB8rVYCmURXhqLsuoXex3exQ6XCcqFWttPyhlgRevo/LFOTNVJUyFaCgVghZNlhJR/1hYRHAoLoDvvgWbJ8e9mkFUFWkwtRH4WNut8lCLttINU2Us6seCEYrM/lTcK/eczNXt//6zoCSIhWfbShO0ufDaKZThZt6zjJNGpw04Cmu/BbD4RopemjfeZHLPDXzSSZ7TND4dNdUqDh+5FiTArnJjYWiMajTgiYE34vjbRamlv7Mffo4uvVw5ySU1VPcWxC8cYhkv+32Tk16PsGk4gZmU27axaFK7YKDWw/JFpT3cJxL9BeJ4zJY=
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Export"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/audit_logs/exports/{auditLogExportId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get an Audit Log Export. The URL will expire after 10 minutes. If the export is needed again at a later time, refetching the export will regenerate the URL.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./audit-log-exports-controller-export.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./audit-log-exports-controller-export.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./audit-log-exports-controller-export.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,72 @@
+---
+id: authorization-controller-list-resources-for-membership
+title: "List resources for organization membership"
+description: "Returns all child resources of a parent resource where the organization membership has a specific permission. This is useful for resource discovery—answering 'What projects can this user access in this workspace?'"
+sidebar_label: "List resources for organization membership"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List resources for organization membership"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/authorization/organization_memberships/{organization_membership_id}/resources"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns all child resources of a parent resource where the organization membership has a specific permission. This is useful for resource discovery—answering "What projects can this user access in this workspace?"
+
+You must provide either `parent_resource_id` or both `parent_resource_external_id` and `parent_resource_type_slug` to identify the parent resource.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-controller-list-resources-for-membership.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-controller-list-resources-for-membership.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-controller-list-resources-for-membership.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

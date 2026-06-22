@@ -1,0 +1,70 @@
+---
+id: flag-targets-controller-delete-target
+title: "Remove a feature flag target"
+description: "Removes a target from the feature flag's target list in the current environment. Currently, supported targets include users and organizations."
+sidebar_label: "Remove a feature flag target"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVm1v2zYQ/iuEvmQDHNtpkq4RhmFumizZFsSNvXVZaji0dLLZSKRKUmlcwf99dxRlyy8d1m4fNmD+YvHleM+9PXdlEIOJtMitUDIIgxvI1CMYxpnlegqWJVplzM6AJcBtofE/5dM9Ux+nwlgmpLsRFVqDtAzko9BKZvjdZqfVZjpvMVPkudIWYi9sUDBKixhYYUCjThkzpadcio+c4Jh20ApUDtqtLmOEd47Kh5XwqZJWqzQFPY4hBQvVPorkXPMMN7QJwrsykLhAUQ1GFToCfKeFi/eF0IBPWl1AKxBke87tDM/WHTJEw2pRdvmKbE2UzrhlbwOCPf5WxN+9DRA4biB6vyboJppBxoOwDOCJZ3lKKJxI9+DZ4dHx829enHT5JIohwct2ntO5sVrIabBYtJbATVpMPxtyIcX7AhjJMhFjAEQiQDOVbMXyU0gnYPm+v7gD34gQmRyjBIYEn3WP6G8DSZUkVXxiTIAoAmOSIk3n7WDRCo663W2hS/nIUxGzVcC8xwlphFFHa0iK53kqIpcbnXeGRMuGIR6vmryDyCWFpkyyokKbIQw+hcZFb9imL3tsVmRc7mvgMZ+kwBrHtTdBa6UJ3Mp5mzZgDMjeSMV/QeewfpPR/Tp8c7zq1JEwqd6hVlRqx7XaMX5XviPtxmIwsW7WMMgim4DeieFiOOyzSsghWdOFoVu4H0XxcDuKPRdqdJcUEP+HInfdICAmFRKgKmQcsj2q7e7B2cXrq9tfn1+9/Onw5PXpcf/33y5uj09OD/faVLONIr1bIh3VXtpRIOeNQmw5GmwRk6idIP73Ip5ZPiVaDzwz7ZPnTNs3lABZCZl/pqhXVKzj+gGSZBh01kQ6JXHjouMlO+WKbhbEiKAf6wZS6BTFZ9bmJux0eC7aH5R+UKYdqWzLYX2t4iJyC+LwT8nuWzB25wMDtNBR7IhQYE8Vdu5gTIBrrNTwbtQ8GlDEq6DWF3waVCTutlr+47zigjD48c1wxemEbgvGLTqDvUGs1wPW61+yB5izXEMinpDIPwg7Y/fmYXzfZn2OZS4s4zQ0vHRqmFUPIEN23yswFtrnQVifopzPlPGyEd67fsAdaYyd+D9kR0+yweCaVS9XwJCVMQ8k2rEcbn7ALsUZxi4RmOM0iAzdTZBxrgTOMS4vhUyUKxlhXZZX7tlS6b12czYYkuvwnFKpOjtod30V88hVsW/yy6fWE2Yt0bCyBR36Oer7xiGCQy4AbMaNN68uh1sPIgnIKs/bWIodL9Shq2RhrozFcm88Ug2E6JzmzOAHuE3LyxU9/fsGSZ8kFp5sJ0+5oPqsnFN6htggFZQJ/exV0wvuNMZIrMIZ+osEy3LCDfyi08WCtnH00lS0+PnItSDidCUcC0PfyE4JTw38ifu+uvEc+DX7GxPoTpv9JpdzykyeFrTCT6zw9TGZ+OuLEX/eAPoFQF1oFiO8N8Pe5Iix9Ec0e+S2IbTVKhfNRvHq7Oez4Rnm/x8Yc4Mx
+sidebar_class_name: "delete api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Remove a feature flag target"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/feature-flags/{slug}/targets/{resourceId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Removes a target from the feature flag's target list in the current environment. Currently, supported targets include users and organizations.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./flag-targets-controller-delete-target.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./flag-targets-controller-delete-target.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./flag-targets-controller-delete-target.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

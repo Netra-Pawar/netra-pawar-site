@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"entry":{"type":"string","description":"The value to remove from the list. Must match an existing entry.","example":"198.51.100.42"}},"required":["entry"]}}}}}

@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"The application ID or client ID of the Connect Application.","schema":{"type":"string","example":"conn_app_01HXYZ123456789ABCDEFGHIJ"}}]}

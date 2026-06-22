@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"uri":{"type":"string","description":"The redirect URI to create.","example":"https://example.com/callback"}},"required":["uri"],"title":"CreateRedirectUriDto"}}}}}

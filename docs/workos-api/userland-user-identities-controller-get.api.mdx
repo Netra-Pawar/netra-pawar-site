@@ -1,0 +1,70 @@
+---
+id: userland-user-identities-controller-get
+title: "Get user identities"
+description: "Get a list of identities associated with the user. A user can have multiple associated identities after going through [identity linking](/authkit/identity-linking). Currently only OAuth identities are supported. More provider types may be added in the future."
+sidebar_label: "Get user identities"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVltz2joQ/isav7SdAUPCJQlPh5BLSUpzIW2TZhgi7AVUbMmV5DQ5jP/72fUFTEkzmTPn8fCALe9Fq293v9XS8cF4WkRWKOl0nFOwjLNAGMvUlAkfpBVWgGHcGOUJbsFnv4SdMzsHFhvQLuumT+Zxyeb8EVgYB1ZEAZRNyo6mFrVnSsgZOtEqns3ZfS5/xp3lAiWj9zUe2/lC2FohquaiDy7rxVrjx+CZKYl/F11U3dhCAzNxFCmNe7tsoHAdafWIKprZ5whVQv7MJhii71N0Mj3ONLaxBtepOCoCzQmRvo+YfMHjBVz69OyvdukpabUKAtDjGVg0irjmIeDhjNO5XzoSF2gsfBRp+BkLDejM6hgqjiCoI27nKNvE/4ZgleJnDKx/RClY4YyqxptDyJ3O0oEnHiLEaECycX3nuPm9d93otdpn9f3GbbNxdnV70jg7b6EVHRgVjdWInpMkI4rHREoaMORrt16nx2YcF+do6eER8bgk5VEUCC/FpPbDkMqyFE6+BdeaP6OdsBCa0nc1+QFeCpEmZAk9kgo/GiM8a708xDdjUiQOnhB1yQO2KqMi24TaGqvmSXO3e3h0XEW4mtXmYbtd3d9tdqutk71Go1dv7HXbR05SIPaWsEijiKjY3M2QM5ZgpNIkl0VAL7kFGYdYMk4XMYbMouIcCjuJvQXY4sORMJ7SfrE8xSaMJ6XVJ75eKTVbe+pLG4uVm0/YReD3ZbEeCE8ro6YrhSEPwEyV9lYOhgH3FsXiK6AkGHCNoUUogE1BsboFrbL30Wu4Za276k3cdgvKdfp+CzVJyo11X5RTnr4S5KOEfhWnWW9uF/pnZdmJiqX/L+r9D3UdgjF89oYK6rJ5HHJZ1cB9PkHGLImLqgKt1W9lfKFnXIq/0+CYxPinFH+HvVN6RlTw8Wpw97U9ODxvHFz1Wpffbz/etQ56jXfuFmRFpAVCls+IvFJSqWJkKAsREJfWhjKJ/DZXxIkF5WEeOk4tJaG1fro2taXwk9qalonAQD8W/BjrAE3n1kamU6vxSLi/lF4o43oq3ELqUis/9tJFUvmzbdWCsS86GOLRUvobURRerLG60jAmgNMC2/J+VBYNKdVZNguFPP+UgPxTJX85UTrk1O1n327WfEvRbYVxp2LNvmGsF0PWveyzBRBXwVQ8FXP1wSzGDy67xOHJBM5inGbsMN2GWbUA2WEPVP1K5wXQKaRol5fIeGe30Wy19/YPHlziHu55mOdxav4fnaMr2XB4wTLPWWBMA45PieeYahWmtZtdJjB3U0HXAemzm1QTpB/h/LdZQQo5VWmvCJuWdwbP1pY5atfHwxuCDuVUSplsx63n7cu9tH3z4btytVkwG4WGLS1ImF8Y/ioJMTgkAcBBWfI56N9sOcTulwZT64GLPVjLjWqkSieMlLHYHSUnhEw2wcrtsXHg5ZqO/r+VpbeyvCAtjvsajh5BXJAlYpkzUcZcJSaiTKXcVXE66Wwo4Y3tPlc0pe+d5XLCDXzRQZLQZ7xpaGIHfH3kWhA1p1zhC0PvyH9THhh4JWHvr3OW/cBevdG9eKTiNiXpLvXIg5hW+IpkkV0okxFqzXFopMS1zAVdbMbIlky2ZlhSZvDTYyrOfwDXOCNL
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get user identities"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/user_management/users/{id}/identities"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a list of identities associated with the user. A user can have multiple associated identities after going through [identity linking](/authkit/identity-linking). Currently only OAuth identities are supported. More provider types may be added in the future.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./userland-user-identities-controller-get.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./userland-user-identities-controller-get.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./userland-user-identities-controller-get.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

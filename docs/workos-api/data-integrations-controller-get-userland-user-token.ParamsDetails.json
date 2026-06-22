@@ -1,0 +1,1 @@
+{"parameters":[{"name":"slug","required":true,"in":"path","description":"The identifier of the integration.","schema":{"example":"github","type":"string"}}]}

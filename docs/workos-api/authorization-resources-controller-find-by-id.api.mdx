@@ -1,0 +1,70 @@
+---
+id: authorization-resources-controller-find-by-id
+title: "Get a resource"
+description: "Retrieve the details of an authorization resource by its ID."
+sidebar_label: "Get a resource"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV21PGzkQ/ivWfumdlJdNCLTk04WXQIooNElLAaHg7E4Sl429tb1AGuW/38y+hF02d416le7DnYTExvbMPPPMm710fDCeFqEVSjptpw9WC3gEZmfAfLBcBIapCeOS8cjOlBbfOR1lGoyKtAdsvGDCGtY7qjkVR4Wg4/2ej8o6eYl+KmAOlbRaBQHo0URI/2CBZytOyDWfgwVtnPbt0pH4AzVkVkaCzmj4FgkNqNrqCCqOIMQhtzPcK7oxRPS9IwJOfmxGTniNN4M5d9pLxy5CMmjQfTnFHXjm8zCgJZL+PlojcRunX65vGs2d1u7e23f7nYPDo+PuyWnvvbNa3RFGEyppwJDSpuvSvyK2izNU7yEJIC3t8jAMhBdjq381dGRZxqXGX8GzxJMmjq1IDKTLG/AXbR4JY3E9EmYGJuYkCwdLVNQSTMamDq/pWjvurCppVH5krMNm0ZzLqgbu83EAjMTYROmC4VqB5CsYG2FpF3WJqSRrBa2Z0dsXqzIKAueuZF0yFX/zgOV2slzYbP5QzUMuF+wphaFTGAzpjhlGOEpPucxYwXz8IQ/FJMyL4wK3TD3JJBZ6IyYUwGQ7Pr358PnybGfQPWu1Gp1G/+SgOzjtDwkR1gzm0ChfJNvzVESXqFojqTBB68K81Dl+SzAW/NpPVgfW65akRVJ8i/LoNgdtO9NkGJ6xsWBCbBU2TCDhIxliIkCzhYooCR5xiVmFdEwAmfKgEDgmJB3UzCyQoXkRJqVQFTERkDVYgjAyQTTdjhE6mZGxNkpir4I0hkDJKWaVKmNI09jDssQojnjcNrAq5/Tl+LhYtQLru/JjfnqDC/Zuz20wEjAWrRTNNd3mXtVtVBu7w0az7br4V3Nd94bsR6H/L9pf5afI7UtbjTtb0VK54jdWXJzWxRTbGOcC8wUasDStsDHwjRMTURPulrtTHiZdpcfCx3T9dTMFGTV8+jN9fkO7Ba2VLgbnIt8IpbI4GSLpt9mbrOF9PL/+vHd+cLaz//Fw9/Lmy+n17v7hzptaKXoZ0ruMoFaZoA9ooEsG/ifIaTWbZYI+SfTOo4OE8Bj7nl3857nCPcundBUt3oaoVvGWOlN0vZ1C7C/dP9tOvXCunjUAU1/mmsWKrpygH7NbbqQDFJ1ZG5p2vc5DUXtS+kGZmqfmJYYutfIjL/6xqvy1bNViR9yoYIAuEfV0TTXgRZoiTTDGgG1N4+ddfmtAIU6imB1I407Ep0uV9KOb9fH3V8OXDk7oSjCuaVBeIdaLAetc9tgDLHDCwkQ8g8+ehJ2xe/Mwuq+xS24Mvi0YN4yzg9gMDrYHkG12X2iU7WwX5dLUGK3vAfc1mjrcoxQfxeK/yA+cQwOcQ4nmBBgOYhtpiX5MtJrHOXsC6ADD2E0EJjWXPhvGJ0H6oRLSJoko5ETFNZLOgYSeksmUtf7xYEjU4T6lUrLXqLlp2fLkRZA+odaqiglTSDQsZUGbJgpDpe0fuU0Eh8UP+KLJ6TzvDUsKseplekvD2qunQnU6Sh6Gylis75yShJn186J03193oH/6KE2DaHFE18OAi/hxEYNfptX7uspfBrjB73Z+3GOBzBQ9k26d5XLMDXzSwWpFy3hl1VRP+PnItaAmFleXL+LWih1jwgMDf+Pnb/20H/3Otn3AbvQtXcQHDWUIDyL6hZ9Yaa/e1Ks7PD7DlhuX/zI90cGUDm1OtjQBVvk+eHJMIf4TQuuXcg==
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a resource"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/authorization/resources/{resource_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve the details of an authorization resource by its ID.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-resources-controller-find-by-id.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-resources-controller-find-by-id.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-resources-controller-find-by-id.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: userland-user-organization-memberships-controller-list
+title: "List organization memberships"
+description: "Get a list of all organization memberships matching the criteria specified. At least one of `user_id` or `organization_id` must be provided. By default only active memberships are returned. Use the `statuses` parameter to filter by other statuses."
+sidebar_label: "List organization memberships"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWmlv2zgT/iuEvnQL+HacNgZeYJ37aJs0R4+kgU1LtM2NRGlFKok3yH/fGVKnZTtx2u6+QBcIYlsiZ4Yzw2cO8sFymLRDHijuC6tr7TFFKHG5VMQfEeq6xA/HVPC/KA4gHvOGLJQTHkjiUWVPuBgTNWEESCgWckpkwGw+4sypkZ4iLqNISTCkNogkC/vcGQBNMsjT1Q+9CIYOGQlC/5Y7SGBzShw2opGLJNwpobbit6wgBA0ZCZmKQoETLiTT0gykogq4yQEJaEg9BrIR5ZMRd/HbcEp8GBaSZFjNqlh+wEItzIEDegBKoUuFg5/HOUnfZ7y3fKFC33VhTagvIJHyklb36sES8ANIDdnIDxm8DtmfEQ8ZkB9RV7KKxVHjf0YsnMLboh16gvjDP5ityME2LIkq1AQXTJKpH4UkcKnNCBd6tci9Rj5PmPkJE7gkwlegSSaZUBWcozUFZHAEEw7aI5u7CwZh99QLXFYhfKTHe/SGJa6AkjP4BIXAd5uhFZqNRiyirCBF9IQ7riZk8M2C5/1mq/3NGlSMvDIaSqQhFLHRqWwqQHrbjRwwllHQ//LTtLEY+BdIINgdGaKvocwxR2LmFHmhFaU9YR61ug9WvB7Q5f39fb/R3P/y9RLGrXXW37zd6G1ube/s7u0fHMIcNQ1wmFQhrMF6fKykpqMjMOZ/lltoOa2f1Qynp6xqt423b9Y7a+1W8+jwYH9vd2d7a7O31HAu97ha0XAXASAA0TMBbrSORYS7PS8+LM/ATQVcUN0xsNygOdDqHYBeZ9biccG9yLO6zYrl0fv4e6OBrDWu4a9KtmT8ES+KC8XG4Hz5Vfmhs7I7HuMcvRhwKeAoEf0MYjOD6Yp7rEbOoiDwQ8UccktdcBntdWAmKm0062/waVzldQUfIxP9HL+kL7QavlnCDz3qzrw2LhayW4BH4GJHoQTflaApobgtyR0AcgoGA+NEIIbvovzgurB4aRhoF8pGgJtlI14XDVD0ENC0QAtcxRLGyoIPWJ11nTNE8jw1U/JAcaXfn9AxF1p/WsEzZipEthUNdm6AIN7lV3li17/VQzYCNQmb1fMvXoP2OOwznIFBFnzT9cUY3XXR5oLpsLl21i63TttbnfXDxtv2l7X24ccvu+3Do87SzZVEzRUXtpsGXxTTEEmWuSDJgBwiDOk0Bhx0IiqmOpUwqQCA1ADMkHzHtCIw3mY2oprqtYJHeWj8+8D1HZbKOkctV5Yhhs4QK4CiBDAb8htPLvOpeCbqIP0aS2NdP+YVGOdB3+cYSKTgEDRSkxuu6vji9SKza9aZ3XtrHy9bly0w+97R5eHGzhy7X6OUMvAFWhxotRoN/JhBmSOYaUNCBHEC39IgcLmtzVn/Q+KQh/KuNJiKWgox+VLcMIgfz9F0kecBqBZYAAKoCYRN+EtjnhG3ZmSSSgcE+HgEElTlRVhk3O8UbRu4wfOIy4kWb6GDx3ElL2kBPbKRKDy4zJOs0UsiwcGFcs6yaHtZecjzvSVZEnBPvPZZImS8cVqR0YwPlrAHeM1C6Io8C+tdCo0lQNy//PDp5Kh9tnu0ttbsNU/3NnfP9k/PUSgDWS+GgHkiPxMFj+MC6lmoly0plgHdHkDGVn447UO4pWOW1+jQ96FMEyWVQlqqiyS9uxb5L8c6UFNEYKckZUTkVNgEnFrAb5hUkEyD3ayZDTg+x9A48ntM3bNh/pYf6k1lQ9kJrk8V8BtGis2FAeo4HDlQ9yQPCI+Lk38EQwrpH8SsA+ekKiGXtkFJGRsyCn0vzuTFDby62k51dzGL7alaq6jW3E8N9ugCV2dnxwSEgxKXFaZK6dcD8/x1jRR55MVRWDUEWCM4OA/zMUGGUCfrTNDIWFAjxgCoeJWnMd/aEZARMRYbLcmTtiHfc1FjZOce/nNNOhkK41zfRAkYuhn6/o07FZhrWDo7ZQ6YBRlhAKc6C4OHVUxYS4FqjiUOQCNv1xtNneHCTvNmAK/VaK1XG81qs3PebHUbDfirNRqNSw12gfOv8g99lz0dj6QbjZ+3ZXBksmWolHwswOOQyQxiOFCyaANkmcmVYTMXv4KQexScCSlldKFIyiN/4gtnUFud4rriYFJOI86Tnavr5mz7lne6moR+NJ4YcCpGtJ8VwrVg5XitV/I9wflFAXLEQ6lmIPMqYysi151vMT2xgKBl/u8pYBXseIqcXPoyRjjvCT7b9JZL5PEC8kjtFYAoDNBcFqyApDxiDOwH3Ib6nfWj0F2BZY9cnL4jKaqiT2IjxIPIB0/jdk3SDC2vdKJUILv1+p0f3vjSdkTN9r26ni7rt806pFx0aKOYkCJz93mepIcSCE3AXS7WspfoouagLn6P36AEKcM+VOW6a7tSXpBawUgyodiXg6iRECvIocIIQz67hyIQ4mghq3uWxZOZS7fOqDka0dawVbVbjWF1zWlvVIesY1dbzdab1jprNlutFq7aY4rO1AJPBfuSRTx6/46JsZpY3fVGo5QLHJcSgYQpuWHTum6zkIDCfkTk9G2OAcd0SeauDQSAOPKXL3QK44GObVr/wO76X8GpYg9HaacfYDtogXMCrqF88Du/ok4j2d6I230uno52zzJUGu5MDpFip0aEOERwUYqFnWpjvdqCWLjRbbzpttu1ZqejYyHmCO4L8SHQWxbiGDFUilyZqF6cWb98ujET7tONoFsUuUiTDwbzATXBrxKsFDd+2e0KJijo4zpLIPKHMk9InbVYyt24uI6bVxUtFiNOyeLMZYFQ80+KrBI0nMf9e8SxpLUJRjd92QjcVShAhjF4K7o/DOwvw6tighMfN60Q2n7mgQXoOlSFI4uVeg7mAOb/ZC2zhy/zVzL3rGLWWdMzQbPA0jqy9nLcKDf+ISCAj6nOM5LTB3QTafxIt/drizeG9p9Zf1rJk9/pLhr2Mq21eW3ATeqQU3PitEo/EELa8UgfmS53bVt3b5+VGoUhqAvHE+5gZjaaJskZTkZ96SFFG3IBQZk7/fjQrJ87z83y/SWDdF4hJVjkaSl7ZBIB6lQBbhw6hOop9zrxsjkifkLexjFGALCYY83aW2spk+QaG8//rl49DpWhGPdjUO77Yb+Myol+nzH4H9Bz7MWw1Mh1NCqYmwk28H2W0q+TbbJW3iYfgNyuHwnnxzXNf7Y+8nig1TFC+bvkVdI2/fj+66f195tH7Y2PW52Tyy/7XzsbW+1XZU1lKjIKgny8pKALEataS7gDfqamv7yu4J2iY7xaonOQqslZsPtWy2+Qau7M4FoXOhMfb7SMmbmigtWApQ+J+hmF+oJTBwQ+GHmbXGnRRXNazdKA10xFq4vJUhALfSfSzV8LMWjR3KqCjTaXwJnCMDi28AxKMgiE6AYoxpBBWIa84Oo6/+oM7Z8kQWZA7BTmGo5+VIm/7CY59uHn8yy7RulKYnzF1OEzyHp8RnonB1i96bqC3yf12kDe9Ac1cgJ1HOEKyjlCyaZmQ5R/w0SXDHoR2CGMNdxN3sK82G/6aQY00FkftdH/+3r6D1oHJEfYJDaUjWDp3amsG21ugMWdZH3gfq5HQvYT+BycTXspFyPflKQmdzDqKfcKjNZOd87OUXXwHl3JvGvWGvGepqYhF5+OpqSKDlNwtLhLYklza+H33EudMdtMSJaj+f7gvEQQIEGYtjzun3o8qY5DcYWBLxVskByRdzpjX3AdbnbpDxla/cKX6mJ3VFD81SH5xt5ybIaHGIoMmOWgaLZky+sYNvvExyzhynp4GFLJLkL38REfmyNzxAaH66iRHakvNMuvdFPrR96xm2tUAEUrd9dRd7fggUb+/0zycy/PLTFIcoPxhfb4YXfiloiY3NV7oYi/4gW3JdpM7gi+UJs/4fbZUmFnq8AXiv3P3y1bsqrc/bgfY4Wnr3otkSbrhGbCXOMPSCyG+s7bNYydQImjM+qHeFoPssQgvy1LFddjvrrY28Gs6W8MdqGZ
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List organization memberships"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/user_management/organization_memberships"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a list of all organization memberships matching the criteria specified. At least one of `user_id` or `organization_id` must be provided. By default only active memberships are returned. Use the `statuses` parameter to filter by other statuses.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./userland-user-organization-memberships-controller-list.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./userland-user-organization-memberships-controller-list.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./userland-user-organization-memberships-controller-list.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

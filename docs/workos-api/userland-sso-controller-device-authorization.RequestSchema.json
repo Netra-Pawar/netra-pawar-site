@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"client_id":{"type":"string","description":"The WorkOS client ID for your application.","example":"client_01HZBC6N1EB1ZY7KG32X"}},"required":["client_id"]}}}}}

@@ -1,0 +1,70 @@
+---
+id: jump-wire-web-key-controller-rekey
+title: "Re-encrypt a data key"
+description: "Decrypt an existing data key and re-encrypt it under a new key context."
+sidebar_label: "Re-encrypt a data key"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV9ty4kYQ/ZUpPXMRF9+oSlXAYIwXYQzCBLa27EEaYEC3jEYGQfnf0z0SBsxmvUk5D0nFDy4x6p450336dGur2Sy0BA8k9z2totWZJeJAEuoRtuah5N6M2FRSsmQxLNpEsCzzEhsuSeTZTBBKPLZSFpbvSbaWOS2j+QETFHdt2bDvXeQGQy7YkE1yX1h8DXbCdxwmcoKBI9gHVFCXSSZCrfL1W0YT7PeIhbLm27FW2WpqZ0/iIw0Ch1tq7/wiRNhbLbTmzKX4FAg8WXIWvrmtEzfb5uhDne6RiUvXbebN5FyrnOl6RpNxwABxKAVcXnvNvIuQQQPiT8kLdQAeiUJmE+kTG5G73GNEzpkKRxolcMLIYETYmrqBw/BMX8yoxzfqDk8cAwQrT3rhy+V4ZJarw7vz37p6Q+9fXpu120apizAA5yHwwh6qP1kwS6JNeiizn+BMdbtj8DUasvMyZtC3Afib+T7HE8ef4IX2eT6Crj3qV2Z7+dg2+2dF46HGx4vBelTsOKNYL903W3rbHMRGvSpHC6NsxPqmY1obozkoGcNHt7No1Kpmo3bXvIPnR8fYtIpt82EzMquy02zFxrVevm8asEe1NHZHm3FzUOjUDX20utFHLpwyHGyMxUh26p052OqjRWvVNmfl0eZBGnXbHS86y7E50I1Nb6GdJPI14RSQEOL99X2oMm9UAe5JLtVle8jNXkJE7STcryfcUPYkZS7GbX+gFBFTCMLA98KEeUVd/2ep/QlU/nQan3AWqYc5+JCtiqM/wKPVe1fcliy+MgJDVAuPvRuxKem3tULcmbWLXf92HC+qyxs2nM1+OeXHZ1XPf6VeMhpm9H0MBh4HdhNuA2P5lIP6T32hmDJjHir+QTiOIzGZnhUsi1nZi8tJOXsG5M9OSpelbOnsoqSziwKbnhc+rFqAdMCYk5R9t4qvBQNYdXD6gtWcFODPlXN2n2N1HzAp/8WiPd6yIQSEa6cCZALdDaN0XNkMjU59q2QeudTLwnVsOnEYOXiNdazKFV2P497yoMC5vZMlsm+0uY9FUiE5iKXC/zOxq1F7L4QYtmLx/7B9HLZHPFPFZIcJbSSd4VSkvdDIUdQGIHMf9TbwVWcKKI4vWl4Z5F8KeayG/G60Cpl4SeaqrRYJBwznUgZhJZ+nAc+tfLH0w5zlu9p7NNBN7MhSP14zf+6blZjl723QB+QqQN8QhRUJLmMFY8KoYAInvcNXfUx/ksydQcoJJSDJUiZ9uPGFSyXOlkNzH1pEdwJj5EeCDAHrfZ9Uuy0l1YFgU76Gwl5xOSfP4fLpOUe6NAxxrqUhDLU1dQy0xCXzKuS5GkHMRdrtKru34Jdy5qlQLJXPzi8ur54V4ymIXRg+KfdPukfVI/3+PUl2ToABP2UkPLjHVPiuInOTwQUI5G7Kge04tJvKknl24HNPJpzCkuvtZ+zGvqsfDBZ/p8G/76L/nhaILc+b+mpySgs3Ic1JIlIu9Rp9EwkF77HAkneFnJ72IWqpIHrUPdrquIyOyg/Ej+PLMAoCX8hfD14COJBLhq1rv6fRMk82BEn0QiC8xXKQrHzqlEdTzDsqBsjhwSb7Nge02fXu91c+kO5P/EhMyY4/84FDOepMcp1tqmk70YMI43SQdvlE2UA55qh/YLTdTmA4Gwjn9RWXgdYiTr4jX6jgKPtKa8ABuoASnq2mZk7tOrlW1kQoaA7DMCyfdCcUwMSjCuUXyB/aHkp0976PSZqkH7IuzI6wKugK7wH/K5r6WkZvpXxqbas51JtFdIa2yZ749wc1Zl2b
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Re-encrypt a data key"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/vault/v1/keys/rekey"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Decrypt an existing data key and re-encrypt it under a new key context.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./jump-wire-web-key-controller-rekey.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./jump-wire-web-key-controller-rekey.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./jump-wire-web-key-controller-rekey.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

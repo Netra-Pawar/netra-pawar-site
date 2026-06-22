@@ -1,0 +1,70 @@
+---
+id: audit-log-validator-versions-controller-create
+title: "Create Schema"
+description: "Creates a new Audit Log schema used to validate the payload of incoming Audit Log Events. If the `action` does not exist, it will also be created."
+sidebar_label: "Create Schema"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVWG1TGzcQ/iua+5J2xu8EWvyphtCGtMQEO6SEYWz5TrYFZ+kq6Wxcj/97d6V7Mz7AYchMk2Ey59Pu6tm3Z6VbeQHTvuKR4VJ4be9YMWqYJpQItiCdOOCG/CUnRPtTNqMk1iwgRpI5DXkAgsRMGYnoMpQ0IHJMuPDljItJQfNkzoTRNXI6tsJD6uNWQxJI2EZIQ9g916ZCQHzBw5DQUEsyYsS3SIKaV/FkxBRFrdMAIFrTYPnSYZDqkikNi/pYCqNkGDI1cMqgGlFFZ8yAhNe+XnkCfoAJh+Ej/qh4iv0Tc8XAtFExq3gc4xBRM4W1zeD0AT9aQE/Rl9xJZxCxukB57ZXH7uksCnE7iJqqhXIyYcEArFc8s4zwvTYKYuWt1zcOBdPmSAZLVH4IygffII64RKMo5L6NR/1WI7BVYdfEtBzdMt9gABRGz3Cmra4P8cKHbccgShTCSdNUj6WyTlqVWg76EcupehmGzc0+9Lofi5vYDbLtcacscs+5A9kuSmXxhH/FvF7n6CDShhublbSOehZKB1G8M9IDTUPVhBnnFhenhs3guVlWDSGUrq0Gp5EFzblXiBpVii7hJ3fGnnPMrT50rAwBSqT16FAQxbSMlc82QgllPZfcZ+jf7rnq2gcakodJS7Z6UdZ8qU1BSsSzEVNlWbMCj2asbyHYlL2OTwyZ6mUuGUWFdiSAHLVDRaY19qh7zjGnpiOgN7dTq9Hc7l/H2oH3ajyRvH62At9B/cP7mOspsPkmJzo3iDO1WYsUhQbAiIMEkAWOVbG9BAGYO4IvwOHg5QSKpqwjEum0KfJWzPZvgs2MCV9OazQAqLaUzos66zJQttaSiARszIXVLOW/p7jrBbRdqOGnnPkGYi3Q44/GbrumrJPJERtcqrX0OfYYHFLM1OJxdIG8IaCDl9+TAktL6vnZk8G5LjSOi9PTYdoV7M0PEu4d6BkYyJHogFpnIZozfPLwmFs13B4VdyhYENQGYJHFlIlyRlxQXTzd5kXcarQOqo1mtbnfb7bajQb81RqNxtctSsjcTJkxb8oNPx4dLh9wHji337Za2wPls4AA+kxrOgoZObERf73pMkPDkx0ooEOm8YyKKngUWCSF5ZQWmFIPiM7rqgkV/F8Lzl4xxjIWQZu8kWoyaDRP3n86u7o8ODv6c+/w0/H++de/31/tHx7vvSnjXof0JqO+CV4k3JSqwpSyAxxaYCrxahJhp1Tc5aHt1bNZpuuu+HR9lV891nUXL8wZXBDm6R0lViEoT42JdLtepxGvLaS6k7oGV6utCEFfBbE1CdT3uG4V7nSm1EAPXLI9cIMo/FhhphHGiFEFbd6+viku2fJxWUwFkrxj4JNXleTh97SHPnzp592D6LZgXAGnky+AtdsjnfNTcseWJFIwKO9TDhjqu8GwRs6BG/CuSPGOemS3gQvpHRNtMuzEkAeVJL6droJeUhqDZmvv7f7BL78eDmuePQNgiQ+s+iv50RGk1+sSZ9kBg4llYiXAj7GSM1uzf8AcowRyN+ZQ1FQEpG8lmQgiCWcbV4jYVhf5tfAkZ7vs8PIaE70w0L/bnPgWMzuRNRdjadcSenOls5WOpKIuTnp9LKsCY7a9Zq2RUBp1R93k40BmarOZNpoQ2pbjoo6jSCrzW2ERwAExMjivF2yenfa3DILPIjnKAC/VE6U6iqKHyCXAfQUj7pSfTJGHrq5ycv5/fsRJsmjYvalHIeVIWC4iq4Qwr/PDP3JiQpnw1N74XpOyJhTV1Fbctbdajahmn1W4XuNraBmFJAaPc6o4Tg5b2wG38wyKagwA2RMR/OkiGQI/k10++pT6lp6NBU5OiHWMv+ARqG3zE5Q9Rk1hxFm6XSUCxw5MtY9mcgNbcxdp32l0gHQi86RscVidd3tYlKPki9NMBqij6AK/icH/FqyMXBKQQfDdygsp3Pfs9PZu01PE+j8MhQlc
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create Schema"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/audit_logs/actions/{actionName}/schemas"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Creates a new Audit Log schema used to validate the payload of incoming Audit Log Events. If the `action` does not exist, it will also be created.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./audit-log-validator-versions-controller-create.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./audit-log-validator-versions-controller-create.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./audit-log-validator-versions-controller-create.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

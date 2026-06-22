@@ -1,0 +1,70 @@
+---
+id: applications-controller-update
+title: "Update a Connect Application"
+description: "Update an existing Connect Application. For OAuth applications, you can update redirect URIs. For all applications, you can update the name, description, and scopes."
+sidebar_label: "Update a Connect Application"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "put api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update a Connect Application"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/connect/applications/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update an existing Connect Application. For OAuth applications, you can update redirect URIs. For all applications, you can update the name, description, and scopes.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./applications-controller-update.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./applications-controller-update.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./applications-controller-update.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

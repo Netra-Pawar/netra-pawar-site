@@ -1,0 +1,70 @@
+---
+id: sso-controller-get-profile
+title: "Get a User Profile"
+description: "Exchange an access token for a user's [Profile](/reference/sso/profile). Because this profile is returned in the [Get a Profile and Token endpoint](/reference/sso/profile/get-profile-and-token) your application usually does not need to call this endpoint. It is available for any authentication flows that require an additional endpoint to retrieve a user's profile."
+sidebar_label: "Get a User Profile"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a User Profile"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/sso/profile"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Exchange an access token for a user's [Profile](/reference/sso/profile). Because this profile is returned in the [Get a Profile and Token endpoint](/reference/sso/profile/get-profile-and-token) your application usually does not need to call this endpoint. It is available for any authentication flows that require an additional endpoint to retrieve a user's profile.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./sso-controller-get-profile.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./sso-controller-get-profile.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./sso-controller-get-profile.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

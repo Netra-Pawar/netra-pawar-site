@@ -1,0 +1,70 @@
+---
+id: authorization-resources-by-external-id-controller-get-by-external-id
+title: "Get a resource by external ID"
+description: "Retrieve the details of an authorization resource by its external ID, organization, and resource type. This is useful when you only have the external ID from your system and need to fetch the full resource details."
+sidebar_label: "Get a resource by external ID"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlWNtu2zgQ/RVCL90FFFvObVs/rZPm4g3apLG3bRIEDi3RFhuZVEkqqWv433eGomIpUpvUCLDALhCgMi8zZ25nhl14EdOh4qnhUnhd75wZxdkdIyZmJGKG8kQTOSFUEJqZWCr+neJRopiWmQoZGc8JN5qwb4YpQRPSf+sTqaZUuJM+3I1Wx808ZS0yjLkm8JdpNskSch8zQeYyI1IkcxJTp78kk0yUnOERRfRcGzazUgVjETGSTJgJY3sFpCUrZc6Alud7MmXK4ulHYGavbMu5O6735gdOYz/al8IomSRMjabMlHdAWEoVnTFY0F73auEJ+AFCy1aPOJ5T7GvGFQONRmXM9zi6OKUmhr2q34eAHawET6MVZUmwQA2R90LbrcI2tEmHMZtRr7vw0KsgRUPwxBR22Dc6SxMHahR0Do4v3388O9kaHJ5sb3d6nfOjvcPB8fnQWy79B/yF6BFKG+kkm/6yCXipMKIa8mfCTZX8wkJTwVWkwa/6tCcIj5gwfMKZsukF0u9gCVNGsQlTTISsipWLcpL9CuqN7Z1dgH2NCHUqhWYaL20GAf5TRXZ6AtdDyDBAh7s0TRMe2nC3v2g8sqjrlWPrGR+1QTIbnitwyw34qjrfcm1gPeM6ZnkqFXlPchGtHJMGWV6l1keFd7yl72LylLIeibMZFRuK0YiOE0bwGplIVVHcqjjxExtrbnAXZPGpQG0VqYXSq5VWAeXuXTcEXtpvoI7STpGYzer35SylYk7uHQzlYJCHlPRrFf6kH9Yq6+cXr2UiyKGHCFVAPemnKrpc1AMSn3BcB5JeFYcGxoW6iKooMVm+ryAEnePPF5edzS0oiD9ev+nt7b89ODw67v+FeJ/rtEzwr1kZXXPQnqcaFZdJ5On0fRHmaOIHv4lln+WRH1LroyCNWSLFFLJK1jG4NA6hLCGKI2ppA6pyhl9eBIsbhkN9+0/7pz84Ja93gw7BC9qAlqq6zWBzdyPobHR2hp3NbhDAXysIgkvUn6XRv6h/We4hVytatcxW1VSv+MaKs2nt1/pUQzcteb7iBihNw40F3jiaAGrEvR1s1ZvJoVRjHkG6vlxPAY9qOl2H5xvoliklVTU4p2UiFNJAZ8hE1CWvCsL78O7i4+67vZOtNx/2d84uPx9f7LzZ33rVqkWvQHpdOGi77qD3oOAQFfzvHQR7hk5xaK12eMw/mGdjibMxjLs2zWGi6nrtyrl2uRx0e/GoOpbtIulhr57/y/aiVCJLnK2YuiuG6EwloC82JtXddpumvHUv1a3UrVDOam49UzLKQvsDB8Uf3d0wQA2NAgbgB4wXzmuahZniZm5hjBnUt4LP6/LWAPMiD31xwCULRsst+e7jsCC0vz4NV1SG6GowLrBjfAKspwPSO+uTWzaHVsMm/Bs8bO65icmNvh3dtMgZ1fBgMoRqQsmeVQMMf8tEl9xUGKNb7MI9l0+jh4Z400L6pSEESI/s9ReyAwh5AIScS86BQUcymRJgh326YaIfMTCAQOwmHCoBH3BDe5KJKJVcmDx7uZhIW1iOEHP31FQ6r50fDIboOtjHVMr3Oq3A1TrNR2P3kngQVU2YSqJB/XPc1FmaSmX+LG0COGAMBqN9Sea7/rAmEKhCuHEFSqTtLrXxKFqYSm2AFEpCcs+U39Slt+9j0xcrFvvvvtddthmQ2U4Tyu1zwHp54bjpMYdVm7WG392mF7kjKNxubNHdchsHCoglvoiuvMViTDX7WyXLJS7DdKqQMeDzjiqO3G75I+Iav4FIJzTR7Ceh++3c0fTvZK1nQqOH3CI8ZLAgaJLhL/gEYmn4HwrkzrUB//Stvwa4hmisje9lBvg1jCgnz/IajsfQ+G0/WbgTPeDI1JTu1uaQZbkbHx0gZ/wDdlvPQw==
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a resource by external ID"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/authorization/organizations/{organization_id}/resources/{resource_type_slug}/{external_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve the details of an authorization resource by its external ID, organization, and resource type. This is useful when you only have the external ID from your system and need to fetch the full resource details.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-resources-by-external-id-controller-get-by-external-id.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-resources-by-external-id-controller-get-by-external-id.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-resources-by-external-id-controller-get-by-external-id.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

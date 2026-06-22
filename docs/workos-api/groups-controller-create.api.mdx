@@ -1,0 +1,70 @@
+---
+id: groups-controller-create
+title: "Create a group"
+description: "Create a new group within an organization."
+sidebar_label: "Create a group"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWNty4jgQ/RWVX2a3ioshtwlPSwi5zeQygZnciiLCFqCJkbySPEmW4t+3WzJgY5LKVGV2H3ZTqcS21N1HrdPHLU+9kOlA8dhwKbyG11KMGkYoEeyRjJRMYvLIzZgLQgWRakQF/4vi3IpX8mTMlL05DsH0EGfrlhRGyShiqh9YXzAvpopOmGFKe427qSfgBuZnvYGDkqfYnwlXDHwZlbCSxxFQTM0YxvIou2NGjveJHBIDV6uwdDBmE+o1pp55jjGSNoqLEYywJzqJozR436+1j67OWu2dzeudk87+N/96o3O78enk7MabzXoOD9NmT4bP6GwVXgArZcLgEI3jiAcWQPW7RojTIgo5+M4Cg+lQmDjDmcZRl40i1gl9+szECFbfqG9tr8sAWs5zYJNfyS2xLUZcMGbdzVbs5+HulvFEEkVeLxe3tuWvxm0CC+w1jUhm5BUYiJQtoRDD6ATym93uO5cECG64sUaOhtbbvpEw3RnoWArt0lb3a/hvHXuRS++0OenjNdtT3A6LljiLfApsHTlQ2izuYUU8fJvrRHCgYobya/JsnQKnj65vbmv1jc2t7Z2Pu8291n774PDo+ATDZQul/9bYy6DnGfMlCjJgkRQjTYys/FSJlV6k/j9F9V9DbdhnR8M+tcwZSjXBKy+Eh2XDJyiJry8ZoBx3zsnHbb9G0EAbCJmPXffr22W/Vq5tdWv1hu/Db8X3/VuMn8Thvxh/pbQXlcWxLlcpmJIgDyCXwdxyMhJx6IrIKsOm7xfFYI+G5NJJ+PsJQiDDN1KWKSUVwfmEhxCZD58tR2AIjZFWdko+rQMa9lUWtBWM7FNYLmyIpqM34GiScTKhogzZDOkgYut4vQZEmjUAn0QhEdJAjRPIQwBxWVgpbLFNyhJWb74pG8VNOZBqwEPIx/ttya/ORk72MBlDmYiwQT7MBe7L6c237dO9Txu7X1pbF7fXRzdbu62ND8U8FRK0WUzQGQQ4wAD/J8jbrNeLCfoqUiZahG0oLPP8n88VjBk6wvba9QEalfKpPAQVTRQrDyM6guCJZqrsxstMIOrQgoPEacDjuvMHBt3uqm3J+0GjhL3gA5tl6O/HEo8BsbTSZfv2hlfNCr6uTvNN/6yaooWmnakf8wNCoiIwHRsT60a1SmNeeZTqQepKICeFjbhQMkwCezMrvWxbNqBoax10IHO2ceghiiBRSCiEMWBUMQWXvexQB5nkyDKfkNLL6rd7VEovDubv3pOr7vKti+gKMG5kosgVYD3vkObFMYF9AM1lQ/7EQnsGI/f6oX9fIRdUa8INoRqOaXs2DPReD0w0yH0zgV1QaX4b81GwSxnYX3SG9xV8k9AAK6lvzd9pHdA7dKB3cJ4dMKIYUEnAOoZKTlw3xWABBPZuyKF2qAhJ185kIowlF8bxHav3cnkKa8/LaHGGzDZ+a1/Ca7ozLobS1nfaSLicF8zTrbhsd7q4H1gCwE83Vqv4qeRQdzpI4Sxc5VmYYy/IEMdBncSxVOaPzCCAA+GCYswu8fS4W3AIiiU08CVgFSioampUxamYNixB0KaMk8Wxfn4UWWmRF+r5cx8AUh4YkJBqHFEubPeJUKepANzlOj4s9Ebh3L9UrDFqB9hMpwOq2VcVzWb4GAigsCR7KEOKo+jYAg25dgLUGNJIs1dW9dtlqpy/k9e/HaxdUfqQiueMEMKlk8qV9cx6YDGGt4KVjrmethyUchddLZ0UXlUoYc6iCQUUm1fnZmX34ryDPBmkHysmtk/1FH3EDyvw1wJ25xurXfbZ1IuoGCX2hec5n/jzN+1qLBU=
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create a group"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/organizations/{organizationId}/groups"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Create a new group within an organization.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./groups-controller-create.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./groups-controller-create.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./groups-controller-create.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

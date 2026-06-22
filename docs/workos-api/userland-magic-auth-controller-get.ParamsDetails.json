@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"The unique ID of the Magic Auth code.","schema":{"example":"magic_auth_01HWZBQZY2M3AMQW166Q22K88F","type":"string"}}]}

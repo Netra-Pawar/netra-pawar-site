@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"sms_template":{"type":"string","description":"A custom template for the SMS message. Use the {{code}} placeholder to include the verification code.","example":"Your verification code is {{code}}."}},"title":"ChallengeAuthenticationFactorDto"}}}}}

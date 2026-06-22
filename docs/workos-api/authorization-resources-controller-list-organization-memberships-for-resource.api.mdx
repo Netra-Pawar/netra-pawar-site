@@ -1,0 +1,70 @@
+---
+id: authorization-resources-controller-list-organization-memberships-for-resource
+title: "List organization memberships for resource"
+description: "Returns all organization memberships that have a specific permission on a resource instance. This is useful for answering 'Who can access this resource?'."
+sidebar_label: "List organization memberships for resource"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List organization memberships for resource"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/authorization/resources/{resource_id}/organization_memberships"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns all organization memberships that have a specific permission on a resource instance. This is useful for answering "Who can access this resource?".
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-resources-controller-list-organization-memberships-for-resource.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-resources-controller-list-organization-memberships-for-resource.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-resources-controller-list-organization-memberships-for-resource.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

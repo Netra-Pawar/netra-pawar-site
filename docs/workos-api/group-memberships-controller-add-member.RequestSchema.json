@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"organization_membership_id":{"type":"string","description":"The ID of the Organization Membership to add to the group.","example":"om_01HXYZ123456789ABCDEFGHIJ"}},"required":["organization_membership_id"],"title":"CreateGroupMembershipDto"}}}}}

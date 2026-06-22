@@ -1,0 +1,1 @@
+{"parameters":[{"name":"idempotency-key","in":"header","description":"A unique string to prevent duplicate requests. Each subsequent request matching this unique string will return the same response. We suggest using v4 UUIDs. Keys expire after 24 hours.","required":false,"schema":{"type":"string","example":"884793cd-bef4-46cf-8790-e3d4957a09ce"}}]}

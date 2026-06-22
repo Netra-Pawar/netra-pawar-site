@@ -1,0 +1,1 @@
+{"parameters":[{"name":"organizationId","required":true,"in":"path","description":"The ID of the organization.","schema":{"type":"string","example":"org_01EHZNVPK3SFK441A1RGBFSHRT"}},{"name":"slug","required":true,"in":"path","description":"The slug of the role.","schema":{"type":"string","example":"org-billing-admin"}}]}

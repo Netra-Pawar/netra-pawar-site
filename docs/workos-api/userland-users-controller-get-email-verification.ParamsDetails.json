@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"The ID of the email verification code.","schema":{"type":"string","example":"email_verification_01E4ZCR3C56J083X43JQXF3JK5"}}]}

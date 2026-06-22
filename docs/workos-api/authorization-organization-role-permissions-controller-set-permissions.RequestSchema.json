@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"permissions":{"description":"The permission slugs to assign to the role.","example":["billing:read","billing:write","invoices:manage","reports:view"],"type":"array","items":{"type":"string"}}},"required":["permissions"],"title":"SetRolePermissionsDto"}}}}}

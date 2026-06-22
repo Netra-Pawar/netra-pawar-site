@@ -1,0 +1,1 @@
+{"parameters":[{"name":"organizationId","required":true,"in":"path","description":"The ID of the organization.","schema":{"type":"string","example":"org_01EHWNCE74X7JSDV0X3SZ3KJNY"}},{"name":"groupId","required":true,"in":"path","description":"The ID of the group.","schema":{"type":"string","example":"group_01HXYZ123456789ABCDEFGHIJ"}}]}

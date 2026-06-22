@@ -1,0 +1,70 @@
+---
+id: sso-controller-logout-authorize
+title: "Logout Authorize"
+description: "You should call this endpoint from your server to generate a logout token which is required for the [Logout Redirect](/reference/sso/logout) endpoint."
+sidebar_label: "Logout Authorize"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNV21z2jgQ/isaf2k7Q4C8tYWZmztCSGJaQnhLSDoZImyBFWzJJ8khkOG/365siim9a3vXuzk+gJFWq2cfPbtavzg+057iseFSOFXnViZEBzIJfeLRMCQm4Jow4ceSC0MmSkZkIRNFNFNPTBEjyZQJpqhhhJJQTmViYHDGBJkH3AsIrFbs94Qr5pOJhAUBI58+pnZd5sO4Z+5flxSbMMWEx0pay1Lq583nfYtOwZEx7gIgXR9g9rSsS2GUDEOmRql9LTGBVHzJwDqmikbMMKWd6qf7goMYmDYn0l841RdnDcmpGpWwguOBLyYMTtE4Drlndyo9auTkxdFewCKKT2YRM9hejh8BN+6jEJfhTOMs/JvwkI24n7PVRnExBdttovtARCI4wCLuKZETy0zmAGmFmAgEhaGzZxrFIfrC+VF5/2J4e7d/cHh0/Pbd+0rtpH7aODu/cJvOalXIhfYpj+d+tUpndSyFTuEelMv4s42r/cH5aXyk5zJKVPh9fAy6HzF0lenCUpLoVGZcEKn89Dnjhrz+YSWBb+ov0Af4fbNNbmBMrKulEgUdFedSzaQuejLK+fnVKvsXtmgG43OPt3mzN1i6+5e8WXGA3Cxca/R9AW8lDIAa23h9DPZvJ8omoBxON8Xpald0j726+9adxcPrerNSBKO5F1UievMcDg/CmfsouXfRfLoL389bA3846J9dtBrTRXdWPuhcX551H0/AWWPZa1wO273ysnXaVXfL2vJuAc6j6yPr/LGx3+rfLlrL2bz16PJJp3ijkkonFJPj01gG5rz+IbgbHHnXbf9wGfPkXaezN2wM9/aOa6OjHRnnZPQFyZDZhhsbLFSEj9tloJtp3Umlf1De31V7HfRgYBeYP/paNpxQH9i3teNH0kIK1p4A9G8lCFNKqq9JBXaCHav4K2Ah7DLi4omG3EK1y0ZbSL+lthoJkoiKPdQ/HUOJyU2vq491uy2hHvgC40yHUMylCBdEJ3EslclK+jleANxru6d1ssGrizvnmEb7Nfj3q8I/pioRdH3y/sgLOR7Uf8rVIAfgh2LPavNR+WhXgJfSkDOZCP/nVeWIaU2n7F/joa2mVPClBUcE4J8g/ip5JdUULq/GRad1e/22dfLhsNKpH1/dDS9ujyv1w1e7glkjtQTBXNp0aJtY9lL5s5rtrLAy0CmaOlAosVBAOxBI7B1iaZM5piaAf7k6WqK5DkIzL1HcLOxmY0YVU9hKoOP1VA8JTzldG2SngDRkQ4Xs4UyqiKJOmzd9GMyYR/w7vN9ig3UDwbR7pHblkhlbQGfAJvwZMm7OTUAe9Gz0UCRXVGvCDaEamq8Tu016l1TJw7oM2mOormdhXXZQo88NxEMR84R6HrC9ubx+Qhw1QXq9Nkk9Z5ecYiZRAisHtpKooHMGAZCrrPOhwid9a7m50/DoUeTdTRPXWKttu+n6ZoNUcLiYSCv97N5Ied7BntHfbfT6eAYwj8pL5/aL5SwbqWezUdBoy9W2NnOyhDSJKMfJrIT+ltcsXG7cY3hjbXy23P6OQ0hmoUEjHitCSpWyRSU0RapQ35C2OSdZ+c43yF8UxM+l5f/7ApApzbBnU4pDygUSlrWWaS6nqb5uEeBhk8+QtQGmPdi8vIypZgMVrlY4DJJSi/Ql4YkqjnXO5jksgLJnk/7FgQzEZiElaa+PSNA8TBDRTi3GyyxdUQPpx+YvbfOV6ardw9MeZ28pkfRxjaJzGMTvqmNfhOz1al9jcAzabCqmia3oTuoTP38ArEvSYg==
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Logout Authorize"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/sso/logout/authorize"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+You should call this endpoint from your server to generate a logout token which is required for the [Logout Redirect](/reference/sso/logout) endpoint.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./sso-controller-logout-authorize.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./sso-controller-logout-authorize.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./sso-controller-logout-authorize.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

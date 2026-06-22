@@ -1,0 +1,1 @@
+{"parameters":[{"name":"auditLogExportId","required":true,"in":"path","description":"The unique ID of the Audit Log Export.","schema":{"type":"string","example":"audit_log_export_01GBZK5MP7TD1YCFQHFR22180V"}}]}

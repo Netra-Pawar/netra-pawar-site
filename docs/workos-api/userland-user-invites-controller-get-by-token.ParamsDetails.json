@@ -1,0 +1,1 @@
+{"parameters":[{"name":"token","required":true,"in":"path","description":"The token used to accept the invitation.","schema":{"example":"Z1uX3RbwcIl5fIGJJJCXXisdI","type":"string"}}]}

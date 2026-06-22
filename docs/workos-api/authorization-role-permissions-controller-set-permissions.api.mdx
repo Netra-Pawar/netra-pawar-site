@@ -1,0 +1,70 @@
+---
+id: authorization-role-permissions-controller-set-permissions
+title: "Set permissions for an environment role"
+description: "Replace all permissions on an environment role with the provided list."
+sidebar_label: "Set permissions for an environment role"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWN1T4zYQ/1c0frm7GfLJRw8/FTjo0RtKLgmlHMMExVYSHbbkSnIgzeR/765kEzv2AQ/p9KFlMowtab93f9r10guZDhRPDJfC870+SyIaMEKjiCRMxVxr2NBECkIFYWLOlRQxE4YoGTHyyM2MmBkjiZJzHrKQRFybprfjSaCmyPQ8BLZHqZlJxf+yK32g7K15n0hhgFnE1EgzU9gALglVNGaGKe35t0tPwAtw01E6hU3F/ky5YsDfqJTteBwNSKiZwV7ZqiFoiERETqy2m3agwjqYsZh6/tIzi8RKMYoLlMOeaJxEuETDGISsVndOONPmWIYLpNnUJQCjgDtu0SSJeGAtb33XqM+yKkyOv7PAoMUKPWc407hbCAG+Vq1aH7AGamIkofA+FfiEtub2PVtx6415FIFpvmI0hJ389VFxwzz041zygGk/poJOmfV0IpXR/pyzRw+Mz5SmStEFEhgW66rnVqtVMUi3JWuQCzfWqwNmNlLik5FIbcl1AgvOG912u+qFyy/e1txtE6smA8oSj0gqOETfpdREqno/59myk0t7lfEnqB1YT7meMf3MlDjyMm/ccHZrk7+CJB6+LuXKKQ/VKgyfcKbyqqhagCujduf089eLm98PLo6/7B5+Pdnvffvj883+4ckuSnQl+brLnt/njCDNC347yv1W4pGLuF3LEGkUYSJtyBJE2mcakcLOj608AWRzqW5hD1JOpgryH1VwMmswQaQx6nK6RpK+C8mlmlJRQLqqgtczBoqsrSdcEx1AHoZ5zRbxCdwE+skCV/I+SLWRsSX+ULZlUx9XQtaeEdoweluKbwJmzoMgWb3iZT2K+qISG0D2RgCpU6uCeA7u1s7bPuCBHgGQGhaOqC1jyN0Yn7wQFhuGx0jzSgUIcj64JB8P2h2CBNqAdmWfddvdg0a70+jsDztdv92GX7Pdbn9DP6RJ+C/K38Dx7P59BlGOTrVAUJaa6VSbguWUKDm4ZC1Uz1ODC4gXa2C30ZBzphSAl3ZXrbsm9upuhmMakr67prd3RQQyfAPeYaKCmlC7eD7H2gUctSlqqwhKyx4pB2FMw5EqKm3xvbgK5kL4NCbqG3B3lkJSNzDx6RgqtgYQa5TIvAbKp1FIhDRkbFs8qBHNwmYlIaxT1mrd5UHZrQblTKoxD8Ef2wvJP+2NIqJbZ0xkKkKfvAOQe+F2fFf1U8VBe1UH/QYCzlDA/w7y9rrdqoOuRJaJVsNTKCyz+M/7ClsVOsUpyaPFWQvxEwaomcQpLEmtvTgh+V6rdK6Ft6ZuLRGbV60yNGum5vkElqoIaGfGJNpvtWjCm49SPUjdDGRccVFPyTANshbgx7QNA1hTy2AANtlG4A61CFKFoUY1xowqpuDxrrg1wBi7MOYHssBbZHVLO9nDWX6H/no9XN+eqF1FjRu4vMg16Ho5IEe9c/LAFoCGbMKfoOuwI/C9fhjdN0kPehHCDbQkhJJjKwa6kgcmfHJfGoH9fBfostwYdbq7e/sHP308vG8ixtMAc3xkybdkB/QAA+gBHGenGHR2JlXYPU0UdJSYtL8wMIBA7CYcspqKkAztSSbCRHJhXCZiXfXXM/BpnuAbM+s2ei8uJtLWYzYvukhUrMsC1D8dDDFKsI9Z6/Y6zXYGEdQNYtmXhGdW5dws5TTABsdNnSao2M+FTVAOgIbBfFrgeXE+rDAEhBGuBWpCnbcyohYeRWcmUhuwv8AEZuLS95eJGwM2P1xsOmG5hsHtfcrJUsqwJ9MClm42s/YtMzDZBJ0dOzkidvg1zR5U7ExiW3PrLZdjqtmVilYrXIZ0Uljg8DiniiOs2nIPuQV7wLAJjTR7wej3/QwhP5C3fPSpNS0fTgReK3MapfgGj1D2+cenFeblDDLagtAy2zpxajSGruvNSSvXEYKhoziCUkzMi2eLAN67wtQaZ9+cYtuKeoo+osPhv9XSzb4WBO3a0ouomKb2TvMcS/z7G6iG6FE=
+sidebar_class_name: "put api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Set permissions for an environment role"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/authorization/roles/{slug}/permissions"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Replace all permissions on an environment role with the provided list.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-role-permissions-controller-set-permissions.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-role-permissions-controller-set-permissions.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-role-permissions-controller-set-permissions.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

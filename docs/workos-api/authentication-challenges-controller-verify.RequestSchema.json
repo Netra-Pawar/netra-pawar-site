@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string","description":"The one-time code to verify.","example":"123456"}},"required":["code"]}}}}}

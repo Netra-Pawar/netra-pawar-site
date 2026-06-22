@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"Unique identifier of the organization domain.","schema":{"type":"string","example":"org_domain_01EHZNVPK2QXHMVWCEDQEKY69A"}}]}

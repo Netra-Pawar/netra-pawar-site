@@ -1,0 +1,70 @@
+---
+id: sso-controller-token
+title: "Get a Profile and Token"
+description: "Get an access token along with the user [Profile](/reference/sso/profile) using the code passed to your [Redirect URI](/reference/sso/get-authorization-url/redirect-uri)."
+sidebar_label: "Get a Profile and Token"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a Profile and Token"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/sso/token"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get an access token along with the user [Profile](/reference/sso/profile) using the code passed to your [Redirect URI](/reference/sso/get-authorization-url/redirect-uri).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./sso-controller-token.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./sso-controller-token.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./sso-controller-token.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,1 @@
+{"parameters":[{"name":"userlandUserId","required":true,"in":"path","description":"The ID of the [user](/reference/authkit/user).","schema":{"example":"user_01E4ZCR3C56J083X43JQXF3JK5","type":"string"}}]}

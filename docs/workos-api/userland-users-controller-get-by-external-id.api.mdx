@@ -1,0 +1,70 @@
+---
+id: userland-users-controller-get-by-external-id
+title: "Get a user by external ID"
+description: "Get the details of an existing user by an [external identifier](/authkit/metadata/external-identifiers)."
+sidebar_label: "Get a user by external ID"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a user by external ID"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/user_management/users/external_id/{external_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get the details of an existing user by an [external identifier](/authkit/metadata/external-identifiers).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./userland-users-controller-get-by-external-id.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./userland-users-controller-get-by-external-id.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./userland-users-controller-get-by-external-id.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

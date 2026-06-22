@@ -1,0 +1,1 @@
+{"parameters":[{"name":"userId","required":true,"in":"path","description":"Unique identifier of the user.","schema":{"type":"string","example":"user_01EHZNVPK3SFK441A1RGBFSHRT"}}]}

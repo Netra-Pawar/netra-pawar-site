@@ -1,0 +1,70 @@
+---
+id: authorization-organization-role-permissions-controller-remove-permission
+title: "Remove a permission from a custom role"
+description: "Remove a single permission from a custom role by its slug."
+sidebar_label: "Remove a permission from a custom role"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlV9tu2zgQ/RVCL20BX+TctvHTOonTZNM0ru02mwSGQ0u0xUYiVZLKZQ39+87oYkuWc2kaYB8WMGBKFGfODM8cDueWy7SjeGi4FFbb6rNA3jJCieZi5jMSMhVwrWGSTJUMYMKJtIGBkjA7eSDcaKL9aNawapaErykaOnbBVCcynlT8n+TNmZpRkY37sLS3sKv3pTBgzWdqrBLvyzmwGVJFA2aY0lb7am4JeADbsmAOnNUsxX5GXDHwa1TEahbHYEJqPJgrRzj0GDk+IHJKDIyKhjAE7XgsoFZ7bpmHED1poyATMMPuaRD6mfOx3eoeXX753jvZHByebG21Oq3+p73DwVF/aMVxbYETM/PL6HBRjg/T/Au46tQNwHgRwnIHB78LpkAGI0m6WS8F50onCpgwuq0YdQHhCJHoEAjANC7dsG38KyM4OwEjDhAEVuIsDUOfO8luNX9o/GRe9S4nP5hjkDsKGWl46iDZizUYyx47JBL8Z5QFPpWqtA3LeLJE13Jvzxo+4NrA+4hrj+mFUZIuL9vGiTRubfJH8MTd5718S8FzFxLGp5ypVSKVvSQ8/np68X3ndO9kc/fr/nbv8u+ji+3d/U30mFLo+ZQtnkE6cM0TeevkeSvZyF1cLX2IyPetUcWXIDIZU58UZh6Pcp8KElBBZyBqvg+k1TJSDjACIKQ+17BWRAFi6YpbrqRA2vbTLVmVsSrAc48BkGX0hIM+OsBDF2sG37KlVZAfAviKIkTeFwT2QzmWVTxxUkJJPGOMYfwyilc0JrNBcNl64I1VoVngRRBLXdAF71Qp+gDruGGBrqJapUACq6AwiFATCg8zsUxeZYOvrFDqXFVq2cOdAqfWCFw48N4wd0yTCgVaBjiyXHhZNzzAPX2G3IIcD87Ixx27RXCBNuC4nI4Ne2Onbrfqre1ha6Nt2/Br2LZ9iSFGofsf+o+Lan+Vn0YLfeSYsaTGy14zTGvZVd7tUoJL0UJhGG4SfClXY0SzZW9WRf5Qqgl3QbHeTushTxpK/iXa5UUgD3WkD50A69eIClNKqnLKizpAhDQgeJFw2+Rd3hus19R3jcqe5EhHeYK2qgn6Ag4O0cH/PkEo2nSGraBFi+0l0g26RE9i4+kyHxrGpHeEpqZtNUufNovqpZvzcisZN1Fh4DWSPW4WuN6clzupGBsfpm7zzjRSPvjyjAl1u9mkIW/cSXUjdcORQSWrPSXdyMn08/G1dQP1vtbAANKQqOgIUTgRCN5DAmPCqGIKhqPi1ABpke58/kHGFdys7FUtGxzmKvXX+XCpT4iuAuMC5IGcA9azAen0jskNeyChYlN+D5J9x41HrvXN+LpBeiDkcFcAPYcrxF7iBiT9hok2uS5dFNr5LKzL6DRubWxube/88XH3uoGaSh04v/U4Wf5GcYDKDkBlU8spMDgWTaTw6EkuPsjzTwwCILB3Uw6FQIVLhsmXTLih5MKk5OViKpO6yuQvTU/FZZa1fncwxNTBPFIpnWs17KzUadpaZr38wlSZMCWiQflznNRRGEpl/ixMAjgQDAYdd8Hm6fGwYhCUQqTK34DyaGaLmvgpRoiHLGhCwcji2vjkfXE1B/Olmv3exTPbWsPuTTP0adpgJiHNMxFY1YtaqYnBg6xdvVOiEuDM2oOvvXKxgmrzJPbrV9Z8PqGafVN+HONraMgVFicMb6niqKJJqbpc4xgka0p9zZ5Izvt+JogfyNPX17WJyPsxgd3YLfUjfIIhFGv1Ko1y9Gpg626ur4CU5PvNgDx2a30FsJUtj7HD9OBgTAR3nn3UAREJTWF55ZyOi6fVQfdzd9iFuvoX09IHAw==
+sidebar_class_name: "delete api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Remove a permission from a custom role"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/authorization/organizations/{organizationId}/roles/{slug}/permissions/{permissionSlug}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Remove a single permission from a custom role by its slug.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-organization-role-permissions-controller-remove-permission.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-organization-role-permissions-controller-remove-permission.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-organization-role-permissions-controller-remove-permission.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

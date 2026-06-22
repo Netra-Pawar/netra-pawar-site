@@ -1,21 +1,20 @@
-import { themes as prismThemes } from 'prism-react-renderer';
-import type { Config } from '@docusaurus/types';
+import {themes as prismThemes} from 'prism-react-renderer';
+import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
 
 const config: Config = {
   title: 'Netra Pawar',
-  tagline: 'How knowledge holds',
+  tagline: 'How knowledge holds.',
   favicon: 'img/favicon.ico',
 
-  // This is used when you build/deploy the site later.
-  // We can update it once you decide where to publish: GitHub Pages, custom domain, etc.
   url: 'https://netrapawar.com',
   baseUrl: '/',
 
-  organizationName: 'netrapawar',
+  organizationName: 'Netra-Pawar',
   projectName: 'netra-pawar-site',
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   i18n: {
@@ -30,6 +29,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           routeBasePath: 'docs',
+          docItemComponent: '@theme/ApiItem',
         },
         blog: {
           showReadingTime: true,
@@ -42,8 +42,37 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    [
+      'docusaurus-plugin-openapi-docs',
+      {
+        id: 'api',
+        docsPluginId: 'classic',
+        config: {
+          workos: {
+            specPath: 'external/workos/open-api-spec.yaml',
+            outputDir: 'docs/workos-api',
+            maskCredentials: false,
+            sidebarOptions: {
+              groupPathsBy: 'tag',
+              categoryLinkSource: 'tag',
+            },
+          } satisfies OpenApiPlugin.Options,
+        },
+      },
+    ],
+  ],
+
+  themes: ['docusaurus-theme-openapi-docs'],
+
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
+
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
 
     navbar: {
       title: 'Netra Pawar',

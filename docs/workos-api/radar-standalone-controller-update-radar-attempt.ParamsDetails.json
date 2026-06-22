@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"The unique identifier of the Radar attempt to update.","schema":{"example":"radar_att_01HZBC6N1EB1ZY7KG32X","type":"string"}}]}

@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"The unique ID of the Factor.","schema":{"type":"string","example":"auth_factor_01FVYZ5QM8N98T9ME5BCB2BBMJ"}}]}

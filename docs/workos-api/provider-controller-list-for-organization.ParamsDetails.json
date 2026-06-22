@@ -1,0 +1,1 @@
+{"parameters":[{"name":"organizationId","required":true,"in":"path","description":"An [Organization](/reference/organization) identifier to list provider configurations for.","schema":{"example":"org_01EHZNVPK3SFK441A1RGBFSHRT","type":"string"}}]}

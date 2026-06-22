@@ -1,0 +1,70 @@
+---
+id: authorization-controller-check
+title: "Check authorization"
+description: "Check if an organization membership has a specific permission on a resource. Supports identification by resource_id OR by resource_external_id + resource_type_slug."
+sidebar_label: "Check authorization"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWFtz2kYU/is7ekk7NeBrWvNUjO3Yybg4htRxMgxeSQtsLGnV3ZUNZfjvPWdXQhICjD15aKb1ZBx5r+d85zu3nTk+U57kseYicppOe8y8B8KHhEZEyBGN+N8Up0jIQpdJNeYxGVNFKFEx8/iQeyRmMuRK4SL4R4lkSiTSY3XSTeJYSK0I91mkcbE9y50uFg24Tzo3pRE20UxGNMCpX/JhPY3ZQAXJqO7sOAIuNWdd+iB0K9FjIVNJ2yLSUgQBkwMPlYHVMZU0ZHCqcppfZ04Ef8CuonqDXD24FrZI9lfCJYPTtUzYjsMRnJjqMcyVEeuNGbk8JWJINHytw0wLYqRB4RV8hdRpzhzUCY5QWvJoBDNsQsM4MMKFg929i893X/b2Dw6P3v7623HrpH16dv7u4vK9M5/3rYRM6RPhT/GoZYE9gAFAxykax0EKfeObQqFnBRloEHSGBpdUGuF+Y55G2CTCrDlTuC43s7HCKvGrwODKDJoCT4po5DrHQmnV9CSjmoGORSN8rVzfn+/MHBGxrWQvsG07uXOD5my+SnQCYE0Jm3hBovgjI09cj8n9KubegwP5hakFe+/LOi8WbLJ2GYmiMsCDSFgjR9MUijWqF4TD8UnNqOGz2lCKsBZw5ApSZ+11xQMM+msuWqj6umvy7f15f473bGnbJQWfN3K2YaW1b1LZlm1cMOQWjAAilO0dTmteojRAAVIaCFah9jLHys4guG295EV2vkp2X3hJiDFlK4qs1O0FfH0tTQ07gTh9DJKTWpjqWVvoWXMhZNZGUiTxEnGpHDEjnDBQ08BpDmmgIJo+UslppM16d2pkqzgijJco+CJc5qiP5toAbZJwKamdagGoW51VLCJlwdrf3cX/yvTofHBeEP43OxdNhWBFl3KFCBiNKry8HTOgo9yYB7F2wPm0egCWlsuHkhMW2bfK5gXp+jl65WrAlAAWusPdgypa50K63If65PuBFjKl6Ig978gtMk5CGtUg4/nUDRgpTGfOzaQUsuyHnSK24E5kKJLIb5I3ADrkkbOLj1d3f769OvlwcPyxfXT95fPF3dFx++BNveK4maT9DKDDKkB/wAXneMH/ADmH+/tVgD5FoJ2HC1HCMyh09fQ/jxVGMzpSRS81Vzg/XFDGZRGGJ9s8PDAot59XAaULEvZvUgXzIXRBY+GntbbpjKCjaTqNko0aazoj1Zit75nmjazbUkw+Zq1WIkFHZ6x1rJqNBo15/UnIB6HqnggrDL6Wwk888weWfev21jS0PSsP6ALl0DVQU8W8RKInohguo5JJ+OwXp7rogtbLsgWpX5osZ4d20g/IEyEF4znvb3swmPoiSlcR4w7QJ7cga6dLWteXBChDYsmGfLIoytTDAGqwa6qgN9bE9NMn5hpojR5Y1CT3pSzWzGZhX+q6g0WrAFUa0JR6GIIGZvt30qMVkW63Q+zJVjDIzTqREeiB5ZiJKe8YKEDAdkMOQQe7np5ZySI/FlCu2UCBYe8m71jPsvizoq8s94E75Ypwq4YJ2/WhMCEzrQmsNaoVizXSzVm3h5ZCrwXm2rm9+m4axalnnDZ9NlgcVeZnidcQ2TlOKvsA8nthEoSDXAARhRXOvLrsVQ6EJBCldRB4XSPd1MClCCiCBOG+cIh9uilH2yWFZ3lW+lFeelKCaljbiAPKMTZYpGZp9FrOMDvrXnYwKjc3vvrYEAYhYozhEU6ezVyq2CcZzOc4DPyVGFH6acR2kVwQX3xukr+/iOdrUf8p685+Ji9/OFqJRToI/VSedBz4tIlqg7rQIYGiUC2YyJhltrYVtdbDY/MDKyUMRmi7owXxIdYb1xYzz3Wni2R303erUPjmHYQ+oavDbyO8TZC2EsCxmRPQaJSYQsixZ+LPPyFlXlc=
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Check authorization"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/authorization/organization_memberships/{organization_membership_id}/check"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Check if an organization membership has a specific permission on a resource. Supports identification by resource_id OR by resource_external_id + resource_type_slug.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-controller-check.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-controller-check.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-controller-check.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

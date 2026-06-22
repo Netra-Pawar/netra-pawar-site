@@ -1,0 +1,75 @@
+---
+id: userland-user-organization-memberships-controller-deactivate
+title: "Deactivate an organization membership"
+description: "Deactivates an `active` organization membership. Emits an [organization_membership.updated](/events/organization-membership) event upon successful deactivation."
+sidebar_label: "Deactivate an organization membership"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "put api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Deactivate an organization membership"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/user_management/organization_memberships/{id}/deactivate"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Deactivates an `active` organization membership. Emits an [organization_membership.updated](/events/organization-membership) event upon successful deactivation.
+
+- Deactivating an `inactive` membership is a no-op and does not emit an event.
+- Deactivating a `pending` membership returns an error. This membership should be [deleted](/reference/authkit/organization-membership/delete) instead.
+
+See the [membership management documentation](/authkit/users-organizations/organizations/membership-management) for additional details.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./userland-user-organization-memberships-controller-deactivate.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./userland-user-organization-memberships-controller-deactivate.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./userland-user-organization-memberships-controller-deactivate.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

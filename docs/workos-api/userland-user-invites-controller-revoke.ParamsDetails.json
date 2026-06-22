@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"The unique ID of the invitation.","schema":{"example":"invitation_01E4ZCR3C56J083X43JQXF3JK5","type":"string"}}]}

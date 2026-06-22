@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"origin":{"type":"string","description":"The origin URL to allow for CORS requests.","example":"https://example.com"}},"required":["origin"],"title":"CreateCorsOriginDto"}}}}}

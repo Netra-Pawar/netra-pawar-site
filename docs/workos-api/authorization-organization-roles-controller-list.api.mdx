@@ -1,0 +1,70 @@
+---
+id: authorization-organization-roles-controller-list
+title: "List custom roles"
+description: "Get a list of all roles that apply to an organization. This includes both environment roles and custom roles, returned in priority order."
+sidebar_label: "List custom roles"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlV9tu2zgQ/RVCL20Bx5fctvXTpmnSZrNp0thttw0Ch5Foi41EqiSVNmv43/cMJcWS5SZ9KLALLGDA4m3mzHDmzHAeRMKGRmZOahUMg9fCMc4SaR3TU8aThBmdCMtczLGQZckdc5pxxbSZcSX/5nSuy8axtEyqMMkhjl1rFzOhbqXRKhXKlTK4iliYW6fTYqLDjHC5USLCUZYZqY10d5AcCdMNOoHOhPHyjyIg28tdjA2FxtOa9nOSta+Vg9BEmAmBx+mMG54KJ4wNhhfzQGEAKXXYENsJjPiaSyOgwZlcdAJJXsi4i7HWdM04FuzoFbnF4athP/baMBYpD4bzwN1lpMk6I9UMK+I7T7OkVD7pDw7efH774ex4a3R4vL092Bucv355OHpzPg4Wi0vCYzOtrLAkarPfp78mjtNjCA1hLzxLq3QrMvRAel8sbZm30ejrLyL0bjHkVicLBeX0g6hLf0Ij/svhAs7hrq6AG8PvsE06kdrHFdskn61T2zR1j+VKfs0Fo+1sqo13PQVPtwGRRynuDaB+bE9T8CsYgflc2tgHdyGUFcebsmmhZr4fQpOMHtfyvgAvI9yUnEphquBpW0AzPjbenXz6sHvy8njrxbv9nbPPf735tPNif4s0FhH8uMvux7eC0ZkH/LZX+a0ho1JxsdSh8iQJLlu6QAP+myestvJjK/dBHClXfCYKahFW5yZERABCoXNNIKo8JSwHSz45L65klQTaAD/GAkCW1jOwlA0RhxGxGM3WWQpuWiE29rTGV8+atqziWfjc9fZMyIbJz4U4sYqP7spppQxGx9YD766Syj1eAoEkS6W1GNmfSM8S1WoIeFhLSR4hCByDmVo6r3XBF0GmrbNDIzhxazH4BlbH3UBFiHknogn3GYqwTOmLmERsOJnSnT4S3IodjU7Z893+gNEB66C46Y7N/ubuRn+wMdgZDzaH/T5+3X6//5lMzLPoX9S/qBebi4IBO0t+lOQxn+NNrSWmtdHVvO2GgxvWIjGcdB5fFavt666KvhEhSrC9p40wN4bSI0Padltm3OP39WBF0Z++VizozHZ/q13KDrW5lhHo8ddVNFyKBdCfIco4BxdtUKzya6TYGgYTxmjTvN866TClHdyUq2jInlTFfT2BP2l7rkJ6WTlou+2gt1BwSAr+9w6iCsFn1MsFvN4JUsihzYs19YgzUXR+6N6GQa+xr1fnSdubNxvBRc93pNTHCXNb9Yy5SSAndi6zw16PZ7L7TZsbbbuhTlvuOjM6ysOShX98dsOBNdYKGME+z8WXhAJZh2bYw7gW3AiDz8v60ojuu7jSakMZBHQL5VSn/DisuO6Pj+MlyxG6FoxPIBn2EVhPR2zv7IjdiDv05mIqv4P4v0l09lf2ZnLVZWcoB0ziVYDCwF56NSgMN0IN2VWjWR9WqzhXxslksLm1vbP72/MXV11iIx6iC7ATf/wX2QGuHoGrC8kFsOV7Y2pQ1CmAi/cO7m4qEeH0Qhn7nUJFmZbKFVEp1VT7hCm5rXBPS2XptfOD0Zhch3UKpWJt0O2XOcyLBrV8kNyLagZMI9CQ15IWbZ5l2rjfa4sAByYQeDDUZJ4cjVsCQQGqqB9dhH6vPNSjrWQhlWoke00IcXfjubZq7nzJSP+pZ2MZFE58d70s4UWD650xL6lhlUI6jSaKDB2234neBci/WNM74CKYz6+5Fe9NsljQNBp9Q+mKz1tuJBGmT95IWvoGO015YsUDPnx6XnLfM/bwU3OtgVWfp6jLu+VJTiN8In3bz94FdWMxeN3TyrzctIdUyVzteKvMLOpk+/qAQucf3hKV7Q==
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List custom roles"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/authorization/organizations/{organizationId}/roles"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a list of all roles that apply to an organization. This includes both environment roles and custom roles, returned in priority order.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-organization-roles-controller-list.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-organization-roles-controller-list.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-organization-roles-controller-list.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

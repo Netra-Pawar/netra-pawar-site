@@ -1,0 +1,70 @@
+---
+id: userland-magic-auth-controller-send-magic-auth-code-and-return
+title: "Create a Magic Auth code"
+description: "Creates a one-time authentication code that can be sent to the user's email address. The code expires in 10 minutes. To verify the code, [authenticate the user with Magic Auth](/reference/authkit/authentication/magic-auth)."
+sidebar_label: "Create a Magic Auth code"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlWG1T2zgQ/isaf+ndTF6cBFLIp4aUXoHhQkgoLx3GCFtJVGzJlWQgl8l/v13ZSWwSCO1wd525TqcFrbS7enb3Wa2nTsC0r3hsuBROy+koRg3ThBIpWNnwiBGamDEThvsU9xBfBoyYMTXEp4LcMqJBSIyENUYSzdQ7TVhEeUhoECimdYUMQGKPsceYwxLhgtRcEnGRgC2QS3LPFB9OrA7cWSJfc2bZQjd54GZMjumI+6QNG65/qyo2ZIoJn1XxxB031aLD1Qh3l3Hx94pTcmTMlBUcBHDfM1AaUhFYlaixI4VRMgyZ8uBi+fWAtUVwykyiBKiJqaIRM0xpp/X1uuQo9j1h2uzJYOK0pvZXuCqYMCphJccHteATimgch3PfvmlEfepofwyY4U9mEjPwS95+Y75BOwodNpxplFpgc9u0UVyMYNtQqoiC+mxH6UlYMQKFoGDA8H4WWYtQFliJGLFHGsUhGoio8lnIBa0E9J7rD5mk4svImZUcLu65sVfxjLxjYp1rq54sTxF7Cp2hWkufY6xtiM2Y65xfRaeuapf1i8b51pfts+bgfX/ndLfnntS69T8bzmxWymH/NYMD4mO4sWfTBC+EvRDaj0aCklSNjqXQKfB1t4b/rSuWwHmz8GbLG0H8yLWB9YTrMVQThnBZEiRVUkm90sYGEYQeVoCNWfC6KCWCQ0qTg49EDp/aWI3J0obn1j6fX+31ri7rx432ce+81mz26vWjnZ1PaB7L2PtpH/B00bDV59b2t646p43OdvPQ3WlcbDUOexefGodH22jy2arZVCTPGt1QFhnPedTGclGbAWSL5VTQtdkV3KgN6CUPY6yR1QjM+bToW92tN8turVzbHtTqLdeFvxXXda/QMT/N2J93rC3IQb9Ldppubeng6+0ncfCf2kfUXpcIFl8IfIDklOtOLxZBrd7Y2m6ukNCi2jlyxbwASguuzqVLIUQFvDLnc1S26E0ZYW257ipH7dGAnKa96Ud4Crp/dwi+b2xISkn1OkS7FjR7YA10uU4CP9KQBzkCWyPEKkNVXsHQJj/aZJxEVJQB44DehozkxPNqt2qLzqH7WYMnQ4gZZEWQYLNskVXXKqtNyIK0zuHrWelfQ7j4LPLg8TKWgSek8WgYygeWB3zz3l8F/42e/qrh0HwkvCR+JgDrpL8K5Gt8+zGQrzO+qtdX+epMAN4+NF/r6z5E1kze7oEVoeLRK1rAT6LWVSMq+F/p2xbwIUOZiKBF3kk1wkfK597x5Zfm8d5RY7fX2T65uvh8ub3babxbxW/u6QKr3VWs3g6X1/fFZToTHmDhDSew1eKBhxGbNbgEkEET73siDfXYo89YUMj2tWK49T8drqwxwnWSMLDxgnk2y791SW1hKhVjA1sMHeEUaDt7GdwAWQTQVJaTJ7btxzIOXLqcvUbTuZA9Qvg0eKlts71jMD0+2VlyoK0kLD0xu0bzyHGwL5a2qccUDLScqn1YLM1Xc8/+kgOy+3RYnTqJAvvO2JhYt6pVGvPKg1R3Utvn61NoT5QMEt/+guz43NkyTPJmrYI+wIMxQ9c18xOFFY1u3DKqmMLxOS/qY8qmWTnfkOUxRixbKmU/fJq/IA/PB8u3I3q34salTBQ5B1+7fdI+OSAANYSaDfkjUJudOW/0nXdTIScwihJuYCIllOxZM+mY2iI3yOhSZQXemkvhXJZTXvoCfL+ze1PBBKY+ptJyNn6De8ALuA8v4FRzNj8rO7rCPYZKRjbZ/2BwAQKxGwJ1E5h0ycDuhLyKJYfctLmNNHG6/HCxPy+MxYeGFweddeP/i7M5HhhKW83ZEzaNx8odszCd7vcHGCssAcjdVFaruBnv0XRUFjQqqCpmaCGz57fSSRxLZT7khOAcsCfUIsvpPD4YrCgE2hQacslnFSD1anaoilsRUqxJqMGckvQrAUTjyejw9NbTJZn/Dz7DZSlugACrcUi5sOOhsmN6Smgpn+YIDZl3SWlAGWPkP9g3nd5Szc5UOJvhMuSzmqRf5e6p4tgPLMnAAWgPlnHmTNtJES8P0JsF0a62UmS+9EQb6i42L+7NU/RJt48pdJt9Foxsn3UUfYBF/Nc2cWkzwFKeXZs6IRWjxHY+J9WJf/4GPW19Gw==
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create a Magic Auth code"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/user_management/magic_auth"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Creates a one-time authentication code that can be sent to the user's email address. The code expires in 10 minutes. To verify the code, [authenticate the user with Magic Auth](/reference/authkit/authentication/magic-auth).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./userland-magic-auth-controller-send-magic-auth-code-and-return.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./userland-magic-auth-controller-send-magic-auth-code-and-return.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./userland-magic-auth-controller-send-magic-auth-code-and-return.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

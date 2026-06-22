@@ -1,0 +1,1 @@
+{"parameters":[{"name":"resource_id","required":true,"in":"path","description":"The ID of the authorization resource.","schema":{"type":"string","example":"authz_resource_01HXYZ123456789ABCDEFGHIJ"}}]}

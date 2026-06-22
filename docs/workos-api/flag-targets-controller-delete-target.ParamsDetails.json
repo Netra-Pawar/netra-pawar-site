@@ -1,0 +1,1 @@
+{"parameters":[{"name":"resourceId","required":true,"in":"path","description":"The resource ID in format \"user_<id>\" or \"org_<id>\".","schema":{"example":"user_01234567890abcdef","type":"string"}},{"name":"slug","required":true,"in":"path","description":"The unique slug identifier of the feature flag.","schema":{"example":"beta-feature","type":"string"}}]}

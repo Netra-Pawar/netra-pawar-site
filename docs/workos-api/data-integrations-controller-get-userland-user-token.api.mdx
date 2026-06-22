@@ -1,0 +1,70 @@
+---
+id: data-integrations-controller-get-userland-user-token
+title: "Get an access token for a connected account"
+description: "Fetches a valid OAuth access token for a user's connected account. WorkOS automatically handles token refresh, ensuring you always receive a valid, non-expired token."
+sidebar_label: "Get an access token for a connected account"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlWNty2zYQ/RUMX5zM6C75pqfajp24nlSOpSRNFI0Ek5CImAJYALStavTv3QVIiRRlO5n2JdNMJnZwWZw9u3uw4NILmPYVjw2Xwut6F8z4IdOEknsa8YD0ThITEur7TGti5B0TZCoVTCeaqT1NfCkE8w0LcI1MhKmRz1Ld9fqEJkbOqeE+jaIFCakIIpaZUGyqmA4rhAmdKC5mZCETQqMHutAw6TN+zzIIFSKkqLLHmCs4xe6veRVPxkxRBH0ZAOw31NBLYdjMjekzKYySUcTUeMbMR8AaAQD8OUADsD+mis6ZYUp73eHSE/AfsKOjZAaTiv2V4HFe16iEVTyO1MTUhDBX5GsQMsIDJgyfcqaInBKDIxsoiFUDpXPqdZcee6TzOMKTZtyEyS1MmkVsTzbIg7dajdzxTJtTGSxw0zYa4NzAiThF4zgChvGg+neNiJa501LT8vY7hAh9Vsia4UzjLEZwzIPcwhTDto8nZIjMjV7VIW5MMeGzOkQ3vOOmjkZe5xhAdzdO2iMazfN3X//4dH3V7l9cdTrNk+bN29OL/rubgbeCOKoZFfxv68KPoRFk2MttKsDKWyvAIj27n0ZkHXjIJaJ9YMSGLE1kWIPjlOiY+bDVJ3mTRe9g5lnnVvlEGq75Hq1WbkrHkKkuFq1GA38UPe1deT8RbClYb2pz+fmwU3DynuV4vpUyYlSUiL4UAZ4GRfsQMqBIWZ4KUsB1KhNQXFC3NFhYdQBPK8Ab4VMchEyRKiUQd2Sc1Jx32ri8Bkqc7bG1/XL+psMvJswbrg2MJ1yjsJV8cGZyYIownob1xHGoCE+oZi7PQMq2RCInDaEcNw/ODlmnddE6bvkHx83W+eFhs+EftY/ancMT1jw8Ou1QxOZ0UY9pjojhBppIosgb7YJ42e9Vjw4aTQQGMo2ADJ+D6gAKgGZDj8IMsRdl0tJji7hbjdZ+tdmqtpuDVru7fwx/a41G4yvitIWmc+xRpegCtnPD5rrM6moXZmeEAGnC4pUlYAVAQ6ixWMIIVl4XyoQDF2B4zrWGM8b/GtNlSe3hnnMJDkQCwhSwCakhFBRqz5AYaIN6JrLMagVHFnuKkYjb7VBzrOjRaFtU1rVRSNJCXqzJL3m+MzGGeUgFcY05bKq76aqdfp1WT2Xtlk2XidOYCVb7BGt7UiupYSpDW8AhPL+ifk1ppFHAmFJS7ZIIJpI5ei0YC/R4yyjWqTRjDqagVwJ6SnGpksm34ppv3qRLMFyY2ySQ4CXMQ/rds1JOrjfVvglnaReKokW7BCtss6pkuFj9RReeDLejaIRtjuHG7txq3k5shGyfdpPekZ67Mju7bslTGpAbV3E/c10+n2QghJrO2I/0RmEyp6KKyUNvI0Zy01k3aF0ukpVvYGzgptA7B12yl/UUH95/+XTw/vSqffzhbP/665/vvuwfn7X3ynWUIR1lFDXLFH0U6xgGnl3UKS/CKBTSZg1rfXfNIIQCSl3eQ2elCDbLtf895zBn6AxfEZ4VSKxe6C9Die+SWNqstE+HrlcPgONqjmNdXyKJq3om21B699mTJFER7AmNiXW3Xqcxrz3Ay0rqmi/nJU6ulQwS2756KKFP7a2CHJqdBvrghL3kRojCh1eZWVgYtwxuLmXvntxUH4Pq4pYtSCNtJdkNVdJfLmyLAeO/fx5sXjyIrgTji0xU9oI8ub4kd2yBd8uUP8J9+ABvJjLRd+NJjVxTUHEO1yq+VU/tMU7Uu2Rykte1bjYL+9JkGDdb7c7+weHRMV5M5QbvP/ADXin9fq942yhmEiXAj6mSc5ulbxk4QCB2Uw5pjJfQwLVXIogl5IlLPSykm82T8DzL6NwT7sWX1o6H1ovvF3z3TqWtx1SpXWBKzqbxujnvDzBoMI9J7OaatUYqEdQ16+lLe22qmKqFFHctG+hAEsdSmd9ykwAOhIbh3bCx+f5yUDIICiM0JJXPauBvPd1Ux6XILRYoaEnOiI2J2PXJo/StY5uI5UYKf50PKWkWG/Zo6nFEuX3yWA6XqW4NvZJuwb5u+q0kbdwqXohaB4uXy1uq2UcVrVY4DHmrUEng13uqOAq21ZWAa/w9SLunZ6h8dZNq72vyQ59bdnqUtfgCG3zgI8H/wa8gMNl3nxU+DkK4VKzcLdOpM4ejOkADm62lmw5l1+3ABiY2z67N3xHXvT6m7W36tWcuA9yj6AN+iIJ/LUwZO97xcxCOLb2IwpvW3pees4l//gE7VuFL
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get an access token for a connected account"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/data-integrations/{slug}/token"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Fetches a valid OAuth access token for a user's connected account. WorkOS automatically handles token refresh, ensuring you always receive a valid, non-expired token.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./data-integrations-controller-get-userland-user-token.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./data-integrations-controller-get-userland-user-token.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./data-integrations-controller-get-userland-user-token.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: provider-controller-list-for-organization
+title: "List providers for an organization"
+description: "Returns a list of all providers available to the specified organization, along with any configured custom OAuth scopes, enabled state, and organization-managed credentials where applicable."
+sidebar_label: "List providers for an organization"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List providers for an organization"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/organizations/{organizationId}/data_integration_configurations"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns a list of all providers available to the specified organization, along with any configured custom OAuth scopes, enabled state, and organization-managed credentials where applicable.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./provider-controller-list-for-organization.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./provider-controller-list-for-organization.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./provider-controller-list-for-organization.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: jump-wire-web-data-vault-controller-describe
+title: "Describe an object"
+description: "Fetch metadata for an object without decrypting it."
+sidebar_label: "Describe an object"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV9ty2zYQ/RUMX5rMmBJ1sePqqY7tpE4mjSdS4iYejwySSwsxBTAAqFjV6N+7C5IyJTKO03SmL32xKVx2z569YuXFYCItMiuU9EbeC7DRjM3B8phbzhKlGZdMhZ8hsuyrsDOVWxZDpJd4Q94wYTvenqcy0JwknMUo41U+zy6EhgsIOyco5QPPU3uspNUqTUF3Co0h4MWMa47KQBtvdLnawfJeii85MBGDtCIRoJlKmJ1BCYcUCzqXcTvDb4mS8JeI8VvDlxwRIBqrc9jzTDSDOfdGKw/u+DxL6SDvhf1oEA992E8O/GeHvwY+D6PYh6TXHwz3D2gFRdllRqeN1Wivt15fkXSTKWnAkMB+ENC/CO1DnPTJsywVkeOj+9mQKasagG0bjyQD6diEuLTrF3PP/5MFT5ECuIvSPIb4KdmcaaLbikI9mtsQ+gjifpaGPa/C2FT/Zit6mLEKPdEws2mKo/CuoDCOBUnj6fnWkQaKHc08I1MdaYblBpVZheGKATYXEhwHJQ68wG5hucXFylP6hkvxl/PdlKillWnQe3346eNkeHTx6uDP8+A0GB8eT57/fjo4JwglpsIqWgC5EFrJObI/bXPP6f1+zSsshFTJG4OItx1UF/cAkhYX/WexgcR+w/I69zUQ22rD5GAfBv0DfzjggT8M+4F/eBgN/eBZkgxi2B8OhlGb2jzDsIN4ym1T9UTMwVjUUNmbcmNZcWNbez/oo6oDv7c/6QWjQTAKgk94AIN5ToI9uuFbFPcQhHDZAgG1Ykwi45odnZ85CuyMW4YBTtIxWrHW8oiO/2SioxC1Qyr55MfCpyiouzpPhMlSvmS0+4C6N0tn42tYttTQeoG+LCq2U4a11Qrr7h+RSK8luxbYLKrs3MV2nGtNWVWeeWSUU4S3BLhfRTitbJBcVlYg5DxNvatWa3ZKwCYjtgJkK2D3NuWvRsJbh7aqp21stPuojIu6i9oMny99g60c7A+4qFb4G0AvivngA5XfJth1o1wXtzbdrkMGDX+qnZ5qjclV9WcWqnjZzCSgQy2tmM3yOZe+BkQTpsBq2xWL7uo2iWcS242IGdGFFYbdjzSd79JaIKnx6PA/hrrnfKOxpG34P23fp+0PZXEqyWXccUItv6HB01vQhEoCEcFMUdu/cUnhJsuR13X73UWve7vorkS87s7vUxIL+qKaX3Od4vGZtZkZdbs8E52vSt8q04nU3NvFgpNNnLtijw789l3fko/bBIwRvqPnilBEuRZ26WCEwDWgqy6v6ltjcn7hyupAGRGu5xZLe+XHi6rbvbqY3BNL6BowPqpcswvE+na8aWuZhkTcYUOjJwO7NrfT6w4758bgg4Fxg1Phc6cGh51bkCN2fZQj8bqcvEbVLt4rI2a6GTiuXbzzKAJjpu76v2QHjuLj8VtWSC6AYXTaXEu0I9Fq7kL5JaABDH2XCIx1LmM2cSdBxpkS0haBJWSi3LxaBmhBT0Nlydq70/GEqPM23Q33ep2gbArYXUlW+b7ZiNoOmK1AwyQXtGnyLFPa/lbbRHBYFgDTvCbzzdmkIRBTXxp0bQQdnIG75aUuHSULM2Uspn1NyEn5rLt/MO7aW6tP//ChWfqP+mQXpxAh3cxFuFdlslbJjFT2qO8u8M/Ita9635ohejq7WoXcwHudrte0jKVIUwrh54JrQeWseJcKQ99YGBKeGnjArCfvyjr1lD1i0m41p1zkkiYE95TBX8UIUTxv11d4aobl1uX4qtw4wrjNbO1KowGs6wXu5Sn58W+VyW1r
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Describe an object"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/vault/v1/kv/{id}/metadata"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Fetch metadata for an object without decrypting it.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./jump-wire-web-data-vault-controller-describe.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./jump-wire-web-data-vault-controller-describe.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./jump-wire-web-data-vault-controller-describe.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: authorization-role-assignments-controller-remove-role-by-criteria
+title: "Remove a role assignment"
+description: "Remove a role assignment by role slug and resource."
+sidebar_label: "Remove a role assignment"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWFtz4jYU/isav2w7wyXXbcNTCSGbbJsmC2x3szsMEbYAbWzJleQEluG/9xxZNubihGT60E6bhwCSdXS+c75z89wLmPYVjw2Xwmt4HRbJB0YoUTKED635WERMGDKcpUs6TMaEioAopmWifFbzKp6MmaIo4TIAGc3ETKTi3+1KBw41czG6JYUBOSFTA2Wvwv3TWUtxwxSnICumikYMfmmv8XXuCfgBMqUaU+FEDiIWDWF/wuMBD+CIYn8mXDG426iEVTyOSGJqJrC3Cq83YeTyjMgRMfCtKJQshSIi7U9YRL3G3DOzGBXQRnExhh02pVEcWp2iwd7+xefbL/sHh0fHb3/6+aR52jprn7+7uHzvLRb9VDGmzakMZihqXU8fjAFGwS0axyH3rSb1bxp1nRd0oGF4PbLmcNrI4TfmG7SWQtsbzrS9AIw5QA9tU3zTEtaXzhbWuUaS1Cu1FaAs4EYqgFQ09dfCbf1FZe5JwXZT0hEHfbeTmkuH5ZwjV4lJwCozwqZ+mGgOnH3kZkLuculsChwSNIRr7ixhl1t4pVX8bhUnBeJ+H+SPlTh30w4FQOB0IVOPipkzRwn8goK4Pq1aKAGrjpSMqiFHYiBPSq8rCrAeKLkoh/u6a5bH+4v+Au/Z0b9rAJ93dHZgq8c7Trd1PxecuQMrgAxr3M6ULPV2pcSSz+PJzhF81EZbOYwiXV8FBJxg3bETXbZiegF3X0tZy1QgUR+z47QaOZjVHGZ1CLmyOlYyiddITNWYWeWkNTENvcaIhhrS6AOFygG1BTeHM6vbRlDC+godX2SXBeIx3Fg7d/KydWYkWDvFqmMpdGqkg70j/Firq2vlNE2zAdGJ7zOtRwlYoYZcO9o73Dx9LtWQBwET3guKxtNRGsGtdMyeJ3KTTJKIiqpiNKBDQFHYzqKUKSXVKh2vi7UVaEVGMhFBg7yBogux1r74cHX7x9ur018PTz60jm++fL64PT5pHb6pbRA407Sf2vpom3l/hwvO8YL/DeQdHRxsGuijAHTINKthWwCbZ/95W2FU0zH2mbb05z2r969LTviY0HBz2jTfM+g3n4eA2oUJ+ydBwboA3f9E4iARsBAGATsTQC/f8OorXqqXzAS6Pi+fFhZ127UuMzFaQTP1kM0biQLA3sSYWDfqdRrz2qNU91LXfBlt0PlGySDx7Q/si8rOVg0MAVsFdIF/GCcIWzM/URiWqMaQUcUUfO0Xt7oYj2nIZQ+4IMUocUsV9wWKRkTBk977Tz1YdIGJ2m2ocQuuIJ9A1+suad5cEuAPiRUb8WneqOj7AfQlN2A4wg1UMhgRT+01MDTcM9EgdytjXyPbhXMujgd5b3VnKx21lW9gj/9NOJqCdLvXJJWcKgaV1iRKAA7sUWyCeccAAAHfjTgWZRgNevZJJoJYQg+TZg3MgZ3l/NbOktHKlJWNRpXV1mjnSQJn1ZG0edO1F6kXNpA553Ta3R56CEMXGJvu7df2XCqnvo1cNzPnolZ5ucJnSO8cN3USx1KZXwqboBwUBEgrrCDz6rK3IRAqgXBdOgRe3R2q46NoyFhqAzm/IKTsJcM66vmyPr3yxYQji4HcU49DyjFOU+3nLqmsp/5K2asGTBSNp19DrGcWiNwJgMdL5vMh1eyjChcLXAZaKQz0vsuqQ/Q9hH3AbYEO8pxbao8fskHiR7LzS42t1nCL0PIv64EHX9Ma8gRgaOIBHxRym6eyotNKNaz2UOxS4EZ3gfkyPdGEaI3Nk88Wi8JZ+7d2r43Zwb1ViWSApxR9RB/Af6t+Wr3SMo1rcy+kYpzYLsVLpeLfX3yZuL8=
+sidebar_class_name: "delete api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Remove a role assignment"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/authorization/organization_memberships/{organization_membership_id}/role_assignments"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Remove a role assignment by role slug and resource.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-role-assignments-controller-remove-role-by-criteria.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-role-assignments-controller-remove-role-by-criteria.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-role-assignments-controller-remove-role-by-criteria.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

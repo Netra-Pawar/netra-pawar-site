@@ -1,0 +1,1 @@
+{"parameters":[{"name":"external_id","required":true,"in":"path","description":"The external ID of the user.","schema":{"example":"f1ffa2b2-c20b-4d39-be5c-212726e11222","type":"string"}}]}

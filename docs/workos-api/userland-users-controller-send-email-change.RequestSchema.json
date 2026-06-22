@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"new_email":{"type":"string","description":"The new email address to change to.","example":"new.email@example.com"}},"required":["new_email"],"title":"SendEmailChangeDto"}}}}}

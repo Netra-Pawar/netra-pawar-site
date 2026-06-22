@@ -1,0 +1,1 @@
+{"parameters":[{"name":"external_id","required":true,"in":"path","description":"The external ID of the Organization.","schema":{"type":"string","example":"2fe01467-f7ea-4dd2-8b79-c2b4f56d0191"}}]}

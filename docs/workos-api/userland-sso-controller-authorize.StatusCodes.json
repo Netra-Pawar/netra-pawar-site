@@ -1,0 +1,1 @@
+{"responses":{"200":{"headers":{"location":{"schema":{"type":"string","format":"uri"}}},"description":"OK"},"302":{"headers":{"location":{"schema":{"type":"string","format":"uri"}}},"description":""}}}

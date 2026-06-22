@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"Unique identifier for the Directory User.","schema":{"example":"directory_user_01E1JG7J09H96KYP8HM9B0G5SJ","type":"string"}}]}

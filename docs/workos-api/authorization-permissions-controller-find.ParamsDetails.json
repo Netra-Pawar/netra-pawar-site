@@ -1,0 +1,1 @@
+{"parameters":[{"name":"slug","required":true,"in":"path","description":"A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks.","schema":{"example":"documents:read","type":"string"}}]}

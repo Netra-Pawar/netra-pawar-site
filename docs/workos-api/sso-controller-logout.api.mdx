@@ -1,0 +1,72 @@
+---
+id: sso-controller-logout
+title: "Logout Redirect"
+description: "Logout allows to sign out a user from your application by triggering the identity provider sign out flow. This `GET` endpoint should be a redirection, since the identity provider user will be identified in the browser session."
+sidebar_label: "Logout Redirect"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVltT4koQ/itTedndKgyo4C48HWRR0UXkoqK7FgxJJxlIZrIzExEo/vvpSYLAup6nrVPn4TxJpu/dX3/tynJBOZLFmglu1axvwheJJjQMxVwRLYhiPifpE0kUSOJJEZGFSCShcRwyhxpDMlkQLZnvg2TcJzoAwlzgmukFiaV4xg+59eShb5sMAqbI+Lw5GBPgbiwY10QFIgldMgGMJsFlEhzjvoC23IF3/KZpzVkYGrtM7DFwCeOpwURiJSY8KIW+7B/8Bz8FT0jYhjA5C9TGjDa5FEyRhAM6QpEPHCTVJi/MUeqDkD2jJMy6pcUMOOaxqf173sV6olGZLeHpY1GCBxKwiqJSopgZFulG4dNrXNsqWCI2wTDZlosj6SvREFxLEYYgR5klKsVU0gg0SGXVvq8sjh+onKaCUgk/E6wN7bVMoGAxM9yfCcgFCvdHPsCM9wqRoBPJsbx01n+iIOUEEFGrtrL0IjZpKm2AghJ4oVEcmidYXAaTc4d12GXrdtk6vGYt1eK9itNonbRm8fCucVm1UWnuRNWI3r+Ew6Nw1poK5lxcPj+GX+btW3d4Ozi7aDf9RW9WOureXZ/1pqforLnsN6+HnX5p2f7ak4/L+vJxgc6ju3LqfNo8bA8eFu3lbN6etpjXte9lUu2G3Kt8jUWgzxtXweNt2bnruMfLmCWfu92DYXN4cFCpj8rWev1k2q1iwRFipsajUsn82e9y58paF6zj0pERBUDddHArXLhshczv99uEcI2oxpdEMoy4/nWGxne5VH4b9lpociYS7qITB1GE22GUdna3OFXvRBeTKS6HgZo0iNQsKy/CRaI+/C7N/dh1EiQR5QcSq6WTEMiOmAgvRRZIKaS9B4SO9Clny4xYOObvmfxr5IOQ/qh02Lzoth/uTtqnV8fVbqNy8zi8eKhUG8cfbMv0ZQv876+ZPq3Xac8UONg/vUDZk/mSz5vtSWSIkQOtY1Urpii250LOhLIdEVlmwpr6RtVCsFv4iZsXCLOdPmTLqAP82FkFaxuubxqb9W4CVIJ87bYpN38q5D/ONpO+vB/gY95hk9mb/j4YFr7HNDt9Ur9pkRkYVgSPveDuzpkOyFjNRmOb3FClCEMKV8hfp2mYbNVrZLxZ6bTdtY0U7fKBjA6PjsuVk89fqmPboIw6DnZ1lPHMn6mjzkm/3yGZ53c56BzMDbqRwmMIJcpdMkg1tzxjRsy4J1JkMp2CKWvPm5B513rN/sC0DuUGCpns0C7ly0KddFlyan11tQ+WHZwgiiPKjFAlcYxn4q9dEBUsXDlAktjx2W4N3jjEXeMKR+uAjYgv5kZFo2oqjIXSuFU7TnJy7uXX7NdiV9vF//+8/xfOe74LGl50MQ4pnuZ1joFVTiQZzSBgMipBvglw6uZ9tZpQBbcyXK/Nc3bRDYO5TBmORUryaKjgHzDwsZdT5CfyL5z+3xaLTLXzv8ozDRNIj9iT+ZDMFGI4GjWzS5lWmBnVkSVivWP15pStd+kZAYhb8zcGbND8
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Logout Redirect"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/sso/logout"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Logout allows to sign out a user from your application by triggering the identity provider sign out flow. This `GET` endpoint should be a redirection, since the identity provider user will be identified in the browser session.
+
+Before redirecting to this endpoint, you need to generate a short-lived logout token using the [Logout Authorize](/reference/sso/logout/authorize) endpoint.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./sso-controller-logout.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./sso-controller-logout.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./sso-controller-logout.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

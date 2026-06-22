@@ -1,0 +1,1 @@
+{"parameters":[{"name":"application_id","required":true,"in":"path","description":"The ID or client ID of the application.","schema":{"example":"conn_app_01HXYZ123456789ABCDEFGHIJ","type":"string"}},{"name":"user_id","required":true,"in":"path","description":"The ID of the user.","schema":{"example":"user_01E4ZCR3C56J083X43JQXF3JK5","type":"string"}}]}

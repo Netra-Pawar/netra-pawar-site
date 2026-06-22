@@ -1,0 +1,79 @@
+---
+id: external-auth-controller-complete-login
+title: "Complete external authentication"
+description: "Completes an external authentication flow and returns control to AuthKit. This endpoint is used with [Standalone Connect](/authkit/connect/standalone) to bridge your existing authentication system with the Connect OAuth API infrastructure."
+sidebar_label: "Complete external authentication"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Complete external authentication"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/authkit/oauth2/complete"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Completes an external authentication flow and returns control to AuthKit. This endpoint is used with [Standalone Connect](/authkit/connect/standalone) to bridge your existing authentication system with the Connect OAuth API infrastructure.
+
+After successfully authenticating a user in your application, calling this endpoint will:
+
+- Create or update the user in AuthKit, using the given `id` as its `external_id`.
+- Return a `redirect_uri` your application should redirect to in order for AuthKit to complete the flow
+
+Users are automatically created or updated based on the `id` and `email` provided. If a user with the same `id` exists, their information is updated. Otherwise, a new user is created.
+
+If you provide a new `id` with an `email` that already belongs to an existing user, the request will fail with an error as email addresses are unique to a user.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./external-auth-controller-complete-login.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./external-auth-controller-complete-login.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./external-auth-controller-complete-login.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

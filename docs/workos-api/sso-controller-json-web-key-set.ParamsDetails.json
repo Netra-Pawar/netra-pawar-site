@@ -1,0 +1,1 @@
+{"parameters":[{"name":"clientId","required":true,"in":"path","description":"Identifies the application making the request to the WorkOS server. You can obtain your client ID from the [API Keys](https://dashboard.workos.com/api-keys) page in the dashboard.","schema":{"type":"string","example":"client_01HXYZ123456789ABCDEFGHIJ"}}]}

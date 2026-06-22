@@ -1,0 +1,70 @@
+---
+id: authorization-resources-by-external-id-controller-delete-by-external-id
+title: "Delete an authorization resource by external ID"
+description: "Delete an authorization resource by organization, resource type, and external ID. This also deletes all descendant resources."
+sidebar_label: "Delete an authorization resource by external ID"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWFFT2zgQ/isav/RuJsRQoHfk6QKEkqMUmuTaowwTFFtOVGzJlWQg5/F/v13ZDjY2d8Bw03bmnpJIq9W3n3ZXn5I6PtOe4rHhUjg9Z5+FzDBCBaGJWUjF/6I4QxTTMlEeI7MlkWpORTHRuZsxy5h1YKVP2K1hStCQDPe7ZLLgmtBQS+Jb3/gjJLgrEz4VZuVAd52OI2OmrOOhD2j6VQyj0m53OSg2GPp7Uhglw5Cpae6+Ogn+YqpoBMNKO73z1BHwA/xWI5hytFPsa8IVg02NSljH4UhGTM0C5uoMTRYM4iIyIAa+VT3BADVE3ghtp8q4MCztLVhEnV7qIEvgRRvFxRxm2C2N4rAANV3fGBx+fv/x9GhzfHC0tbXR3xi93T0YH44mTpZ1VvhL11P0NtVhMn9yCLioDKJ2hI+FGyv5hXmmhqs8+Kdy2heE+0wYHnCmyFImBLxfwxAxEtAFTDGB8KpYuUBDRfRSGxY9BfXa1vabGmyPao/6rMigGvIAMreE/jVhatnAPgQOMbx/TW9bGpCrUF1a87mIIGDdJbBeSEM0M9agFuOCauIteOhD/JBq1YWdwhJAaUNuOGwaUB628jCTsCsVFnpAk9Cs4loRY39n2QXGrmMpNNPo4PX6Fn7UI34vCZYdoHCyjrO1vt402aU+GeXYYFevsAYzGsch92y5uF802qZNvHJmM6uDpwX9wPAcjCd91na6zeRmSgFbaF/m1RJMLWO4GPPemnRruRFK72pqeMRkUqAG9PeGIeCIaU3nj0DSJ4skomJNMerTGZx7ZbosvRYYBW8APwl9mxszhvUAKaSZ38XMrSToeU7LHayLLMvssWw2j+VAqhn3gZGXO5T/mo2TaoNFMgKZCL9HXpXt8sPx2cc3x7tHmzsf9rZPP/95eLa9s7f5qslTg6DW1DbkADf4nyAgaKdJ0FN4kYKdBPba/bZ1vbotoZ1Cj4+hMWMHrZT4QxY/QrV3vht6rRhJYp8aNuViCijmMNfK80OmPwLhtjzAyNA5ikqnJpSdCzSFAZSvKz1hRU/PcWumblU7aje9J0ozd6Uc3LQp+DI3raitDK99pq5LnZuoEPZbGBPrnuvSmHdvpLqSuuvJqEHkqZJ+4tkfmE0PrV0DcWNaHYyBCjwhlA+aeYniZmlhzBhVTMHXi+rUGDtEnpulQdE2rFjJhzrFF7iyIoq58/unCQwWKYHoGjDOUA5+AqwnY9I/HZIrtoSDZQG/ZT4oJLMgl/pqetklp6CjCAe9BZqM7NptQGheMdEjl7UnR6+chXVFBk03Xm+Cfvzl153LLqYr9TBxpnb5C8UBang8PiG55xwYCD2TKAFxBEpGNrXfomAkcHYBR0kJ0nFiLaF3xZILk2cyF4G0pcSNzf6cnsaWBWujwXiC1ME8plI+t9FdL7o+9WzXL1TzylU9YWqJBjcBx0mdxLFU5rfKJICDu4OB0qz4PB5OGg6hl4niJQUl4haLXDTFCGOpDbSBipPHvGErT9T7ZKR3N9w3fw4XaWLAhRuHlGOF5vSkRVO53386tcctNt9e22u32AOnWx+TvepTDmp3IbGBnztpOqOa/aHCLMPh/EmEpe5zjU347sn0IKff34OplWXoHm1Pw2saJmhsm901VRyjfiIDP42K++Vn8qx/E1rxFoNULKsoyzju5wA2+mcD/sf/Dp4BriUDn43vZf5KeEYQ1YIBjQAlA7rEXn5pYdGHhh6bytqGfM6q6mF/8G4wGUCP+xtDJuDy
+sidebar_class_name: "delete api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete an authorization resource by external ID"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/authorization/organizations/{organization_id}/resources/{resource_type_slug}/{external_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete an authorization resource by organization, resource type, and external ID. This also deletes all descendant resources.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-resources-by-external-id-controller-delete-by-external-id.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-resources-by-external-id-controller-delete-by-external-id.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-resources-by-external-id-controller-delete-by-external-id.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

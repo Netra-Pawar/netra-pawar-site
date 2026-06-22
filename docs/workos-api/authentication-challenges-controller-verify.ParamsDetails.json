@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"The unique ID of the Authentication Challenge.","schema":{"type":"string","example":"auth_challenge_01FVYZ5QM8N98T9ME5BCB2BBMJ"}}]}

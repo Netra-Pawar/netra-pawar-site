@@ -1,0 +1,1 @@
+{"parameters":[{"description":"Unique name of the object.","in":"path","name":"name","required":true,"schema":{"example":"my-secret","type":"string"}}]}

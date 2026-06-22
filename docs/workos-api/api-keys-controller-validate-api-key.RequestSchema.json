@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"value":{"type":"string","description":"The value for an API key.","example":"sk_example_1234567890abcdef"}},"required":["value"],"title":"ValidateApiKeyDto"}}}}}

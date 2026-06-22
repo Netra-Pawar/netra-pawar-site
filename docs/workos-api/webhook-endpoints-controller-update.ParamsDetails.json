@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"Unique identifier of the Webhook Endpoint.","schema":{"type":"string","example":"we_0123456789"}}]}

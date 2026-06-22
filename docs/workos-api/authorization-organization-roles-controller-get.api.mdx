@@ -1,0 +1,70 @@
+---
+id: authorization-organization-roles-controller-get
+title: "Get a custom role"
+description: "Retrieve a role that applies to an organization by its slug. This can return either an environment role or a custom role."
+sidebar_label: "Get a custom role"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlV1lv2zgQ/iuEXtoCPuRc2/hpkzTXBmlS2202MQyHlmiLjUSqJOUka+i/7wwl2VLkHFsU6MMCBiySmvnm/DhaOD7TnuKx4VI4XafHjOJszgglSoaMmIAaQuM45EwTIwkVRKoZFfwfihJk8ki40USHyaxFBgHXxINXFDOJEoRxEzCFMkzMuZIiYsJkeiVsEy/RRkZ2o+U0HBkzZbWe+mDJXmICqXKcixJmD17XB1IYkAuZGs+YAeGYKhoxw5R2usOFI2ABSsq2gtaGo9iPhCsGAEYlrOFwdDqmJoCzaiQGASOnn4icQgxYxWm0VXsBi6jTXTjmMUYkDXETMzhhDzSKwxx87HYOT24+f7s82+wfnW1tdfY6veP9o/5Jb+CkaWNpJ8bvP1uHQoV9RQzfaFdzwsMQ9pvUjwAkTUcIrmMpNNMoveG6+FcFvTgDPR5EHtKIp7YuPBuT9neNryzqBsjJd+bZDClMsOEZgPV4jZlVxD2SCP4jyX2dQtWUnX3RpUaB/CrIJ64N7CdcB1jkOQDJxKs4eJDFQJtiCUjcfx3la+YI9yF4fMqhL56kropiK+fL+fW3nfP9s83dLwfblzd/n1xv7x5sImJWN6+Hb7mGlkaZF2K4n8WPnFNBZ0whSkVbATZcoYkkDJ1RDRU4wj7TkJROnvf3ABhiztk9MIVP2EMslSF5NoFKcKnRmgx+TWWLJEKzDlck08vy9JQ26rZeBcxy1DLrwGDag0L1ke1wt0xdUtUI8H2JxD5U3aqhp7bJZKI8NkYnxm9rglqv5zoIiq23vNYdS0PQCGjDiGsNK11Cp0rRR5DjhkW6btXTcrBmrTRZCzWhsJiJVfRqyR46sdRGdxWjyMfZ4l4BqDMCCA/2DfPH1PYtFGuET44Pm03DI0zqKyUvyGn/gnzccTsEBbQB4Go4NtyNnabbaXa2B52NruvCr+W67g26mMT+b8RPy1fAsLgVlgzKMWK286uouU1rq6ua7UqAK95CZzw0uYCeY817uLebcs6UArbS2WWUpmjdlrtZvxaOpJpwH3jt190OEDcNJPQWhguSiIomlhOdQBesIRzwQ6rnW5MIaYAWE+F3ybvizl7PvO9atRwVlo6KAG3VA/QZAI4Q4H8fIGRxOsMRzaHl+Q7LD6a3QOLkVwx0MPZ0nXblvXaZynR7UZ3v0jbSDWxj5ac4DTE1LybCRIWgLjAm1t12m8a8dS/VndQtT0a1qF0q6SdezpfPyzYN9PdaBX1w07LmCK3wEiC4R2vGhFEFl2t3OCof9THtWWaLF/JawGTkW4384ahgpb+uBis+QutqZlwDHZArsPWiT/YuT8kdeySxYlP+ABSNbU5u9d34tkUugbhhkgf+hrl838IAhd8x0SW3lUm8W5yCXF4u487G5tb2zh8fd29byKHU8yDnYyv+i/wAVu0Dq2aaM8PyjwzwY6rg/sU6PmbgAIHcTTkUOg4TA/smE34suTBZcXIxlbZvuLGlnoWnBplHrXfYH2Do4BxLKTvrtNy8lWk2YOZj/FJVtWAqhQbtzfFQJzFONn+WDsE4IAQGM3hJ5/npoKYQmEBkTN+CDmjnQm18FT3ESxV6vqQki0xpVHnq7mJFTL/1GzAvAsMeTDsOaTbIW+cXOSM8ZY5GZbzBK65b/+pDWsATeyVC3wUS5/ehs1hMqGZfVZimuA0DusI2hcc5VRz50jatzzU+AzlNaajZC7F738up7wN5+QNyraPFJCZwDpvTMMEVPELb1j9mkZh+2rB1344/YZKNZ4qDWwD3i+W1RX60B70am5JQ7bpLy6R/fIi1+y/RHK/C
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a custom role"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/authorization/organizations/{organizationId}/roles/{slug}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve a role that applies to an organization by its slug. This can return either an environment role or a custom role.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-organization-roles-controller-get.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-organization-roles-controller-get.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-organization-roles-controller-get.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

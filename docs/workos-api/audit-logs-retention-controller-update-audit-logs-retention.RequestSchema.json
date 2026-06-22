@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"retention_period_in_days":{"type":"integer","description":"The number of days Audit Log events will be retained. Valid values are `30` and `365`.","example":30}},"required":["retention_period_in_days"],"title":"UpdateAuditLogsRetentionDto"}}}}}

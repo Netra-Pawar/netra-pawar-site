@@ -1,0 +1,70 @@
+---
+id: sso-controller-json-web-key-set
+title: "Get JWKS"
+description: "Returns the JSON Web Key Set (JWKS) containing the public keys used for verifying access tokens."
+sidebar_label: "Get JWKS"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVVl1T6kgQ/StT2YerVRBQL96Vpw2oGF1FDK4iRemQDDCQzMSZiYIU/327k6Ag7tWturVV+wSZ6c/T3adnbgVM+4rHhkthVa0rZhIlNDEjRk695gW5YX1yxmbEY4Zsnd6cedvEl8JQLrgYpmJx0g+5TyZspkmiWUAGUpEnpvhghiLU95kGg3LChLatgiVjpii6cwNw6GlZB3tKhiFT92MtBXgEh+APZGOqaMQMU9qqdueWgA/Q8UPOhAH1gqXYY8IVA0tGJaxgcUwipmYEd+uZuQHo8AFnWXI0jiHqNA4S0ckyGbTHtIFw088bqSZNj2imICGbdGRCfCqI7CMAZCYTRbJgiHtIBkpGqVbXuXQRNN3bGhkT62qpFFA96kuqAvsZTEpt+zIq0ZgXEbZtEtMhI2ARtd9EIQftj1hErercMrMYc9dGQaxww6Y0isM3OO7LOye3nbud3b3vlf0fvx84tfrh0XHjxD21FoseIqVjKTTTaGy3XMafdYSaZ2AWiwvW8HYFohIWBs824pH9MfPTUiksrOGZA0xrRYoqRWcgxA2L9OfaNBx+lPJ6uE44lIqbUWRnYWuD/evtVvatRcGamNnnJrCxUWLdgoP60Mlf0wdBsqX5UFCYHLa9agpO0dS04n8BitzF4r2PW7tSPiA+gjPAajDij6D57NUW6FrnrnvYGtfrDn8cOs9uzRm6Daf9UjpO/uTnTrlR9x4bntvfO2wd1erP145t21YPfInPkwRASCSDJEz0mlOr/DT9QYeS9Rs+mGNn4kJj+F/ADU2yKbQjdNq6Tafl1NLy8eBr8LuH6wag8X42CVgN81vaJJ+a30TeO3GKoApjmkT9GJTeRX83br10xm652QZALqKL8XUZhm+Vpbppb2ftmTVZ1h9YCYQuy3wlyt5GQ7T/Nee+DyEdTqAEw00a9unzRF/l9ADCKP69/H2TIC6kIccyEcGv44kI4gTu+8K0E8CciqJiNKD9EGjy7ZrIQcqcTCmp1ivSVEMq+EvG8wLiH2D8VfJNqiH0ydFJ67zz1/557WzvoFWvXN7dnnQqB/W9b5ugLSPtLTKENPMToB9gmS5CSYe4orCiqghxgmSEzQ18q8F1MSsFgg7rbCRx8w3zDQe7qmqVtJalMdShNF9utwXSf7p4suWXqBAElwsFdsfKKtmA61LBxPrpx6Lwz7pFA8vuQwMeZJTyUe8tVQ+LmtWtz6hi6rXSCHV+VMj/HEsVUWTB05s2HObVxRA2fHVwj+arFlcn9CeJFRvwKXT2M1A8edCT+webXFLoam4I1YSSWuoma/IqeXASwFXlpa4ub0Evb4b7Vz54sJEHshm5T9V/UR6OIJ7XXJs+eFDggwondPk6aMBLihIo0IBDG1MRkHYqyUQQy5RSsL24GMh0KvIZzeDZcJmjdnXktRE6uMd+ye527HI+qNRPBzV/Pr2aWu+KtW6C4eV4qZM4lsr8sXIJwcG4M5EtyNzmudveMAhzLjSU1mc2TFspVyqhKGYYS21gUlaMIDL4xHyf5fyNbf6LB2peYsOmphSHYCh9D2Bq83xcuxaMK0jiwMJP9fVBCsMykrj7u9Z83qeaXatwscBjeFaqnCueqOJIYelUB1zjfyCEAQ01+0nmW1c5G22T/+db9kNcl68igfvwiYYJfuEaZLPVl/4C9+AIuB9JpzvPrx0oXWxWFDdW0WKVcRtH2Hl/A75qYEU=
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get JWKS"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/sso/jwks/{clientId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns the JSON Web Key Set (JWKS) containing the public keys used for verifying access tokens.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./sso-controller-json-web-key-set.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./sso-controller-json-web-key-set.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./sso-controller-json-web-key-set.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

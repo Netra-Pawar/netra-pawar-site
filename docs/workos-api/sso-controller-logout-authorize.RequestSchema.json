@@ -1,0 +1,1 @@
+{"title":"Body","body":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"profile_id":{"type":"string","description":"The unique ID of the profile to log out.","example":"prof_01HXYZ123456789ABCDEFGHIJ"}},"required":["profile_id"]}}}}}

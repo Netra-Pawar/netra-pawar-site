@@ -1,0 +1,70 @@
+---
+id: organizations-controller-get-by-external-id
+title: "Get an Organization by External ID"
+description: "Get the details of an existing organization by an [external identifier](/authkit/metadata/external-identifiers)."
+sidebar_label: "Get an Organization by External ID"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get an Organization by External ID"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/organizations/external_id/{external_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get the details of an existing organization by an [external identifier](/authkit/metadata/external-identifiers).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./organizations-controller-get-by-external-id.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./organizations-controller-get-by-external-id.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./organizations-controller-get-by-external-id.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

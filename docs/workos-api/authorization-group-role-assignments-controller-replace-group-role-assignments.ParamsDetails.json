@@ -1,0 +1,1 @@
+{"parameters":[{"name":"group_id","required":true,"in":"path","description":"The ID of the group.","schema":{"type":"string","example":"group_01HXYZ123456789ABCDEFGHIJ"}}]}

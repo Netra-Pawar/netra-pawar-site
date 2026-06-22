@@ -1,0 +1,70 @@
+---
+id: authorization-group-role-assignments-controller-get
+title: "Get a group role assignment"
+description: "Get a specific role assignment for a group by its ID."
+sidebar_label: "Get a group role assignment"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlV1lPG0kQ/iutecmu5GMMgU38tIZwJSIQ7GwCyDLtmbLdYdw96e5JcCz/963qOTxjG7AipH1YCYlxH3V+9VX13AvBBFrEVijptb0TsIwzE0MgRiJgWkXAuDFiLKcgLRspjdtjrZKYDWdMWMPO3jW8mqdi0JxknIUopZPYidLil1s5odNXKKhTyDGHSlqUHYEejMHi/ZhrPgUL2njt27kn8QfKcYoGIsQDGr4nQgNKtzqBmifI2pjbCe5VXehNAI1iasQsfjkRZKEJJjDlXnvu2VlMwo3VQo5xBx74NI6W+vzW6dfrm9bO7uu9/b/evO0cHL47Oj45PXvvLRa1wjYKzWAZmhewcjXa21vNn7S5T3aZWEkDhiTt+D79q9pz8QFlBpgWVEy7PI4jEbgENr8ZOjJfN0YNv0Hg0qcJAFakCrLlDUZXdb4TxuJ6IswEzONxYKm8RmqgsUWiVlLgLTDg4fNqP0vxPQEmQryDKAf9bBa2ijWpLwD7rBGb8k9fTrswmQEQMqtWLXgGozUHzfUM9wrpMoiSEEUL6VRWfX06tSZKxts5Rydz9wpnSH/VHR5OsUgWi3Lt3KZqELdWWHeqG4kpUYjzDoxKdADP43DbPCQpIJbpuMpUrJiKrPZrkKt/CgbwgEwmebQVEjqyDMWZShh68QOXMPVMwwg0yABScGS6KXN4UDMzMxamVTPx9rc62lSO1YBMGPxe8gqldA1XEJzF0hAiJcdmDaRkA2VkNa+OJMvR2Whif5NJSzM2VYmSDfI30MAthAPu2Ae71ZS+vBAX61Ygb9eeT8ZZ94K92fdbjC4Yiy5Vfdvxd/brfqve2uu1dtq+j38N3/dvSH8Sh/+h/pVgF1Xh4lzupVRJpUKqxK3iRKkEN7Rx1Eg6X/u762xzrPRQhIjrl2srGA3Dx7BFRbFJMuWyjk6FfIhIKW3nqAatla4G9kKPucyGFiYVTTuJDNvsldJjrPaj00/n1//snx982H376XDv8ubr6fXe28PdV421yOeW9vMAvV4P0EdUcEwK/vcBwj3LxzT4OYotBkdC30N9hMhMNNRHEUfy8hIDuu6wbOqE4/qye9VBkjM5xUiDMtJx8h5meHVFVs37waMEtpRJUxQOqBNF820+s+Jc1/aaFaObqZzmPK+3RXNlTMG99dlxQbMe6B/5AJzoCEVPrI1Nu9nksWj8VPpemUagpmvpvNQqTAL3gwbUx+7WLdLJRgFdjD/hhJw0ECRa2JkzYwhcg8bPfnmrS3hMIZcfyEBK0cyWatnHcU6C77/0lvRH1q2ZcU0t7QvaetFlncszhmnDXggj8YAM/1PYCbsz94O7BrvE2OHjA+kfXyMHTg22oHuQbXZXeXu08128l+F4UHTsO9cyeBAgGAfu+gv5gSTeRRJPJaeGYftC5FGnGmk1dQWWPrUwdyNBA6cMWc+dBBnGStAwRpUh5Ei5gs5oOA3PmsosaldH3R6FjsCNUEr3Wg0/4xieTuXZC6YQVQVMBWjIO4I2TRLHStu/S5toHDIVlhmUZJ6f9dYEIkXJbJ5Comhml5p0lDyMlbFIRiUhaWQ2TuOrjs+X3Pnbb9cslRZJoxlHnMbRzIV5VuOrxJR1U4Mf7ZW+Wi502t7wTMRKmih6xtx68/mQG/iso8WClnEK1VR4feImLYh5XBmGwqQs1B7xyMATMfjjKmPZP9kj7+CN3maLXM5KtIifKXEWLhK7vJQtm95Zv2Hbhvgu+nhrgq3NMVfO/h2sxtiWRKx12grFnxwROv8Fb1baUg==
+sidebar_class_name: "get api-method"
+info_path: docs/workos-api/workos
+custom_edit_url: null
+mask_credentials: false
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a group role assignment"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/authorization/groups/{group_id}/role_assignments/{role_assignment_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a specific role assignment for a group by its ID.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./authorization-group-role-assignments-controller-get.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./authorization-group-role-assignments-controller-get.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./authorization-group-role-assignments-controller-get.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

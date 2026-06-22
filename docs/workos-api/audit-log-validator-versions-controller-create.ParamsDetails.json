@@ -1,0 +1,1 @@
+{"parameters":[{"name":"actionName","required":true,"in":"path","description":"The name of the Audit Log action.","schema":{"example":"user.logged_in","type":"string"}}]}

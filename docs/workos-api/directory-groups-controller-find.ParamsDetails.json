@@ -1,0 +1,1 @@
+{"parameters":[{"name":"id","required":true,"in":"path","description":"Unique identifier for the Directory Group.","schema":{"example":"directory_group_01E1JJS84MFPPQ3G655FHTKX6Z","type":"string"}}]}
