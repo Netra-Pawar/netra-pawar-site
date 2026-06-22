@@ -38,7 +38,7 @@ export default function Home(): React.ReactNode {
             <a className="np-button np-button-primary" href="/blog">
               Read articles
             </a>
-            <a className="np-button np-button-secondary" href="/docs/intro">
+            <a className="np-button np-button-secondary" href="/experiments">
               Explore experiments
             </a>
           </div>

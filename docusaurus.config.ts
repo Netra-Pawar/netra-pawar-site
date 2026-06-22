@@ -54,7 +54,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          to: '/docs/intro',
+          to: '/experiments',
           label: 'Experiments',
           position: 'right',
         },

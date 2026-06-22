@@ -356,4 +356,127 @@ body {
   .np-about-closing p {
     font-size: 1.08rem;
   }
+
+  .np-experiments-page {
+    padding: 76px 20px 92px;
+  }
+
+  .np-experiments-hero {
+    margin-bottom: 42px;
+  }
+
+  .np-experiments-hero h1 {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .np-experiments-lede {
+    font-size: 1.25rem;
+  }
+
+  .np-experiments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .np-experiment-card-featured {
+    grid-column: span 1;
+  }
+
+  .np-experiment-card {
+    padding: 30px 26px 30px;
+    border-radius: 22px;
+  }
+
+  .np-experiment-card h2 {
+    font-size: 1.55rem;
+  }
+
+  .np-experiment-card p {
+    font-size: 1.01rem;
+  }
+}
+
+/* Experiments page */
+
+.np-experiments-page {
+  min-height: calc(100vh - 64px);
+  padding: 88px 24px 112px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(230, 236, 255, 0.44), transparent 30%),
+    radial-gradient(circle at 88% 16%, rgba(246, 238, 225, 0.5), transparent 28%),
+    linear-gradient(180deg, #fbfbfd 0%, #ffffff 62%, #f5f5f7 100%);
+}
+
+.np-experiments-hero {
+  max-width: 980px;
+  margin: 0 auto 56px;
+}
+
+.np-experiments-hero h1 {
+  max-width: 860px;
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(3.6rem, 6.4vw, 6rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.038em;
+  color: #1d1d1f;
+}
+
+.np-experiments-lede {
+  max-width: 760px;
+  margin: 30px 0 0;
+  font-size: clamp(1.22rem, 1.8vw, 1.55rem);
+  line-height: 1.46;
+  letter-spacing: -0.025em;
+  color: #424245;
+}
+
+.np-experiments-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.np-experiment-card {
+  padding: 34px 36px 36px;
+  border: 1px solid rgba(210, 210, 215, 0.75);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.055);
+  backdrop-filter: blur(18px);
+}
+
+.np-experiment-card-featured {
+  grid-column: span 2;
+}
+
+.np-experiment-card h2 {
+  max-width: 640px;
+  margin: 0 0 18px;
+  font-size: clamp(1.55rem, 2.4vw, 2.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  color: #1d1d1f;
+}
+
+.np-experiment-card p {
+  margin: 0 0 18px;
+  font-size: 1.04rem;
+  line-height: 1.72;
+  color: #424245;
+}
+
+.np-experiment-card a {
+  display: inline-flex;
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1d1d1f;
+  text-decoration: none;
+}
+
+.np-experiment-card a:hover {
+  text-decoration: underline;
 }
