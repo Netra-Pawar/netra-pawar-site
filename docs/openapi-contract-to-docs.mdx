@@ -1,0 +1,373 @@
+---
+
+sidebar_position: 2
+title: From OpenAPI contract to developer docs
+---
+
+# From OpenAPI contract to developer docs
+
+This experiment explores how a real-world OpenAPI contract can be used to generate API reference documentation inside a documentation site.
+
+The larger question behind this experiment is:
+
+> What parts of API documentation can be automated from a contract, and what parts still need documentation engineering judgment?
+
+## Why this experiment matters
+
+API documentation is not only a set of manually written pages.
+
+In mature developer documentation systems, the API contract often becomes a source system. It can support generated API reference pages, request and response schemas, SDK or client generation, validation checks, mock servers, and CI quality gates.
+
+But the contract is not the whole developer experience.
+
+A developer still needs installation guidance, authentication setup, realistic first requests, working code examples, troubleshooting paths, migration notes, and clear next steps. Those parts are not automatically solved by a machine-readable contract.
+
+This experiment looks at that boundary:
+
+* what the contract can generate
+* what the generated reference can cover
+* what the docs system still needs to validate
+* what humans still need to design, review, and own
+
+## Source contract
+
+For this experiment, I used the WorkOS OpenAPI specification as a real-world source contract.
+
+The source repository is:
+
+```text
+https://github.com/workos/openapi-spec
+```
+
+I used it because the repository publicly provides a real OpenAPI contract and states that the specification is available under the MIT License.
+
+This project is an independent learning and documentation engineering experiment. It is not affiliated with, sponsored by, or endorsed by WorkOS.
+
+The local copy of the source contract is stored at `external/workos/open-api-spec.yaml`.
+
+I also added an attribution note at `external/workos/README.md` to make the source, license context, and independent-use framing explicit.
+
+## Mental model
+
+The basic automation flow looks like this:
+
+```text
+OpenAPI contract
+    ↓
+Generated API reference
+    ↓
+Endpoint pages
+    ↓
+Request and response schemas
+    ↓
+Parameters, status codes, and examples
+```
+
+That flow is useful because the structural parts of API reference documentation can be generated from a single source of truth.
+
+But developer success usually depends on a second layer:
+
+```text
+Generated API reference
+    +
+Human-authored quickstarts
+    +
+Tested code examples
+    +
+Installation and authentication guidance
+    +
+Troubleshooting and next steps
+```
+
+The generated reference can answer:
+
+> What does the API expose?
+
+The authored journey helps answer:
+
+> How do I use this successfully?
+
+## What I built
+
+I added the WorkOS OpenAPI contract to this Docusaurus project.
+
+Then I installed and configured an OpenAPI documentation plugin for Docusaurus so the contract could generate API reference pages inside the site.
+
+The generated pages live under `docs/workos-api/`.
+
+The generated API reference is visible here:
+
+[View generated WorkOS API reference](/docs/workos-api/workos)
+
+## How the API reference was generated
+
+I used the Docusaurus OpenAPI docs plugin and theme to generate API reference pages from the WorkOS OpenAPI contract.
+
+The packages added to the project were:
+
+```bash
+npm install docusaurus-plugin-openapi-docs docusaurus-theme-openapi-docs
+```
+
+The source OpenAPI contract was stored at `external/workos/open-api-spec.yaml`.
+
+In `docusaurus.config.ts`, I configured the OpenAPI plugin to read from that source file and generate reference pages into `docs/workos-api/`.
+
+The API reference was generated with:
+
+```bash
+npx docusaurus gen-api-docs workos
+```
+
+Then I validated the site build with:
+
+```bash
+npm run build
+```
+
+The generated reference appeared under `/docs/workos-api/`.
+
+The main generated reference entry point is `/docs/workos-api/workos`.
+
+This made the automation path explicit:
+
+```text
+external/workos/open-api-spec.yaml
+    ↓
+npx docusaurus gen-api-docs workos
+    ↓
+docs/workos-api/
+    ↓
+Docusaurus-rendered API reference pages
+```
+
+## What changed in the site
+
+Before this experiment, the site had only authored pages:
+
+```text
+About page
+Articles
+Experiment notes
+```
+
+After this experiment, the site contains two kinds of documentation content:
+
+```text
+Authored content
+    Explanation
+    Framing
+    Learning paths
+    Experiment write-ups
+
+Generated content
+    API reference pages generated from the OpenAPI contract
+```
+
+That distinction matters.
+
+Authored content is useful for explanation, onboarding, context, and decision-making.
+
+Generated content is useful for coverage, consistency, and keeping API reference material closer to the source contract.
+
+## What the generation automated
+
+The OpenAPI generation created endpoint-level reference pages from the contract.
+
+This kind of automation can help documentation teams reduce manual effort around:
+
+* endpoint page creation
+* request body documentation
+* response schema documentation
+* parameter tables
+* status-code references
+* repeated structural formatting
+* consistency across API reference pages
+
+In other words, the contract can help automate the reference layer.
+
+## What the generation did not solve automatically
+
+The generated API reference was not completely portable into my site without review.
+
+During the build, Docusaurus surfaced broken-link warnings. The generated pages contained links such as:
+
+```text
+/reference/sso/profile
+/authkit/connect/standalone
+/reference/pipes/connected-account
+```
+
+These links appear to assume the original WorkOS documentation routing structure. They make sense in the context of the source documentation ecosystem, but those routes do not exist in this independent Docusaurus site.
+
+This was an important finding.
+
+It showed that even when API reference generation succeeds, the generated content may still carry assumptions from the original documentation system.
+
+Generated documentation is not automatically production-ready documentation.
+
+## Information architecture observation
+
+The generated API reference also surfaced an information architecture issue.
+
+The generated sidebar exposed a large set of API operations and groups directly from the contract. This made the generated reference complete, but not necessarily easy to navigate as a developer learning path.
+
+That is an important distinction.
+
+The OpenAPI contract can describe what the API exposes, but it does not automatically know how a developer thinks about the product, what they are trying to accomplish, or what sequence of concepts they need first.
+
+In this generated output, the navigation is closer to a contract-derived structure than a user-centered documentation structure.
+
+A production documentation system would likely need an additional information architecture layer on top of the generated reference, such as:
+
+* curated API overview pages
+* task-based entry points
+* grouped product areas
+* clearer category names
+* progressive disclosure for advanced endpoints
+* links from quickstarts into specific reference pages
+* decisions about which generated endpoints should be prominent, hidden, or grouped differently
+
+This showed me that API reference generation solves part of the coverage problem, but not the findability problem by itself.
+
+The contract can generate pages. A documentation team still needs to design the path through them.
+
+## Content completeness observation
+
+The generated API reference also surfaced a content completeness issue.
+
+Some generated pages appeared sparse in areas such as error codes and response behavior. This showed that API reference generation can only render the level of detail available in the source contract.
+
+If the OpenAPI contract contains a status code but does not include a meaningful description, response schema, example payload, or recovery guidance, the generated documentation will also be thin.
+
+That is not necessarily a generator failure. It is often a source-contract quality gap.
+
+For developers, this matters because error documentation is part of the product experience. When an API request fails, users need more than the status code. They need to understand what happened, why it happened, and what to do next.
+
+A production documentation system would need to review whether the contract includes enough detail for:
+
+* common error codes
+* authentication and authorization failures
+* validation errors
+* rate limits
+* example error payloads
+* actionable recovery guidance
+* links from errors to troubleshooting pages
+
+This showed me that OpenAPI generation can improve coverage, but it also makes source-quality gaps more visible.
+
+The generated reference reflects the contract. It does not automatically make the contract explanatory.
+
+## What this taught me
+
+OpenAPI can automate a meaningful part of developer documentation, but it does not remove the need for documentation engineering judgment.
+
+A generated API reference still needs decisions around:
+
+* routing
+* link mapping
+* information architecture
+* navigation
+* surrounding guides
+* attribution
+* content completeness
+* error guidance
+* build checks
+* publication readiness
+
+The generation step created useful reference pages.
+
+The build step surfaced integration issues.
+
+The review step helped interpret what those warnings and gaps meant.
+
+That workflow is important because a documentation system should not only generate content. It should also make quality issues visible before users encounter them.
+
+## Production implications
+
+In a production documentation system, I would treat generated API reference as a governed artifact, not a one-time output.
+
+A stronger production workflow would separate four quality gates:
+
+```text
+Contract validity
+    Is the OpenAPI specification valid and structurally correct?
+
+Generated reference integrity
+    Did the generated pages build successfully, preserve required content, and avoid broken links or route assumptions?
+
+Information architecture quality
+    Can developers find the right API area, understand the grouping, and move from task-based guidance into the correct reference page?
+
+Developer journey reliability
+    Can a developer follow the quickstart, install the SDK, authenticate, run the first request, and recover from common errors?
+```
+
+Each gate catches a different class of failure.
+
+Contract validation can catch structural API documentation issues.
+
+Generated reference checks can catch integration issues in the docs site.
+
+Information architecture review can catch findability and navigation problems.
+
+Snippet tests and human review can catch first-success failures that the contract alone may miss.
+
+## What a documentation team would still need to own
+
+If this were a real production documentation system, I would not publish generated reference pages without additional review.
+
+A documentation team would still need to decide:
+
+* Which generated pages should be exposed to users?
+* Should source links be preserved, rewritten, mapped, or removed?
+* How should generated reference pages fit into the site navigation?
+* Which API groups should be curated for developer intent rather than contract structure?
+* Which quickstarts should introduce the API before users reach the reference?
+* Which examples should be tested automatically?
+* Which error states need richer descriptions, examples, or recovery guidance?
+* Which parts of the contract should block publication if they break?
+* Which parts require human review because they affect trust or user success?
+
+This is where docs-as-code, content design, and developer experience meet.
+
+The contract can generate structure, but people still need to design the experience.
+
+## Early takeaway
+
+This experiment gave me a clearer mental model:
+
+```text
+The contract gives structure.
+The generated reference gives coverage.
+Information architecture gives findability.
+Error guidance gives recoverability.
+The authored journey creates trust.
+```
+
+OpenAPI is powerful because it can make API documentation more consistent and automatable.
+
+But generated reference documentation is not the same as a complete developer experience.
+
+A good API documentation system needs both:
+
+* generated reference that stays close to the contract
+* human-authored guidance that helps developers reach first success
+
+## Next step
+
+The next stage of this experiment is to explore SDK or client generation from the same OpenAPI contract.
+
+I want to understand:
+
+* what kind of client code can be generated from the contract
+* how generated clients differ from official SDKs
+* what generated SDK-style documentation includes
+* what still needs installation guidance, examples, and human-authored explanation
+* how snippet tests can protect the developer first-success path
+
+After that, I want to compare contract validation with quickstart validation.
+
+The question for the next phase is:
+
+> What can the contract catch, and what can only be caught when someone runs the example?
