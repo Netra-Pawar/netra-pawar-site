@@ -1,0 +1,138 @@
+---
+title: "Exercise 2: Author's Note — Structural Decisions and Placement"
+sidebar_label: "Author's Note"
+sidebar_position: 1
+---
+
+# Exercise 2: Author's Note
+
+## Topic choice
+
+**Vector embeddings** — specifically, how they enable semantic retrieval in RAG and AI assistant workflows.
+
+This topic sits at the intersection of Mistral platform usage (Embeddings API, Libraries, Search Toolkit), real developer workflows (RAG prototypes, documentation assistants, support bots), and enterprise deployment concerns (retrieval quality, freshness, permissions, evaluation). It lets me demonstrate technical accuracy, hands-on grounding, audience differentiation, and writing judgment across a concept that directly impacts platform adoption and support ticket volume.
+
+---
+
+## Audience differentiation
+
+### Version A: "Build Semantic Search with Mistral Embeddings"
+
+**Reader:** Self-serve developer building semantic search or a RAG prototype for the first time.
+
+**Job-to-be-done:** "I have content. I want users to ask questions in natural language and retrieve the right information, even when their wording doesn't match the source text."
+
+**Entry point:** The problem (keyword search misses meaning), not the definition (what is a vector).
+
+**What I cut and what it costs:**
+
+- **Cosine similarity formula.** The code example uses `np.dot(a, b) / (norm(a) * norm(b))`, so the reader sees similarity computed without understanding the math. *Cost:* if they need to debug a low score, they won't know whether 0.6 is good or bad without external context. *Why the trade works:* their next step is a vector store (FAISS, Pinecone, Weaviate) that handles similarity internally — the formula is a detail they'll never invoke directly, and the "Expected output" section shows a concrete score to calibrate against.
+- **Evaluation metrics (recall@k, MRR, nDCG).** *Cost:* a developer who ships to production with no retrieval metrics will have no diagnostic signal when quality degrades. *Why the trade works:* this reader isn't in production yet — they're building a prototype. Loading them with metrics before they have a working system creates anxiety, not capability. Version B covers metrics for when they're ready, and the cross-link is explicit.
+- **Embedding dimensions (1,024 numbers).** Mentioned once as a concrete detail ("a list of 1,024 numbers"), then never discussed again. *Cost:* a reader who sees a vector mismatch error won't immediately know the cause. *Why the trade works:* dimension mismatches are a production problem (mixing models in one index), and the error message itself is descriptive enough to search for a solution. Version B covers the multi-model constraint directly.
+
+**What I kept that a simpler version would cut:** The troubleshooting checklist. New developers blame the model when retrieval fails, but the cause is almost always in the pipeline (content not indexed, chunks too large, structure lost during extraction). Including this prevents a class of support tickets and teaches the right mental model early. *A shorter version would end at "Next steps" — but that leaves the developer with no mental model for failure, which is exactly when they file a support ticket or abandon the product.*
+
+### Version B: "Vector Embeddings in Production Retrieval Systems"
+
+**Reader:** ML engineer, search engineer, platform engineer, or Solutions Engineer designing and debugging retrieval quality in production.
+
+**Job-to-be-done:** "I need to design, evaluate, and troubleshoot semantic retrieval under production constraints: relevance, latency, cost, freshness, permissions, observability, and correctness."
+
+**Entry point:** Architecture and constraints, not motivation.
+
+**What I cut and what it costs:**
+
+- **The "rotate API key" walkthrough with runnable code.** Version B references the example conceptually but doesn't reproduce the step-by-step code. *Cost:* an engineer skimming Version B for a quick sanity check on the SDK call has to click through to the Embeddings reference page. *Why the trade works:* this reader doesn't need to learn the SDK — they need to understand where embeddings fail in their pipeline. A runnable example would consume a third of the page to teach something they either already know or can get from the existing Text Embeddings reference in 30 seconds.
+- **Beginner analogies ("coordinates on a map").** *Cost:* a Solutions Engineer who reads Version B to prepare for a customer call can't borrow the metaphor for their own explanation. *Why the trade works:* the cross-link to Version A is in the first line, and Solutions Engineers are comfortable adapting technical content for their audience — they don't need the metaphor pre-packaged here, and mixing metaphors with production metrics would undermine the document's credibility with the ML engineers who are its primary reader.
+
+**What I added that Version A doesn't need:** The distinction between semantic similarity and correctness, pipeline-stage failure diagnostics, evaluation metrics (recall@k, MRR, nDCG), production considerations (latency budgets, permission-aware retrieval, hybrid search), and the three-way architecture decision (API vs Libraries vs Search Toolkit).
+
+### How the versions differ structurally (not just in depth)
+
+| Dimension | Version A | Version B |
+|---|---|---|
+| Opens with | A problem the reader recognizes | A precise technical definition |
+| Core metaphor | "Coordinates on a map of meaning" | "Retrieval primitive in a pipeline" |
+| Code example | Complete, runnable, with expected output | Referenced (points to existing docs) |
+| Troubleshooting | "Why didn't my assistant find the answer?" checklist | Pipeline-stage diagnostic with specific checks per stage |
+| Success metric | "Did the right document appear?" | recall@k, MRR, nDCG, latency, freshness lag |
+| Next steps | "Here's where to go depending on what you're building" | "Choose your abstraction level: API, Libraries, or Search Toolkit" |
+| What's deliberately absent | Math, ANN internals, evaluation metrics, production infra | Analogies, motivation, beginner code walkthrough |
+
+---
+
+## Placement in Mistral's information architecture
+
+Both pages are placed under **Products → Studio → Knowledge & RAG** in Mistral's current docs structure, alongside the existing Embeddings reference pages, RAG Quickstart, Libraries, and Search Toolkit.
+
+**Why this placement:**
+
+- The existing `Knowledge & RAG` group is where developers land when looking for retrieval-related documentation.
+- Version A sits as a sibling to RAG Quickstart — both are "build your first X" guides, but RAG Quickstart focuses on the end-to-end pipeline while Version A focuses on the embedding concept and why it matters.
+- Version B sits as a sibling to the Search Toolkit documentation — both serve engineers working on production retrieval, but Version B covers the conceptual and evaluative layer while Search Toolkit covers the framework.
+- Neither page duplicates existing content. The current Embeddings page is a short API reference (model names, parameters, use cases). Version A adds the "why" and "when." Version B adds the "how to evaluate, debug, and operate."
+
+**Cross-linking strategy:**
+
+- Version A → Version B (for readers who need production depth).
+- Version B → Version A (for readers who need the fundamentals).
+- Both → existing pages: RAG Quickstart, Libraries, Search Toolkit, Text Embeddings, Code Embeddings, Connectors.
+- No broken cross-links to pages that don't exist. Where Mistral's docs have gaps (no dedicated chunking-strategy page, no Search Toolkit evaluation page despite marketing claims), I cross-link to the nearest real content rather than inventing destinations.
+
+---
+
+## Interactive components
+
+### Version A: Keyword vs. Semantic Search Demo
+
+**What it does:** Lets the reader type a query (or pick from presets) and see how keyword matching and semantic matching rank the same three documentation chunks differently.
+
+**Why interactive, not static:** The core insight of Version A — "embeddings match meaning, not words" — is conceptual. A static diagram can state it, but an interactive demo lets the reader *experience* it: type "rotate my API key," see keyword search fail, see semantic search succeed. Then type "rate limit errors," see both methods agree. The contrast builds intuition that a paragraph of explanation cannot.
+
+**Design constraint:** Uses pre-computed similarity scores from `mistral-embed` for preset queries, not live API calls. Documentation should work without an API key.
+
+### Version B: Retrieval Failure Diagnostic
+
+**What it does:** Walks the reader through a decision tree: describe the symptom (missing results, wrong ranking, stale content, inconsistent behavior), answer one or two narrowing questions, and arrive at a diagnosis with specific checks and next steps.
+
+**Why interactive, not static:** Version B already has a static failure-mode table. The interactive component adds diagnostic *flow* — it models the way an engineer actually debugs retrieval: start with the symptom, narrow down the pipeline stage, check specific things. A table lists all possibilities at once; the diagnostic guides you to the relevant one. This is the kind of tool a Solutions Engineer could use during a customer call.
+
+---
+
+## Stakeholder alignment
+
+| Stakeholder | What this delivers for them |
+|---|---|
+| **Engineering** (Gregory) | Technically accurate: embeddings described as retrieval aids, not answer generators. Similarity distinguished from correctness. Real SDK syntax (`inputs` not `input`), verified model names, honest gaps (no multimodal embeddings model). |
+| **Product / Agents** (Maxime) | Platform adoption: shows embeddings as the foundation for assistants, knowledge search, RAG apps. Connects to Libraries, Search Toolkit, and Connectors — Mistral's full retrieval surface. |
+| **Support** | Support deflection: Version A's troubleshooting checklist addresses the top category of embedding-related misunderstanding ("the model ignored my content" = content wasn't indexed or was chunked poorly). Version B's diagnostic tree gives Support a reusable triage tool. |
+| **Solutions / Technical Success** | Enterprise credibility: Version B covers permission-aware retrieval, latency budgets, evaluation metrics, hybrid search, and the API/Libraries/Search Toolkit decision framework — the topics Solutions Engineers need when explaining retrieval architecture to customers. |
+
+---
+
+## How I'd know if the doc is working
+
+Generic analytics (pageviews, time-on-page) tell you a page is *visited*, not whether it's *useful*. Here's what I'd actually instrument and why:
+
+**Signal 1: Code copy → API call conversion.** Add `data-track="code-copy-embeddings-guide"` to the code blocks in Version A. Cross-reference against API logs for `mistral-embed` calls from new API keys in the 24 hours after the copy event. A high copy rate with a low API-call rate means the code example doesn't work as written — the fastest way to catch a broken sample before it generates tickets. *Tool:* whatever product analytics Mistral already runs (Mixpanel, Amplitude, PostHog) plus API-side log correlation.
+
+**Signal 2: Troubleshooting section → support ticket deflection.** Link the troubleshooting section headings from the Zendesk/Intercom help center as "related articles" on tickets tagged `embeddings`, `retrieval`, or `RAG`. Track the deflection rate: how often an agent or user opens the linked article and then closes the ticket without escalation. Baseline at launch, measure at 30/60/90 days. *This is the metric Support leadership will care about most — it's directly connected to headcount and response-time SLAs.*
+
+**Signal 3: Version A → Version B cross-link click-through.** If developers click the "for production retrieval systems" link at the bottom of Version A, it means they've outgrown the beginner guide — which is exactly the graduation signal that justifies having two pages instead of one. A zero click-through rate would suggest Version B is undiscoverable or unnecessary. A high rate would suggest Version A is placing the link at the right moment. *Tool:* anchor-level click tracking, no extra instrumentation beyond standard link tracking.
+
+**Signal 4: Diagnostic tree completion rate (Version B).** The interactive `RetrievalDiagnostic` component logs which symptom path the user follows and whether they reach a diagnosis. If 80% of users click "content never appears in results" → "I haven't checked the index," the most common production failure is the simplest one — and that insight feeds back into what Version A's troubleshooting checklist should emphasize first. *Tool:* component-level event tracking (`diagnostic_start`, `diagnostic_path`, `diagnostic_complete`).
+
+**Signal 5: Solutions Engineer reuse.** After 30 days, ask the Solutions team directly: "Have you linked a customer to the production embeddings page, or used the diagnostic tree on a call?" This is a qualitative check, not a dashboard metric — but it's the fastest way to learn whether Version B serves its intended audience. If no SE has used it, the content is either unfindable (IA problem) or not trustworthy enough to share with a customer (accuracy problem).
+
+---
+
+## Technical accuracy notes
+
+Verified against Mistral's current documentation (June 2026):
+
+- **SDK parameter:** `inputs` (plural) in current `mistralai` Python/TS SDKs; `input` (singular) in REST/curl. Called out explicitly in Version B.
+- **Models:** `mistral-embed` (1,024 dimensions, text) and `codestral-embed` (up to 3,072 dimensions, code). No multimodal embedding model exists.
+- **Libraries chunk size:** 256–32,768 characters. No prescriptive recommendation for text chunk size; code embeddings recommend ~3,000 characters with 1,000 overlap.
+- **Search Toolkit:** Public preview. Supports hybrid search (BM25 + vector), reranking (LLM, cross-encoder, RRF), configurable chunking, Vespa vector store.
+- **Evaluation:** Search Toolkit marketing mentions recall, precision, MRR, nDCG, but no published evaluation docs page exists. Version B references this honestly.
+- **Site platform:** Mistral docs use Next.js, not Docusaurus. The MDX files I've written use standard MDX that works in either system; the `:::note` and `:::tip` admonitions are Docusaurus-compatible for the Docusaurus site specified in the brief.
