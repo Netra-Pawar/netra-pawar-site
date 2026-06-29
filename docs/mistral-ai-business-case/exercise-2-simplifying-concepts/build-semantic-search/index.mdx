@@ -1,0 +1,86 @@
+---
+title: Build Semantic Search with Mistral Embeddings
+description: Help users find the right content even when they ask in different words.
+sidebar_label: Overview
+sidebar_position: 1
+---
+
+import SemanticSearchDemo from '@site/src/components/SemanticSearchDemo'
+
+# Build Semantic Search with Mistral Embeddings
+
+**Help users find the right content — even when they ask in different words.**
+
+## The problem: keywords miss what users mean
+
+Imagine you're building a documentation assistant. A user asks:
+
+> *"How do I rotate my API key?"*
+
+Your documentation contains the answer, but the page is titled **"Credential renewal procedure"** and the text reads:
+
+> *Create a new API key, update your application configuration, verify traffic, then revoke the old key.*
+
+A keyword search for `rotate API key` will not match `credential renewal`. The words are different. But the **meaning** is the same.
+
+This is the problem embeddings solve. Instead of matching words, you match meaning.
+
+<SemanticSearchDemo />
+
+## When to use embeddings
+
+Embeddings are useful when users search by **meaning** rather than exact terms:
+
+- A **documentation assistant** where users describe problems in their own words.
+- A **support bot** that matches incoming tickets to existing solutions.
+- An **internal knowledge search** across policies, runbooks, or product specs.
+- A **code search tool** that finds relevant functions from natural-language descriptions.
+- A **[Mistral Agent](/studio-api/agents)** connected to a knowledge base via the [Document Library](/studio-api/knowledge-rag/libraries) tool — embeddings power the retrieval behind the agent's answers.
+- Any **RAG application** that retrieves context before generating an answer.
+
+### When embeddings alone are not enough
+
+Embeddings find content that is **semantically similar**. They do not handle:
+
+- **Exact identifiers** — order numbers, error codes, product SKUs. Use keyword search or filters.
+- **Dates and time ranges** — "tickets from last week." Use metadata filters.
+- **Access control** — which documents a user is allowed to see. Use permission filters.
+- **Structured lookups** — pricing tables, config values. Use database queries.
+
+Most production systems combine embeddings with keyword search and metadata filters. Embeddings handle the meaning; filters handle the facts.
+
+:::note
+Embeddings retrieve **candidate content** for a model to use. They do not generate answers. If you're building a RAG application, embeddings are the retrieval step — the model generates the response from the retrieved content.
+:::
+
+## Where embeddings fit in a RAG workflow
+
+If you're building a RAG application, embeddings appear at two points in the pipeline:
+
+```
+INDEXING (done once per document)
+Your documents → Split into chunks → Embed each chunk → Store vectors
+
+QUERY (done for every user question)
+User question → Embed the question → Find similar chunks → Send to model → Answer
+```
+
+The key insight: **the same embedding model encodes both your documents and the user's question** into the same space, so "rotate my API key" lands near "credential renewal procedure" — even though the words are different.
+
+## What is a vector embedding?
+
+A vector embedding is a list of numbers that represents the meaning of a piece of text. Mistral's `mistral-embed` model produces a list of 1,024 numbers for each input.
+
+You don't need to interpret these numbers directly. What matters is the relationship between them: texts with **similar meanings** produce vectors that are **close together**, and texts with **different meanings** produce vectors that are **far apart**.
+
+Think of it as coordinates on a map: "rotate API key" and "credential renewal" end up in the same neighborhood, while "rate limit configuration" is in a different part of the map entirely.
+
+## Next steps
+
+| Goal | Resource |
+|---|---|
+| Try the API: embed content and query for the best match | [Quickstart →](./quickstart) |
+| Something not working? | [Troubleshooting →](./troubleshooting) |
+| Designing retrieval for production? | [Embeddings in Production →](../production-retrieval/) |
+| Build a full RAG prototype | [RAG Quickstart](/studio-api/knowledge-rag/rag_quickstart) |
+| Use managed retrieval without building a pipeline | [Libraries](/studio-api/knowledge-rag/libraries) |

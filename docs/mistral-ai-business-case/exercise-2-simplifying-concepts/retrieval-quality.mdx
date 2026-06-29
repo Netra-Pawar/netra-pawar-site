@@ -1,0 +1,47 @@
+---
+title: What Affects Embedding Retrieval Quality
+description: Chunking, metadata, query specificity, near-duplicates, and content type considerations.
+sidebar_label: Retrieval Quality
+sidebar_position: 2
+---
+
+# What Affects Embedding Retrieval Quality
+
+Retrieval quality is not solely a property of the embedding model. It is a joint function of the model, the content, and the pipeline. The following factors interact.
+
+## Content and ingestion
+
+**Chunk size and boundaries.** Smaller chunks (200–500 tokens) produce more specific embeddings but risk splitting answers across chunks. Larger chunks (500–2,000 tokens) preserve more context but dilute semantic specificity. There is no universal optimum — it depends on document structure and query patterns.
+
+For code embeddings, Mistral recommends chunks of approximately 3,000 characters with 1,000 characters of overlap. For text, the [Libraries](/studio-api/knowledge-rag/libraries) feature accepts chunk sizes between 256 and 32,768 characters; the [Search Toolkit](/studio-api/knowledge-rag/search-toolkit) exposes `MarkdownTextSplitter`, `TokenTextSplitter`, and `CharacterTextSplitter` with configurable `chunk_size` and `chunk_overlap`.
+
+**Structure preservation.** Tables, FAQ sections, collapsible panels, and code blocks carry structure that plain-text extraction often destroys. A table row like `| mistral-embed | 1024 | text |` extracted as flat text loses its column relationships. If your source content is heavily structured, evaluate extraction quality before tuning the embedding model.
+
+**Metadata quality.** Metadata (product version, content type, language, publication date, access tier) enables post-retrieval filtering. Missing or inconsistent metadata is a common cause of both false positives (wrong version surfaces) and false negatives (correct content filtered out).
+
+**Source freshness.** If the indexing pipeline runs nightly but documentation updates deploy continuously, there is a window where the vector store contains stale representations. Track index freshness lag as an operational metric.
+
+## Query and retrieval
+
+**Query specificity.** Vague queries like `"help with my account"` produce generic embeddings that match many chunks weakly. Specific queries like `"how to rotate an API key without downtime"` produce embeddings with strong directional signal. Query rewriting (expanding abbreviations, adding context) can improve retrieval for terse inputs — the Search Toolkit provides `LLMQueryRewriter` and `LLMQueryExtension` for this.
+
+**Near-duplicates.** Multiple versions of the same document, localized variants, or content syndicated across products create clusters of near-identical vectors. The "correct" result may be outranked by a close duplicate. Deduplication during ingestion or reranking during retrieval can address this.
+
+**Domain vocabulary.** General-purpose embedding models may underperform on specialized terminology (internal product names, acronyms, domain jargon). Evaluate retrieval accuracy on queries that use your domain's vocabulary before committing to a model.
+
+## Text, code, and multimodal considerations
+
+**Text embeddings** (`mistral-embed`) are appropriate for natural-language documents: knowledge bases, support articles, product documentation, policies.
+
+**Code embeddings** (`codestral-embed`) are optimized for source code: repository search, code analytics, finding functions by description. They support configurable output dimensions (default 1,536, max 3,072) and quantized output types (`float`, `int8`, `binary`, `ubinary`) for storage-constrained deployments.
+
+**Multimodal content** (PDFs with diagrams, mixed text-image documents) does not have a dedicated Mistral embedding model. The current approach is extraction-then-embedding: use [Document AI](/studio-api/document-ai) or the Search Toolkit's `MistralOCRExtractor` to extract text from visual content, then embed the extracted text with `mistral-embed`. This works well for text-heavy documents but loses visual information not captured in the extracted text.
+
+Do not mix embedding models within a single vector index. A query embedded with `mistral-embed` cannot meaningfully be compared against document vectors produced by `codestral-embed` — the vector spaces are different.
+
+## Next
+
+| Page | What it covers |
+|---|---|
+| [Diagnostics →](./diagnostics) | Pipeline-stage failure table and interactive diagnostic |
+| [Evaluation Metrics →](./evaluation) | Measuring retrieval quality with recall@k, MRR, nDCG |

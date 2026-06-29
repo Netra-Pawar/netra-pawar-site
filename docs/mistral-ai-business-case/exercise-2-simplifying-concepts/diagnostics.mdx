@@ -1,0 +1,42 @@
+---
+title: Retrieval Failure Diagnostics
+description: Diagnose retrieval failures by pipeline stage with specific checks and remediation.
+sidebar_label: Diagnostics
+sidebar_position: 3
+---
+
+import RetrievalDiagnostic from '@site/src/components/RetrievalDiagnostic'
+
+# Retrieval Failure Diagnostics
+
+When retrieval returns wrong or missing results, the failure almost always originates in the pipeline, not the embedding model. Diagnose by stage.
+
+## Pipeline-stage failure reference
+
+| Pipeline stage | Symptom | Diagnostic |
+|---|---|---|
+| **Ingestion** | Content never appears in results | Was the source document crawled, uploaded, or connected? Check ingestion logs for errors or omissions. |
+| **Parsing** | Content appears but with garbled structure | Inspect the raw extracted text. Did tables retain column associations? Did HTML/Markdown conversion preserve headings? |
+| **Chunking** | Relevant content appears but doesn't fully answer the question | Inspect the retrieved chunk. Is the answer split across the boundary? Does the chunk include enough surrounding context? |
+| **Embedding** | Semantically relevant content ranks low | Is the content type appropriate for the model? Is domain terminology represented? Embed the query and target chunk directly and inspect their similarity score. |
+| **Indexing** | Results are stale or missing recent updates | When was the index last rebuilt? Compare the document's last-modified timestamp against the index timestamp. |
+| **Retrieval** | Wrong chunks outrank correct ones | Inspect the top-k results. Are near-duplicates consuming slots? Is `k` too small? |
+| **Filtering** | Known-good content doesn't appear | Review active metadata filters. Are version, product, or permission filters excluding the target? |
+
+:::tip Isolate retrieval from generation
+Always evaluate retrieval quality independently. Embed the query, inspect the top-k chunks, and verify that the correct content appears in the candidate set **before** examining the generated answer. If the right chunk isn't retrieved, prompt engineering will not fix the response.
+:::
+
+## Interactive diagnostic
+
+Describe the symptom to narrow down the pipeline stage and get specific checks.
+
+<RetrievalDiagnostic />
+
+## Next
+
+| Page | What it covers |
+|---|---|
+| [Evaluation Metrics →](./evaluation) | Measure retrieval quality with recall@k, MRR, nDCG |
+| [Production Operations →](./production-ops) | Latency, cost, hybrid search, permissions, observability |
+| Beginner troubleshooting | [Version A Troubleshooting →](../build-semantic-search/troubleshooting) |

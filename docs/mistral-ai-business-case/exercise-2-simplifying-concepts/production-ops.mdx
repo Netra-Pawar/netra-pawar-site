@@ -1,0 +1,69 @@
+---
+title: Production Operations for Embedding Retrieval
+description: Latency budgets, cost modeling, hybrid search, permissions, observability, and architecture decisions.
+sidebar_label: Production Ops
+sidebar_position: 5
+---
+
+# Production Operations for Embedding Retrieval
+
+## Latency budget
+
+Embedding a single query with `mistral-embed` via the API typically completes in under 200ms. Add ANN search time (usually sub-50ms for moderate-scale indexes), filter/rerank time, and context assembly. For interactive applications, target total retrieval latency under 500ms (p95) — but benchmark in your own environment, since latency varies with payload size, region, and concurrent load.
+
+## Cost at scale
+
+Embedding large corpora is a one-time cost at indexing time plus incremental cost for updates. Query-time embedding cost scales linearly with query volume. For high-throughput applications, consider:
+
+- Caching frequently seen queries with the Search Toolkit's `SemanticCache`.
+- Using `codestral-embed` with reduced `output_dimension` to lower storage costs.
+- Batch embedding via the [Batch API](/studio-api/batch-processing) at 50% discount.
+
+## Hybrid search
+
+Pure vector search misses exact-match cases (error codes, product IDs, config keys). Pure keyword search misses semantic equivalents. Combine both:
+
+- The Search Toolkit supports `VectorRetriever` + `BM25Retriever` with `RRFRanker` (reciprocal rank fusion) for hybrid search.
+- [Libraries](/studio-api/knowledge-rag/libraries) provides managed hybrid retrieval without pipeline construction.
+
+## Permission-aware retrieval
+
+Enterprise deployments typically require filtering results by user permissions (team, role, data classification). This is a metadata filter applied **after** ANN search, which means:
+
+- The vector index must include permission metadata at ingestion time.
+- Post-filter top-k may return fewer than k results if most candidates are filtered out. Over-retrieve (e.g., search for 50, filter to 10) to compensate.
+- Permission changes require metadata updates in the index, not re-embedding.
+
+## Observability
+
+Log enough to diagnose failures after the fact:
+
+- The raw query.
+- The embedded query vector (or a hash for lookup).
+- The top-k chunk IDs and similarity scores.
+- Which filters were applied and how many candidates they removed.
+- Whether reranking changed the ordering.
+- Total retrieval latency broken down by stage.
+
+## Architecture decision: API, Libraries, or Search Toolkit?
+
+Mistral offers three levels of abstraction for embedding-based retrieval:
+
+| Approach | When to use | What you manage |
+|---|---|---|
+| **Embeddings API** (`client.embeddings.create`) | Building a custom pipeline with your own vector store, chunking, and retrieval logic | Everything: ingestion, chunking, storage, search, filtering, reranking |
+| **[Libraries](/studio-api/knowledge-rag/libraries)** | Need managed RAG without building infrastructure — upload documents, get retrieval | Nothing: Mistral handles ingest, embedding, storage, and search |
+| **[Search Toolkit](/studio-api/knowledge-rag/search-toolkit)** | Building a production pipeline with control over chunking, hybrid search, reranking, and evaluation | Pipeline logic: you configure components but use Mistral's framework for orchestration |
+
+Choose Libraries if speed-to-production matters more than pipeline control — it is also the retrieval backend for [Mistral Agents](/studio-api/agents) via the `document_library` tool, so choosing Libraries means your agent gets retrieval without additional pipeline work. Choose the Search Toolkit if you need to tune retrieval quality, run evaluations, or integrate with existing infrastructure. Use the raw Embeddings API only if you need full control or are integrating into a non-Python stack.
+
+## Further reading
+
+| Goal | Resource |
+|---|---|
+| Build a hybrid search pipeline with reranking | [Search Toolkit Quickstart](/studio-api/knowledge-rag/search-toolkit/quickstart) |
+| Configure chunking and ingestion | [Search Toolkit — Ingestion](/studio-api/knowledge-rag/search-toolkit/ingestion) |
+| Use managed retrieval | [Libraries](/studio-api/knowledge-rag/libraries) |
+| Embed source code for repository search | [Code Embeddings](/studio-api/knowledge-rag/embeddings/code_embeddings) |
+| Connect Google Drive or SharePoint | [Connectors](/studio-api/knowledge-rag/connectors) |
+| Extract text from PDFs and images | [Document AI](/studio-api/document-ai) |
