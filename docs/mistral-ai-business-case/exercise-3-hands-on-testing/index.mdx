@@ -1,0 +1,46 @@
+---
+title: "Author's Note: Exercise 3"
+sidebar_position: 1
+---
+
+# Exercise 3: Hands-On Technical Testing
+
+## The Pivot: From Function Calling to "Getting Started"
+
+My original plan for Exercise 3 was to build a deep-dive tutorial on parallel function calling. However, after extensive hands-on testing of the Mistral API (via curl, Postman, and the Python/TypeScript SDKs), I realized there was a more fundamental gap in the documentation architecture.
+
+Mistral currently lacks a dedicated **API Reference** section. The "Getting Started" page tries to serve as both a tutorial (how to make a call) and a reference (what the parameters are). 
+
+As I analyzed industry standards (like Stripe's developer documentation), I observed a critical pattern: **Tutorials and References serve two different reader modes.**
+- **Tutorials (Journey):** Sequential, goal-oriented, focuses on the "happy path."
+- **References (Lookup):** Non-sequential, exhaustive, focuses on constraints and edge cases.
+
+When you mix them on one page, the beginner is overwhelmed by parameter tables before they've even made their first call, and the expert is frustrated by having to scroll past setup instructions to find the `finish_reason` enum values.
+
+### The Proposed Architecture
+
+I am proposing a multi-page **Getting Started** sequence. It acknowledges that until Mistral builds a dedicated two-column API Reference, we must provide reference material—but we can do it through **progressive disclosure**.
+
+This 7-page sequence guides a developer from zero to production-ready:
+1. **Set Up Your Environment** (Prerequisites, Auth)
+2. **Send Your First API Request** (The Quick Win - 30 seconds)
+3. **Understand the Response** (Anatomy of the JSON)
+4. **Use the SDK** (Python/TypeScript integration)
+5. **Configure Your Request** (The Parameter Reference)
+6. **Handle Errors** (Troubleshooting)
+7. **Next Steps** (Routing to advanced features)
+
+### Product Insight: The Sandbox Key
+
+During my testing, the biggest friction point was acquiring the API key. A developer evaluating Mistral wants a "time-to-first-call" of under 60 seconds. Currently, they must create an account, verify email, navigate to the console, and generate a key.
+
+**Recommendation:** Mistral should implement a Stripe-style `sk_test_` sandbox key pattern. A rate-limited, free-tier sandbox key could be provided directly in the documentation (or generated instantly with a one-click GitHub OAuth login), allowing developers to execute the "Quick Win" curl command immediately without leaving the docs.
+
+### Hands-On Evidence
+
+To prove this isn't just theory, I have personally tested every command, SDK call, and error state documented in this sequence.
+- **Colab Notebook:** A runnable Jupyter notebook containing all tests is linked in the sidebar.
+- **Postman Collection:** A complete collection with environment variables and test scripts is provided.
+- **Screenshots:** All terminal outputs, including error states (401, 422, 429) and streaming responses, are from my local environment.
+
+Let's dive into the proposed sequence.

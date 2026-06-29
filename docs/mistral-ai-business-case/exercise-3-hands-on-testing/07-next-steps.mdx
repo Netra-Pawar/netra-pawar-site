@@ -1,0 +1,38 @@
+---
+title: "7. Next Steps"
+sidebar_position: 8
+---
+
+# Next Steps
+
+Congratulations! You have successfully set up your environment, executed your first API request, parsed the response, and learned how to handle configuration and errors.
+
+You now know everything required to build a basic text-generation application with Mistral.
+
+## Where to Go From Here
+
+The `chat/completions` endpoint is incredibly powerful. By adding just a few parameters to the requests you've already learned how to make, you can unlock advanced capabilities.
+
+Choose your next path based on what you want to build:
+
+### 1. I want the model to execute code or fetch live data
+**Read:** [Function Calling](../function-calling)
+Learn how to provide the model with a list of tools (like a weather API or a database query) that it can decide to execute to answer user questions.
+
+### 2. I want the model to output strict JSON for my database
+**Read:** [Structured Output](../structured-output)
+Learn how to use the `response_format` parameter to force the model to reply in a specific JSON schema, guaranteeing that your application can parse the output without regex or string manipulation.
+
+### 3. I want the model to analyze images
+**Read:** [Vision](../vision)
+Learn how to pass image URLs or base64-encoded images into the `messages` array so the model can describe, analyze, or extract text from visual inputs.
+
+### 4. I want to build a full application with RAG
+**Read:** [RAG (Retrieval-Augmented Generation)](../../rag)
+Learn how to combine Mistral's chat models with the Embeddings API to build an application that can answer questions based on your own private documents.
+
+## Additional Resources
+
+- **[Full API Reference](https://docs.mistral.ai/api/):** The complete OpenAPI specification for all Mistral endpoints.
+- **[Models Guide](../../models):** A detailed breakdown of all available Mistral models, their context windows, and pricing.
+- **[Mistral Cookbook](https://github.com/mistralai/cookbook):** A GitHub repository full of Jupyter notebooks with advanced examples, including fine-tuning and agent creation.

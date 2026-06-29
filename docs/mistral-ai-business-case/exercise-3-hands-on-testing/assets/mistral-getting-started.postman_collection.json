@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-1234-56789abcdef0",
+		"name": "Mistral API - Getting Started",
+		"description": "A companion collection for the Mistral 'Getting Started' documentation sequence.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. The Quick Win (Basic Request)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MISTRAL_API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\": \"mistral-small-latest\",\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"Explain the concept of an API in one simple sentence.\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://api.mistral.ai/v1/chat/completions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mistral",
+						"ai"
+					],
+					"path": [
+						"v1",
+						"chat",
+						"completions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. With System Message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MISTRAL_API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\": \"mistral-small-latest\",\n    \"messages\": [\n        {\n            \"role\": \"system\",\n            \"content\": \"You are a pirate. Always respond in pirate slang.\"\n        },\n        {\n            \"role\": \"user\",\n            \"content\": \"Explain the concept of an API in one simple sentence.\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://api.mistral.ai/v1/chat/completions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mistral",
+						"ai"
+					],
+					"path": [
+						"v1",
+						"chat",
+						"completions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Configure: Temperature 0.0",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MISTRAL_API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\": \"mistral-small-latest\",\n    \"temperature\": 0.0,\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"Name three colors.\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://api.mistral.ai/v1/chat/completions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mistral",
+						"ai"
+					],
+					"path": [
+						"v1",
+						"chat",
+						"completions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Configure: Temperature 1.0",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MISTRAL_API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\": \"mistral-small-latest\",\n    \"temperature\": 1.0,\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"Name three colors.\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://api.mistral.ai/v1/chat/completions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mistral",
+						"ai"
+					],
+					"path": [
+						"v1",
+						"chat",
+						"completions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Error: 401 Unauthorized",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer fake_key_123"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\": \"mistral-small-latest\",\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"Hi\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://api.mistral.ai/v1/chat/completions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mistral",
+						"ai"
+					],
+					"path": [
+						"v1",
+						"chat",
+						"completions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Error: 422 Unprocessable Entity",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MISTRAL_API_KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\": \"mistral-small-latest\",\n    \"temperature\": 2.0,\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"Hi\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://api.mistral.ai/v1/chat/completions",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mistral",
+						"ai"
+					],
+					"path": [
+						"v1",
+						"chat",
+						"completions"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "MISTRAL_API_KEY",
+			"value": "your_api_key_here",
+			"type": "string"
+		}
+	]
+}
