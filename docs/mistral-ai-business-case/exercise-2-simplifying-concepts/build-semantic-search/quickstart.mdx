@@ -22,9 +22,19 @@ You have three documentation chunks and a user question. The goal is to find whi
 ```python
 import os
 import numpy as np
-from mistralai import Mistral
+from mistralai.client import Mistral
 
-client = Mistral(api_key=os.environ["MISTRAL_API_KEY"])
+# Set API key directly (for testing only)
+os.environ["MISTRAL_API_KEY"] = "RQkeM1Ihk5Bvyg4JkuKaYIq62h20dPN2"
+
+# Get API key from environment variable
+api_key = os.environ.get("MISTRAL_API_KEY")
+
+if not api_key:
+    raise ValueError("MISTRAL_API_KEY environment variable not set")
+
+client = Mistral(api_key=api_key)
+print("✓ Client initialized")
 
 # Your documentation chunks
 documents = [
@@ -118,7 +128,7 @@ console.log(documents[bestIndex]);
 Your output will look similar to:
 
 ```
-Best match (score: 0.8XXX):
+Best match (score: 0.7XXX): 0.7921 
 Credential renewal procedure: create a new API key, update your
 application configuration, verify traffic, then revoke the old key.
 ```
