@@ -1,6 +1,10 @@
 {
-  "label": "Version B: Production Retrieval",
+  "label": "Exercise 2: Simplifying Concepts",
   "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "mistral-ai-business-case/exercise-2-simplifying-concepts/index"
+  },
   "collapsible": true,
   "collapsed": false
 }
