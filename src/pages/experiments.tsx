@@ -23,19 +23,40 @@ export default function Experiments(): React.ReactNode {
 
         <section className="np-experiments-grid" aria-label="Experiments">
           <article className="np-experiment-card np-experiment-card-featured">
+            <p className="np-panel-label">Business case</p>
+
+            <h2>Mistral AI Business Case</h2>
+
+            <p>
+              A technical writing assessment package exploring developer education,
+              hands-on testing, retrieval quality, diagnostics, and production-ready
+              documentation patterns for Mistral AI.
+            </p>
+
+            <a href="/docs/mistral-ai-business-case">
+              Read the business case →
+            </a>
+          </article>
+
+          <article className="np-experiment-card np-experiment-card-featured">
             <p className="np-panel-label">First experiment</p>
+
             <h2>What drift can an API contract catch?</h2>
+
             <p>
               A small hands-on project using an OpenAPI file, a quickstart
               example, and automated checks to understand where API contracts
               help — and where they do not.
             </p>
+
             <a href="/docs/intro">Read the experiment brief →</a>
           </article>
 
           <article className="np-experiment-card">
             <p className="np-panel-label">Coming next</p>
+
             <h2>When docs look fine but retrieval fails</h2>
+
             <p>
               An exploration of how page structure, chunking, headings, and
               learning objectives affect whether AI assistants can retrieve the
@@ -45,7 +66,9 @@ export default function Experiments(): React.ReactNode {
 
           <article className="np-experiment-card">
             <p className="np-panel-label">Coming next</p>
+
             <h2>What should documentation teams measure?</h2>
+
             <p>
               A lightweight analytics model for moving beyond page views toward
               signals like task completion, code-copy events, feedback quality,

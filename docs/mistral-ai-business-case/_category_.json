@@ -3,6 +3,8 @@
   "position": 1,
   "link": {
     "type": "generated-index",
-    "description": "Technical writing assessment for the Senior Documentation Engineer / Developer Advocate role at Mistral AI."
+    "title": "Mistral AI Business Case",
+    "description": "Technical writing assessment for the Lead Documentation Engineer / Developer Advocate role at Mistral AI.",
+    "slug": "/mistral-ai-business-case"
   }
 }
