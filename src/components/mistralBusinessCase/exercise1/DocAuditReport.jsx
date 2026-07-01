@@ -4,6 +4,26 @@ import { useState } from "react";
 
 const FINDINGS = [
   {
+    id: "F-09",
+    title: "The first-API-request sample fails when you run it",
+    severity: "Critical",
+    category: "Acquisition",
+    evidence:
+      "Verified by execution, not just by fetch — I ran the quickstart at /getting-started/quickstarts/developer/first-api-request exactly as printed, and its import raised an error. The form that actually worked is the one already shown on the SDKs page. Whichever import is canonically correct, the two pages a first-time developer meets first contradict each other, and the one with the failing sample is the proof-of-life moment where an evaluator decides whether Mistral works at all.",
+    recommendation:
+      "Make the quickstart the single canonical, executable source of truth and run it in CI (a doctest that actually executes), so a sample can never ship broken again — then reconcile the SDKs page to the same import. On the proof-of-life page, a sample that doesn't run is worse than no sample: it converts an interested evaluator into a closed tab.",
+  },
+  {
+    id: "F-10",
+    title: "First-request page assumes a developer, blocking the Vibe-coder persona",
+    severity: "High",
+    category: "Onboarding",
+    evidence:
+      "The page opens straight into import code with no environment setup — no Python version, no virtualenv, no `pip install mistralai`, no guidance on where the API key should live. A career developer fills these gaps from habit. A Vibe-coder — the AI-first builder Mistral's own products create — who lands here from search cannot proceed, and nothing on the page tells them what is missing.",
+    recommendation:
+      "Add a 'Step 0: set up your environment' (Python version, venv, install, API-key handling) — this is exactly where the currently-standalone 'Activate Studio & generate key' page (D-10) belongs. Ship a downloadable, venv-ready scaffold zip with a .env template so the reader goes from zero to a running call without assembling the setup themselves.",
+  },
+  {
     id: "F-01",
     title: "Models Overview page is a decision blocker",
     severity: "High",
@@ -85,10 +105,11 @@ const FINDINGS = [
   },
 ];
 
-const SEVERITIES = ["All", "High", "Medium", "Low"];
+const SEVERITIES = ["All", "Critical", "High", "Medium", "Low"];
 const CATEGORIES = [
   "All",
   "Acquisition",
+  "Onboarding",
   "Enterprise Readiness",
   "Support Deflection",
   "Agent Readiness",
@@ -276,6 +297,13 @@ const AI_CHECKLIST = [
 
 const ROADMAP = [
   {
+    week: "Day 1",
+    theme: "Stop the bleeding: the first-run is broken",
+    items: [
+      { id: "R-0", task: "Fix the first-API-request sample so it runs as printed; reconcile to one import with the SDKs page; add a CI doctest so it can never ship broken again", finding: "F-09" },
+    ],
+  },
+  {
     week: "Week 1",
     theme: "Credibility: fast, visible fixes",
     items: [
@@ -283,6 +311,7 @@ const ROADMAP = [
       { id: "R-2", task: "Fix Devstral 2 appearing in both Featured Models and the Deprecated table", finding: "F-03" },
       { id: "R-3", task: "Add cross-link to migration guide from the Models Overview page", finding: "F-04" },
       { id: "R-4", task: "Add cross-link to retry sample from the Production section", finding: "F-04" },
+      { id: "R-4b", task: "Add 'Step 0' environment setup to the first-request quickstart + downloadable venv-ready scaffold zip", finding: "F-10" },
     ],
   },
   {
@@ -308,6 +337,7 @@ const ROADMAP = [
 // ─── Shared style tokens ─────────────────────────────────────────────────────
 
 const SEVERITY_STYLE = {
+  Critical: { bg: "#fecaca", text: "#7f1d1d", border: "#ef4444" },
   High:   { bg: "#fee2e2", text: "#991b1b", border: "#fca5a5" },
   Medium: { bg: "#fef3c7", text: "#92400e", border: "#fcd34d" },
   Low:    { bg: "#f3f4f6", text: "#4b5563", border: "#d1d5db" },
@@ -315,6 +345,7 @@ const SEVERITY_STYLE = {
 
 const CATEGORY_COLOR = {
   Acquisition:          "#7c3aed",
+  Onboarding:           "#0d9488",
   "Enterprise Readiness": "#0369a1",
   "Support Deflection": "#15803d",
   "Agent Readiness":    "#b45309",

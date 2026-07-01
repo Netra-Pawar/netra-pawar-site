@@ -1,7 +1,7 @@
 ---
 title: "Docs for Humans and Agents"
 sidebar_label: "Docs for Humans and Agents"
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Docs for Humans and Agents
@@ -15,7 +15,7 @@ if you want a portable version later.*
 
 ---
 
-## Executive summary
+## 1. Executive summary
 
 Documentation consumption has split into two audiences that used to be one: people
 reading pages in a browser, and AI systems — coding agents, RAG pipelines, and LLM-based
@@ -231,78 +231,7 @@ to cite it without sounding like "let's copy Stripe."
 
 ---
 
-## 8. Demo deliverable proposal
-
-**What the user sees:** A documentation page — I'd use a real Mistral Studio quickstart as
-the template, rebuilt as a static demo — with a compact action bar at the top of the
-content area: `View as Markdown` · `Copy for LLM` · `Ask about this page` · `Install tools`.
-Clicking each does something real and immediate; nothing requires a loading spinner longer
-than a local render.
-
-**What's simulated, and how I'd label it:** Only "Ask about this page." The UI would show
-a small, honest badge — "Simulated for this demo — grounded to this page's content" — next
-to the assistant panel, not hidden in a tooltip. When the user asks one of a handful of
-pre-seeded realistic questions (or types free text, matched loosely against the hardcoded
-set with a graceful fallback), the assistant answers using only that page's actual content
-and links back to the specific section it drew from.
-
-**What's hardcoded:** The Q&A pairs for "Ask about this page," and the `llms.txt` content
-for the demo site (a real, correctly-formatted file, just covering a handful of demo pages
-rather than the full site).
-
-**What's real, not simulated:** The Markdown rendering, the clipboard copy, and the
-`llms.txt` file itself — these have no reason to be faked, and faking them would undercut
-the credibility of the parts that are genuinely simulated.
-
-**What makes this look interview-ready rather than a toy:** Restraint. One page, done
-convincingly, with an honest simulation label, reads as senior judgment. Five pages with a
-half-working chatbot reads as a rushed feature demo. I'd rather present one page and be
-asked "can you show me another" than present five and have the panel find the seam.
-
----
-
-## 9. Suggested UX flow
-
-1. Reader lands on a docs page — say, the Chat Completions reference.
-2. The action bar is visible immediately above the content, not hidden behind a menu —
-   these are first-class actions, not settings.
-3. Reader clicks **Ask about this page** and asks, "does this support streaming?"
-4. The assistant answers using only this page's content, cites the specific section
-   (`## Streaming`, in this example), and offers one concrete next step — a link to the
-   streaming code sample already on the page, not a generic "see the docs" deflection.
-5. Reader clicks **Copy for LLM** to paste the page into their own coding-agent context
-   before asking it to implement streaming in their own codebase.
-6. If the reader is a coding agent rather than a human, none of steps 2–5 happen — it
-   fetches `/llms.txt`, decides this page is relevant, and requests it directly as Markdown
-   via **View as Markdown**'s underlying route. The UX flow for the agent reader is the
-   same content, a different path, and that's the point: one content source, two valid
-   ways in.
-
----
-
-## 10. Content model
-
-For this to work well — not just for the demo, but as a real content architecture — every
-page needs a small, consistent frontmatter contract:
-
-- `title`, `product_area` (Vibe / Studio / Admin / Deploy), `user_intent` (the one-sentence
-  job this page does)
-- `prerequisites` (linked, not prose — a list an agent can walk)
-- `related_tasks` (explicit "what comes next," which doubles as the human-facing "next step"
-  and the agent-facing graph edge)
-- `code_snippet_languages` (which of Python/TS/curl exist on this page — lets an agent or
-  the llms.txt generator know without parsing the body)
-- `last_updated` (both a trust signal for humans and a freshness signal for any RAG index)
-- `llm_summary` (one or two sentences, written for a model context window, not for SEO —
-  this is the string that ends up in `llms.txt` next to this page's link)
-
-This is a small, disciplined schema, deliberately — the temptation with "structured
-metadata for AI" is to over-specify. A frontmatter block a writer actually fills in
-consistently beats a comprehensive one that's half-empty by page fifty.
-
----
-
-## 11. IA placement
+## 8. IA placement
 
 - **Page-level, not global.** The action bar belongs in the content template, rendered
   conditionally by page type — the documentation architect's point from the council notes.
@@ -321,32 +250,7 @@ consistently beats a comprehensive one that's half-empty by page fifty.
 
 ---
 
-## 12. Implementation plan for a dummy/simulation
-
-A practical build that avoids standing up a real RAG system:
-
-1. **Content layer:** pick 2–3 real docs.mistral.ai pages (Chat Completions, a Studio
-   quickstart, one Vibe Work page) and store their actual Markdown source as the demo's
-   data.
-2. **View as Markdown / Copy for LLM:** pure functions over that stored Markdown — no
-   backend needed beyond serving static content and a clipboard call.
-3. **`llms.txt`:** hand-write one covering just those 2–3 pages, following the format
-   confirmed across Anthropic, Stripe, and Vercel's real files — H1, blockquote summary,
-   H2-grouped links with one-line descriptions.
-4. **Ask about this page:** a small lookup table per page — 4–6 question/answer pairs
-   written to sound like real developer questions, each answer citing a real heading from
-   that page's actual content, plus a fallback response for anything that doesn't match
-   ("I can only answer questions about this page in this demo — try one of the suggested
-   questions above") that's honest rather than pretending to understand everything.
-5. **Install tools:** a single hardcoded, page-relevant command block with a copy button —
-   the SDK install line for whichever page is showing.
-
-No vector database, no live model call, no backend beyond static hosting. Every piece
-above is buildable as a single-file interactive artifact.
-
----
-
-## 13. Risks and caveats
+## 9. Risks and caveats
 
 - **Hallucination.** Mitigated entirely for this deliverable by *not* calling a live model
   for the assistant — the simulation only ever returns pre-written, page-grounded answers.
@@ -372,7 +276,7 @@ above is buildable as a single-file interactive artifact.
 
 ---
 
-## 14. Final recommendation
+## 10. Final recommendation
 
 Ship the deterministic, zero-hallucination-risk layer first — `llms.txt`, View as Markdown,
 Copy for LLM, page-contextual Install actions — because it's cheap, it's honest, it serves
@@ -383,37 +287,3 @@ simulated if this is a portfolio or early-stage pitch. Do not lead with the assi
 with the reframe that most of "AI-ready docs" isn't an AI feature at all, it's a legibility
 and structure problem that a documentation team is uniquely positioned to own, and the one
 generative piece on top should be scoped like a feature, not sold like a trend.
-
----
-
-## 15. Optional copy
-
-**Short version:**
-> docs.mistral.ai is built for one reader — a human in a browser. Increasingly, the second
-> reader is a coding agent retrieving and acting on the same content. This proposal makes
-> the docs work for both: clean Markdown on demand, a curated agent-facing index, and a
-> page-scoped assistant — most of it shippable without a single model call.
-
-**Strategic version:**
-> Documentation consumption has split into two audiences docs.mistral.ai currently serves
-> unevenly: human readers, and the AI coding agents and retrieval systems that now
-> routinely fetch documentation on a developer's behalf. This is not a speculative trend —
-> Cursor, Claude Code, and Windsurf already look for machine-readable documentation
-> conventions when pointed at a site, and Mistral's own models are early, if imperfect,
-> consumers of the same conventions. The recommendation is to treat content legibility for
-> agents as a first-class documentation requirement alongside human readability: expose
-> existing content as clean Markdown, publish a curated `llms.txt`, and scope exactly one
-> generative feature — a page-grounded assistant — narrowly enough to ship without
-> overclaiming what it can do. Most of the value here is a structure and exposure problem,
-> not an AI-capability problem, which means most of it is cheap, fast, and low-risk to ship.
-
-**Portfolio/demo version:**
-> I built this after noticing that docs.mistral.ai — built by a company whose own product
-> line is AI agents — doesn't yet serve AI agents as a reader. I audited Stripe's
-> implementation directly rather than taking it at face value, verified the actual 2026
-> adoption data on `llms.txt` rather than assuming it's a proven SEO play, and scoped the
-> demo around a deliberate split: ship the deterministic pieces for real, simulate the one
-> generative piece honestly, and label the difference clearly. The strategic case isn't
-> "add a chatbot" — it's that most of what makes documentation AI-ready doesn't require AI
-> at all, and the discipline to tell those two things apart is, I'd argue, exactly the
-> judgment a senior documentation hire should bring to a proposal like this.

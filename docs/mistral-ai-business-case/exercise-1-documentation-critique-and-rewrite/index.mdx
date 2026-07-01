@@ -1,115 +1,326 @@
 ---
-title: "Documentation Critique & Rewrite"
-sidebar_label: "Audit & IA Proposal"
+title: "Design Rationale: Documentation Critique and Rewrite"
+sidebar_label: "Design Rationale"
 sidebar_position: 1
 ---
 
 import {
   AuditThesis,
   FindingsExplorer,
-  BeforeAfterExplorer,
+  AIReadinessChecklist,
   Roadmap,
 } from "@site/src/components/mistralBusinessCase/exercise1/DocAuditReport";
 
-# Exercise 1: Documentation Critique & Rewrite
+This page is the design rationale — it walks through how I actually worked the problem, in the order I worked it, with the full research inline rather than filed in an appendix. The finished artifacts it produces live on **[The Redesigned Portal](./proposed-portal)** (the full annotated information architecture) and **[Docs for Humans and Agents](./docs-for-humans-and-agents)** (the AI-reader recommendation, benchmarked against Stripe).
 
-I read every navigable page on docs.mistral.ai as three different people: a developer evaluating whether to switch from OpenAI, a Solutions Engineer answering a bank's security team live on a call, and a coding agent fetching documentation to generate code. The most significant finding isn't about content that's missing — it's about content that exists and isn't findable by the reader who needs it.
+## The verdict — docs.mistral.ai scores 4/10
+
+The panel asked for a number, so here it is: **4 out of 10.** But the single figure is the least useful thing on this page, so the rest of this section is how it's built and where it misleads.
+
+The honest one-line version: **the docs are a strong B for the developer who has already committed and is heads-down building — and a D at the three moments that decide whether anyone commits at all: the evaluator's first API call, the enterprise buyer's security review, and every request from the AI agent Mistral's own products now send.**
+
+### First, the scale — what a 0 and a 10 actually mean
+
+A score is meaningless without anchors, so I defined the bands *before* scoring anything against them. This is a behaviourally-anchored scale adapted from **ISO/IEC 82079-1**'s documentation-quality characteristics (completeness, correctness, findability) and **Nielsen's severity-rating** logic:
+
+| Band | What it means, concretely |
+|---|---|
+| **0–1 · Absent / harmful** | The task is impossible from the docs, or following them faithfully breaks something |
+| **2–3 · Present but broken** | Content exists but fails on use — code that won't run, contradictions, dead ends. Worse than a blank page, because the reader trusted it |
+| **4–5 · Exists, poorly served** | Content exists but is misfiled, inconsistent, or the reader must assemble it themselves. Experts cope; the target persona often can't |
+| **6–7 · Adequate** | The right reader completes the task, with friction. Findable and accurate enough, but not shaped for them |
+| **8–9 · Strong** | Served directly for the intended reader — findable, accurate, correctly scoped, low friction |
+| **10 · Exemplary** | Best-in-class; the implementation other docs teams cite (the Stripe / Twilio tier) |
+
+### The six lenses and the scores
+
+Six lenses, each grounded in an established framework and weighted by how much it bears on Mistral's *actual business* — not evenly, because findability and a working first-run matter more than prose polish. Each score is a band from the scale above, with the specific finding as its evidence:
+
+| Lens *(grounded in)* | Weight | Score | Why that score — band + evidence | Moves to 8+ |
+|---|---|---|---|---|
+| **Findability** — Information Foraging Theory (Pirolli & Card, 1999) | 20% | **4** | *Exists, poorly served:* migration guide, error reference, rate limits all buried (F-04/05); the 45-row table blocks the model decision (F-01); redundant containers (F-08) | Surface the buried pages; cut the containers |
+| **Task coverage** — Diátaxis + Jobs-to-be-Done | 20% | **5** | *Poorly served → adequate:* strong for the Builder and Vibe user; the Operator and Buyer workflows have no home | The new Deploy + Production sections |
+| **Correctness & consistency** — ISO/IEC 82079-1; executable-doc testing | 20% | **4** | Reference is a 6, but the proof-of-life sample is a 2: quickstart fails on run (F-09); Devstral 2 both current *and* deprecated (F-03); duplicate metas (O-10) | CI-tested executable samples; resolve the contradictions |
+| **Enterprise readiness** — the Buyer + SE workflow set | 15% | **3** | *Absent:* no compliance, security-architecture, DPA, or buyer-facing deployment page; SEs improvise from blogs (F-07) | The four new Deploy pages |
+| **Agent readiness** — the `llms.txt` ecosystem; canonical naming | 10% | **3** | No `llms.txt`, Markdown export, or Copy-for-LLM; no structured registry (F-06). Partial credit: the OpenAPI reference and `/robots` policy exist | `llms.txt` + Markdown + FAQs + registry |
+| **First-run / onboarding** — time-to-first-success (DX metric) | 15% | **4** | *Broken on the one page that matters:* the first-API-request sample fails on run and assumes a developer (F-09, F-10) | Fix + CI-test the sample; add Step 0 + scaffold |
+
+**Weighted composite: 3.95 → 4/10.** Unweighted mean: ≈3.8. If you score *only* the heads-down developer's reading experience once they're past setup, it lands around **6.5**. The distance between those two numbers is the entire finding.
+
+### Why the average hides the real story
+
+A 4 reads as "mediocre across the board." It isn't. The docs are **bimodal** — genuinely good (6–7) at serving the developer who has already decided to use Mistral and is building, and collapsing to a 3 at exactly three points:
+
+1. **The evaluator's first five minutes** — a quickstart that doesn't run (F-09).
+2. **The enterprise buyer's security review** — content that simply isn't there (F-07).
+3. **The AI agent** — the reader Mistral's own products create, and the one the docs serve worst (F-06).
+
+Every one of those is a *decision moment or a strategic bet*, not a convenience. That is why the redesign concentrates its effort there and deliberately leaves the already-good developer sections almost untouched — the score tells you exactly where the work belongs.
+
+### What I'd change — the five that carry the score
+
+1. **Fix the broken first-run before anything else** ([F-09](./proposed-portal), Day 1). A proof-of-life page that fails converts interest into a closed tab; no restructure outranks it.
+2. **Give the Enterprise Buyer a home** — the new [Deploy section](./proposed-portal): compliance, security architecture, deployment options (F-07).
+3. **Surface what already exists** — migration guide, error reference, rate limits are written and misfiled; this is relocation, not authorship (F-04, F-05).
+4. **Unblock the model decision** — move the 45-row table off the Overview and fix the Devstral contradiction (F-01, F-03).
+5. **Make the docs legible to agents** — `llms.txt`, Markdown export, category FAQs ([F-06](./docs-for-humans-and-agents)), because Mistral's own Vibe Code is a reader.
+
+The rest of this page is how I got to each of these, in the order I actually worked.
+
+---
+
+## How I read the brief
+
+The exercise says "critique and rewrite." A critique that only lists what's wrong is a complaint; a rewrite that isn't grounded in a critique is a redecoration. The deliverable that actually demonstrates skill is the chain between them — a diagnosis specific enough that the fix is obvious, and a fix traceable back to a diagnosis. So the evaluators are really testing four things:
+
+1. Can I read a large, real documentation surface as its actual readers, not as its product team?
+2. Can I tell the difference between content that is *missing* and content that is *there but unreachable* — because they need opposite fixes?
+3. Can I turn that diagnosis into an information architecture, not just a list of complaints?
+4. Can I show judgement — what to cut, what to leave alone, what to build first — rather than rewriting everything to prove I can?
+
+I worked it in the order documentation should always be worked: **readers first, then their jobs, then the content that exists, then the gaps, then the structure.** Never structure first. Reorganising the nav before understanding the reader optimises for the content you already have instead of asking whether it's the content anyone needs. What follows is that sequence, with the working shown.
 
 <AuditThesis>
-  In at least three of the highest-severity findings, the fix already exists somewhere on the site, and nobody connected it to the reader who needs it. A working migration guide from OpenAI sits under <em>Developers → Resources</em>, invisible to the evaluator deciding between Mistral and OpenAI right now. A complete error-handling and retry code sample sits on the same buried page, invisible to the developer debugging a <code>429</code> at 11pm. This is a <strong>findability problem wearing a missing-content costume</strong> — and it matters which one it is, because the wrong diagnosis leads to the wrong fix.
+  The single most important thing I found: in at least three of the highest-severity findings, the fix already exists somewhere on the site, and nobody connected it to the reader who needs it. A working migration guide from OpenAI sits under <em>Developers → Resources</em>, invisible to the evaluator deciding between Mistral and OpenAI right now. A complete error-handling and retry code sample sits on the same buried page, invisible to the developer debugging a <code>429</code> at 11pm. This is a <strong>findability problem wearing a missing-content costume</strong> — and it matters which one it is, because the wrong diagnosis leads to the wrong fix.
 </AuditThesis>
 
-## The restructured IA
+## Stage 1: Audience analysis — who actually reads these docs
 
-Every line below is a decision — a cut, a move, a new page, or a structural change. Pages kept exactly as-is are not listed; the annotation is the argument.
+Most documentation teams segment their audience by role title: developer, admin, enterprise user. Mistral's current docs do this too — the three-product split (Vibe, Studio, Admin) implicitly maps to "individual user," "developer," and "IT administrator." It's a reasonable starting point that misses the dimension that actually determines what someone needs: **journey stage.**
 
-```
-docs.mistral.ai (proposed)
-│
-├── Getting Started                          [SIMPLIFIED — 23 pages → 15]
-│   ├── Platform overview                   [keep]
-│   └── Quickstarts/
-│       ├── Vibe Work (×3)                  [keep]
-│       ├── Vibe Code (×2)                  [keep]
-│       ├── Studio (×3)                     [reduced from 4 — key-activation merged into first step]
-│       ├── Developer (×4)                  [keep; fix sidebar inconsistency across this folder]
-│       ├── Admin (×3)                      [keep]
-│       └── ~~Le Chat (×3)~~               [CUT — duplicate of Vibe Work under a retired product name]
-│
-├── Models                                   [RESTRUCTURED]
-│   ├── Overview                            [REWRITTEN — current 6 models only; no deprecated table]
-│   ├── Decision guide ← NEW               [use case → model → price → API name; one decision, one page]
-│   ├── Migration guide                     [SURFACED from Developers → Resources]
-│   └── Legacy models                       [MOVED from Overview — the 45-row deprecated table, one extra click]
-│
-├── Vibe                                     [UNCHANGED — best-organised section on the site]
-│   ├── Work (×3)
-│   └── Code (×2)
-│
-├── Studio & API                             [CONSOLIDATED — Studio + Developers merged]
-│   ├── ...existing Studio pages...
-│   ├── API Reference
-│   └── SDK clients                         [MOVED from Getting Started dead-link slug]
-│
-├── Deploy                                   [EXPANDED — 3 new pages added]
-│   ├── ...existing deployment pages...
-│   ├── Architecture ← NEW                  [diagrams cleared for customer-facing use; no NDA risk]
-│   ├── Compliance ← NEW                    [real certification dates; data flow diagrams; EU AI Act mapping]
-│   └── Decision guide ← NEW               [starts from customer's constraint, not Mistral's product names]
-│
-├── Production ← NEW SECTION
-│   ├── Model pinning ← NEW                [genuinely new content — only new page in this proposal]
-│   └── Error handling & retry             [SURFACED from Developers → Resources; content already exists]
-│
-└── Admin                                    [MODIFIED]
-    ├── Rate limits                          [keep here; add cross-link from Production]
-    └── ...existing admin pages...
-```
+A developer evaluating whether to use Mistral at all and a developer debugging a Workflow retry failure at 11pm on a Friday share the title "developer" and need completely different documents. The evaluator needs breadth — a model comparison, a price, a quickstart that proves the API works in five minutes. The debugger needs depth and speed — an error code, a cause, a fix they can paste without reading three paragraphs of preamble first. Segmenting by journey stage surfaces readers a role-based taxonomy collapses together, and it exposes an emotional spectrum that most documentation strategies ignore entirely.
 
-**What this costs:** one extra click to reach deprecated model history, and one extra click for any user who had Le Chat quickstarts bookmarked. That is the complete list of things a current reader loses.
+Reading every navigable page as its different visitors, I settled on **nine segments**:
 
-**What is genuinely new writing** (as opposed to relocation and cross-linking): the Models Decision Guide, three Deploy pages, and one Production page. Four pages. The rest is architecture, not authorship.
+| # | Segment | Arrives via | Journey stage | What they need | Emotional state |
+|---|---------|-------------|---------------|----------------|-----------------|
+| 1 | Competitive Evaluator | Search, HN, comparison article | Forming an opinion in ≤90 min | Model comparison, price, proof-of-life quickstart | Sceptical, comparing tabs |
+| 2 | Self-Serve Builder | Console → docs, SDK README | First integration | Working code, copy-paste samples | Impatient — wants a call in &lt;5 min |
+| 3 | Vibe Work User | In-app help, product onboarding | Using, not building | Screenshot walkthroughs, no code | Curious, confused by the Vibe/Le Chat rename |
+| 4 | Vibe Code Developer | GitHub README, CLI `--help` | Agent-driven development | CLI setup, scaffolding, context control | Experimental |
+| 5 | **Production Operator** | Search on an error code, bookmark | Something broke, or needs scaling | Error codes, rate limits, retries — no preamble | Frustrated, late at night |
+| 6 | IT / Security Admin | Invited by a champion, procurement | Governing the org | SSO, workspaces, audit logs | Methodical, checkbox-driven |
+| 7 | **Enterprise Buyer** | Sales-shared link, "Mistral GDPR" | Evaluating at org level | Compliance, security, DPA, deployment options | Risk-averse, needs confidence signals |
+| 8 | Solutions Engineer | Internal wiki, live customer call | Acting for a customer, live | Architecture diagrams, quotable compliance statements | Under pressure, on a call now |
+| 9 | **AI Agent / Machine Reader** | Programmatic fetch, RAG ingestion | Continuous retrieval | Structured data, canonical names, self-contained samples | N/A — but bad retrieval reaches a human |
 
-The top nav this maps to:
+I deliberately separated segments a role-based model fuses — the Evaluator and the Builder are both "developers" (one deciding, one building), and the Buyer and the SE both want "deployment" (one in prose, one in diagrams). Three of these nine (bolded) turned out to be almost entirely unserved by the current docs — the finding that drove the biggest structural move in the redesign.
 
-```
-Getting Started  |  Models  |  Vibe  |  Studio & API  |  Deploy  |  Production  |  Admin
-```
+### The same doc, two readers: developer vs Solutions Engineer
 
-**Products** is cut — a container page that adds a click without adding understanding, since the homepage cards already link to Vibe and Studio. **Developers** is merged into Studio & API — one concept, one location.
+The differentiation above stays abstract until you apply it to a *single page*. Take the one question both readers arrive with — *"which model should I use, and how do I deploy it?"* — and hold the three axes that actually move (**depth, tone, assumed knowledge**) against the two segments the table already defines, rows 2 and 8:
 
-**The Models cut I'd defend hardest:** I would remove the 45-row Legacy/Deprecated table from the main Models Overview entirely — not shrink it, move it to its own page linked from a footer note. That table currently buries the six models that matter under 45 dead entries. One row is a real content bug, not a design choice: Devstral 2 appears simultaneously in the "Featured Models" carousel and the Legacy/Deprecated table with the identical version `25.12`. Confirmed via two direct fetches. A reader scanning the legacy table for migration guidance could reasonably conclude that a model Mistral is actively recommending is deprecated.
+| Axis | Self-Serve Builder *(testing the API)* | Solutions Engineer *(deploying for a customer)* |
+|---|---|---|
+| **Depth** | One runnable happy-path: install → call → response. Options deferred until asked for. | Full topology — data flow, network boundaries, the *why* — enough to survive a CISO's next question. |
+| **Tone** | Terse, imperative: "run this." No narrative. | Authoritative and quotable — sentences they can repeat verbatim to a security team. |
+| **Assumed knowledge** | Python and a package manager. *Not* cloud architecture or compliance. | Deployment and security literacy, plus the customer's constraint. *Not* "what is an API." |
+| **Load-bearing format** | A copy-paste code block in one language. | An architecture diagram they can screenshot into a slide without NDA risk. |
+| **What "wrong" costs** | A closed tab. | A six-figure deal stalls in procurement. |
+| **Done =** | A `200` response in under five minutes. | The customer's security team says "yes" on the call. |
 
-**Deploy and Production are mostly relocation, not new writing:** the error-handling guide, rate limits reference, and migration guide from OpenAI all already exist on the site — filed under the wrong top-level concept. The actual new writing is three pages: compliance (real certification dates, EU AI Act mapping), architecture diagrams, and model pinning. The Vibe section is unchanged — it is the best-organised part of the current site, and a redesign that touches what already works signals the reviewer didn't evaluate carefully.
+Same underlying facts — same models, same deployment options, same pricing — transformed for each reader. What changes is *which facts are load-bearing* and *what happens when they're wrong*. This is the rubric's own test — "show how the doc would actually change for a self-serve developer versus a Solutions Engineer" — answered *from* the segment and workflow analysis rather than asserted alongside it, and [The Redesigned Portal renders it as two actual pages](./proposed-portal) so you can read the transformation, not just its specification.
 
----
+I also mapped the **edge cases that cut across every segment**, because they're where documentation quietly fails: the *frustrated user* whose call just returned a `429` and who experiences every conceptual introduction as friction; the *migrator* from OpenAI who doesn't need to learn what an API is, only what maps to what; the *returning user* whose bookmarks broke when Le Chat became Vibe; and the *Mistral CS agent* who, when they can't find an answer in the docs, writes a custom reply — meaning Mistral pays for documentation it never wrote.
 
-## How the docs change by reader
+## Stage 2: Workflow mapping — the jobs that bring them here
 
-The same underlying facts — the same models, the same deployment options, the same compliance status — need to be presented completely differently depending on who's asking. The test for whether docs truly understand their audience: take one real question and answer it for two different readers. If the two answers look the same with the nouns swapped, the docs don't have an audience model — they have a find-and-replace.
+Segments are nouns; workflows are verbs. The rule I held myself to: **every section in the proposed nav must map to at least one high-priority workflow, and any section that maps to none is either missing its audience or is dead weight.** For each segment I mapped the specific task, the question behind it, what success looks like, and — the column most docs skip — how fast the reader needs the answer.
 
-<BeforeAfterExplorer />
+Two segments made the case for the entire restructure. The **Production Operator** is the most underserved reader on the site:
 
-The full nine-segment audience map — entry point, journey stage, emotional state, per-segment workflow tables — is in the [Research Appendix](./research-appendix/audience-and-workflows).
+| Workflow | Question | Speed needed | Served today? |
+|----------|----------|--------------|---------------|
+| Error diagnosis | "What does this code mean and how do I fix it?" | &lt; 30 sec | Content exists, buried under Resources |
+| Rate limits | "What are my limits? How do I raise them?" | &lt; 1 min | Exists, filed under Admin |
+| Retry strategy | "How do I handle 429s in production?" | &lt; 5 min | Sample exists, same buried page |
+| Cost investigation | "Why is my bill higher than expected?" | &lt; 5 min | Absent |
+| Latency debugging | "Why are my responses slow?" | &lt; 5 min | Absent |
+| Deprecation response | "A model I depend on is going away — now what?" | &lt; 10 min | Absent |
 
----
+Every one of these questions becomes a support ticket today, because the reader has no section to look in. The **Enterprise Buyer** is the second most underserved, and the one where the gap directly stalls revenue:
 
-## What's broken — the evidence
+| Workflow | Question | Success = | Served today? |
+|----------|----------|-----------|---------------|
+| Data residency | "Does our data leave our infrastructure?" | Direct, linkable answer | One buried sentence |
+| Regulatory compliance | "SOC 2? GDPR? EU AI Act?" | A page with certs, dates, scope | Absent |
+| Security architecture | "Encryption at rest, in transit?" | A security overview in prose | Absent |
+| Deployment options | "Can we run fully on-prem?" | Cloud/hybrid/self-hosted comparison | Model-focused, not buyer-focused |
+| Data processing agreement | "Where is the DPA?" | A link, ideally with a summary | Absent from docs |
 
-Eight findings, each grounded in a specific page or behaviour confirmed by direct fetch — not inferred from a screenshot or assumed from a competitor's docs. An SE lead might filter to Enterprise Readiness; a support lead to Support Deflection.
+Today the blog post announcing OCR 4 explains data sovereignty better than anything in the docs — which means every enterprise deal requires a Solutions Engineer to reassemble compliance answers by hand, slowing deal velocity and producing a different answer for each account.
+
+The remaining seven segments range from well-served to thin. The **Evaluator** and **Self-Serve Builder** are close — the quickstarts are strong, but the model *decision* guide isn't use-case-first and there's no "going to production" path. The **Vibe Work user**, **Vibe Code developer**, and **IT / Security Admin** are the best-served on the site, with only narrow gaps (a Le Chat migration map, context-management scoping, IdP-specific SSO). The two that hurt are the **Solutions Engineer** — no diagrams or solution blueprints to pull up on a live call — and the **AI Agent**, handed prose-heavy model cards with no structured registry to extract a model string from.
+
+Mapping the workflows also surfaced the **emotional spectrum** as an architectural constraint, not a writing-tone footnote. The curious Evaluator welcomes conceptual framing; the frustrated Operator at 11pm experiences that same framing as a wall between them and the fix. A structure that serves both has to *separate orientation content from reference content* — which the current docs don't, so the operator scrolls past "Workflows let you run multi-step AI pipelines that survive crashes" to reach an error table that doesn't yet exist.
+
+Ranked by likely support-ticket volume, these are the seven workflows the current docs serve worst — and therefore where the redesign starts:
+
+1. Error diagnosis · 2. Data residency / compliance · 3. Deployment architecture · 4. Rate limits · 5. Model selection · 6. Model migration / deprecation · 7. Going to production.
+
+## Stage 3: Content inventory — what's actually there
+
+Only after the readers and their jobs were locked did I look at the content, because the inventory's job is to answer "does the content each workflow needs exist, and if so, where?" — a question you can't ask before you know the workflows. I inventoried **~125–135 pages across six top-level sections plus the API reference**, and I held every entry to a verification standard: *confirmed by direct fetch* (usually more than once), *confirmed via search index*, or *structure-known-but-URL-unconfirmed* — stated plainly rather than guessed. A guessed URL isn't information.
+
+The inventory grounded the whole critique in real numbers instead of impressions. The six current models and their confirmed pricing, for instance, matter because they're what the rewritten Models Overview should show *instead* of a 45-row deprecated table:
+
+| Model | Context | Input / Output ($/M tokens) | API string |
+|-------|---------|-----------------------------|------------|
+| Mistral Medium 3.5 | 256k | $1.5 / $7.5 | `mistral-medium-3-5` |
+| Mistral Large 3 | 256k | $0.5 / $1.5 | `mistral-large-2512` |
+| Mistral Small 4 | 256k | $0.15 / $0.6 | `mistral-small-2603` |
+| Ministral 3 14B | 256k | $0.2 / $0.2 | `ministral-14b-2512` |
+| OCR 4 | — | $4 / $5 per 1,000 pages | `mistral-ocr-4-0` |
+
+(Worth noting because it's counterintuitive: Large 3 is priced *below* Medium 3.5 — Large is the open-weight self-hostable flagship, Medium the managed agentic model. If the docs don't explain that inversion, a reader assumes a pricing error.)
+
+Beyond raw gaps, the inventory surfaced three categories of problem.
+
+**Dead weight — ~15 pages serving no clear workflow.** These don't need deleting from the web; they need redirecting so they stop competing for the reader's attention:
+
+| # | Page | Why it's dead weight | Fix |
+|---|------|----------------------|-----|
+| D-01 | Platform Overview (old slug) | Duplicate of the current overview | Redirect |
+| D-02 | SDK Clients (old slug) | Duplicate of `/resources/sdks` | Redirect |
+| D-03 | Le Chat quickstarts (×3) | Replaced by Vibe Work quickstarts | Redirect each |
+| D-04 | Le Chat overview | Replaced by `/vibe/overview` | Redirect |
+| D-05 | Le Chat Vibe Code workflow | Legacy path | Redirect |
+| D-06 | Model Selection Guide | Has comparison content but guides no decision | Rewrite, don't remove |
+| D-07 | Products landing | Container page; homepage already does this job | Remove from nav |
+| D-08 | Quickstarts landing | Container page, adds a click | Merge routing |
+| D-09 | Mistral Vibe quickstart landing | Unclear purpose, orphaned | Redirect |
+| D-10 | Activate Studio & generate key | Prerequisite, not a standalone page | Merge as Step 0 |
+| D-11 | Ambassadors | Community programme, not documentation | Move out of docs sidebar |
+| D-12 | Prompting (under Studio) | Overlaps Models → Best Practices → Prompting | Merge, redirect one |
+
+**Content bugs confirmed on the live site.** The Models Overview carries a **45-row Legacy/Deprecated table** (I recounted it directly from two fetches — the first draft undercounted it as "35+"), and one row is a genuine bug rather than a design choice: **Devstral 2 appears simultaneously in the "Featured Models" carousel as a current recommendation *and* in the Legacy/Deprecated table lower down, both showing the identical version `25.12`.** Confirmed across two independent fetches, so it isn't a scraping artifact. A reader scanning that table for migration guidance could reasonably conclude a model Mistral is actively recommending is deprecated. Separately, the Studio and Vibe overview pages ship the *identical* meta description ("Documentation for the deployment and usage of Mistral AI's LLMs"), and the RAG section renders under two different labels ("Knowledge & RAG" vs "RAG & Embeddings") depending on which page you land on.
+
+**The same concept scattered across the site.** Connectors appear in four separate locations — Vibe Work, Studio's Knowledge & RAG, Admin, and inside Workflows. My first instinct was "consolidate." That instinct was wrong, and catching it is Stage 3's most useful output: each instance serves a *different audience doing a different job* — the Vibe user connecting Google Drive, the developer wiring RAG, the Admin governing connector access org-wide, the developer using connectors inside a Workflow. Merging them would serve none of those readers well. The fix is consistent naming across all four plus explicit cross-links — not consolidation. Knowing when **not** to merge is as much a part of IA as knowing when to cut.
+
+## Stage 4: Gap analysis — and the correction that changed the whole recommendation
+
+With the inventory in hand, I mapped every workflow to the page that serves it and flagged the ones with no page. Then I did the step that mattered most: **I ran a dedicated verification pass over my own first draft — and it overturned three of my own conclusions.** All three errors ran in the same direction: content that exists, classified as missing.
+
+- The **migration guide** from OpenAI and self-hosted Llama — I'd marked it missing. It exists at `/resources/migration-guides`, complete, with working code showing the exact three changes to migrate off OpenAI's SDK.
+- The **error reference** — marked missing. It exists at `/resources/error-glossary`: every HTTP status code, the full error JSON schema, and a working exponential-backoff retry sample.
+- The **retry strategy** — same page, same correction.
+
+I'm foregrounding my own mistake rather than quietly fixing it, because the correction is the sharpest analytical move in the exercise, and the *discipline of catching it on review* is exactly what a documentation hire is being tested for. "Missing" and "misplaced" demand opposite fixes. Missing means *write new documentation* — research, draft, review, ship. Misplaced means *add a cross-link or move a nav entry* — roughly an order of magnitude cheaper and faster. Recommending "write a production guide" when the real problem is "nobody surfaced the guide that already exists" would have been a wasted recommendation — and worse, if implemented, would have created a duplicate, competing page, making the findability problem *worse*, not better.
+
+**Genuinely missing content**, after verification. The five **Tier-1** gaps below are the ones that block a decision or a deal — where the redesign's new writing starts:
+
+| # | Missing page | For whom | Impact if absent |
+|---|--------------|----------|------------------|
+| M-02 | Going to production guide | Builder | Activation → production drop-off |
+| M-05 | Compliance page (SOC 2 / GDPR / EU AI Act / DPA) | Enterprise Buyer | Deals stall |
+| M-06 | Deployment architecture diagrams | SE, Buyer | SEs build custom decks by hand |
+| M-08 | "Why Mistral" differentiation page | Evaluator | Lost evaluations |
+| M-01 | Use-case-first decision guide | Evaluator, Agent | Comparison exists, decision workflow doesn't |
+
+Eleven more (Tiers 2–3 — pinning, streaming, security overview, cost, latency, context-management, solution blueprints, data-privacy, demo recipes, model registry) are listed with their M-codes in the [Portal's "what's genuinely new" tiering](./proposed-portal).
+
+**Misplaced content** — right content, wrong location. This is the cheap-to-fix category the verification pass expanded:
+
+| Page | Currently at | Belongs where the reader looks | Fix |
+|------|--------------|-------------------------------|-----|
+| Error reference | `/resources/error-glossary` | Production section | Surface + rename; content complete |
+| Migration guide | `/resources/migration-guides` | Models section, during evaluation | Surface; content complete |
+| Rate limits | `/admin/…/tier` | Production section | Cross-link; keep in Admin too |
+| Cloud + Self-hosted deployment | `/models/deployment/*` | A Deploy section | Move |
+| Data-residency sentence | `/resources/known-limitations` | The new Compliance page | Expand + link |
+
+Here's what the verification pass did to the numbers:
+
+| Category | First pass | After verification | What changed |
+|----------|-----------|--------------------|--------------|
+| Missing pages (genuinely absent) | 20 | **17** | 3 reclassified as misplaced, not missing |
+| Misplaced pages (right content, wrong place) | 6 | **8** | migration guide + error glossary moved here |
+| Deprecated model rows | "35+" | **45** | recounted precisely |
+
+The findings below are the critique in full — each with a severity, a category, the exact evidence, and a concrete recommendation. Most are grounded in a page or behaviour confirmed by direct fetch; the most severe I confirmed the hardest way there is, **by running the code.**
+
+The proof-of-life page — `/getting-started/quickstarts/developer/first-api-request`, whose entire job is to show an evaluator that the API works in five minutes — ships a sample that **errors as printed.** I hit it, then found that the import which actually works is the one already sitting on the SDKs page. Whichever import is canonically correct is beside the point: the two pages a first-time developer meets first contradict each other, and the one they hit first is the one that fails (**F-09, Critical**). This is the human-facing twin of the machine-reader consistency problem from Stage 5 — the same call shown two ways — except here it doesn't just confuse, it converts an interested evaluator into a closed tab. That same page also assumes a career developer: it opens straight into imports with no environment setup, so a Vibe-coder landing from search is stranded before line one (**F-10**). The fix for both is one shape — make the sample executable and CI-tested so it can never ship broken again, fold in a "Step 0" environment setup, and ship a downloadable scaffold.
+
+Filter the rest by what you care about; an SE lead might filter to Enterprise Readiness, a support lead to Support Deflection:
 
 <FindingsExplorer />
 
----
+The pattern across them is the thesis restated: the highest-value fixes are architectural, not authorial — which is what makes the whole redesign shippable in weeks rather than quarters. The one exception is F-09, and it's the most important line in this whole critique: **structure can wait; a broken first-run cannot.**
 
-## What ships first
+## Stage 5: Designing for readers who aren't human
 
-Ordered by credibility, not just priority — Week 1 items are fast, visible fixes that build the trust needed to make the bigger structural case internally. The findings that affect acquisition (the Models cut, the missing decision guide) are Week 1. The findings that affect deal velocity and support deflection (the Deploy section) are Week 2. The findings that affect production reliability are Week 3.
+Every stage above assumed a human reader. That assumption is now only partly true, and any 2026 documentation strategy that ignores it is optimising for half its traffic. As of mid-2026, a large and rising share of API demand originates from AI tools — coding agents, RAG pipelines, autonomous systems — that read documentation programmatically to choose models, construct calls, and handle errors.
+
+This changes what "good structure" means, because a machine reader values different things than a human one:
+
+- **Semantic over visual structure.** A heading hierarchy that conveys meaning, and frontmatter metadata (title, capability, audience, status) a machine can parse without reading the prose.
+- **Canonical naming.** If a model is `mistral-medium-latest` on one page and "Mistral Medium 3.5" on another, a human infers they're the same; an agent may not. Every model, endpoint, and parameter needs exactly one canonical name.
+- **Self-contained code.** Samples with all imports and context, so an agent doesn't have to infer what was elided — which is also where the "tabbed code samples collapse in extracted text" inventory finding bites.
+- **Explicit relationships.** "See also" prose links are invisible to an agent fetching a single page; cross-references need to be semantic (`related:` frontmatter), not just hyperlinks.
+
+This is not speculative for Mistral specifically, which is what makes it a real finding rather than a trend to gesture at. Mistral's own `/robots` already distinguishes `MistralAI-User` (Vibe visiting a page on a user's behalf, with attribution) from `MistralAI-Index` (indexing) — the product has already committed to a world of agent readers. And **Mistral's own Vibe Code is an AI coding agent that reads these docs to generate code.** If it can't reliably extract the correct model string, that's a product bug, not a docs bug — the documentation is part of the product surface.
+
+<AIReadinessChecklist />
+
+The reframe that keeps this honest — and distinguishes it from every "let's add a chatbot" proposal a panel has heard this year — is that **most of what makes documentation AI-ready isn't an AI feature at all.** `llms.txt`, clean Markdown export, and a Copy-for-LLM button are near-zero marginal cost against content already stored as Markdown, and none of them require solving hallucination. The one genuinely generative feature — a page-scoped assistant — has real trust and hallucination trade-offs and is deliberately scoped *out* of the 30-day plan.
+
+**The one content type I'd mandate in every section: the category FAQ.** This isn't a stylistic preference — it's the clearest result from a system I built myself. When I designed the knowledge layer behind my own organisation's support bot, the most-retrieved and most-cited documents, by a wide margin, weren't the reference pages or the tutorials — they were the FAQs. The reason is mechanical, not editorial: a user's query and an FAQ entry are the *same shape*. Both are questions, so in dense retrieval they embed close together, while a declarative reference passage ("The `response_format` parameter accepts a JSON schema…") sits farther from "how do I get JSON back?" even when it is the correct answer. This is the **vocabulary-mismatch problem** (Furnas, Landauer, Gomez & Dumais, 1987) — authors and users name the same thing differently — and an FAQ is the cheapest known fix, because it puts the reader's own words in the heading where a retriever can match them.
+
+The FAQs barely need writing, because I already wrote them: **the "core question" column of every workflow table in Stage 2 *is* a set of FAQ entries.** "Which model replaces GPT-4o?" "Does our data leave our infrastructure?" "How do I handle a 429 in production?" Those aren't hypotheticals — they're the questions each segment actually arrives with. So the recommendation is concrete: a short FAQ in every relevant section, each question phrased exactly as the reader would type it, marked up with `schema.org/FAQPage` and folded into `llms.txt` — which switches the retrieval advantage on for both Google's "People Also Ask" and Mistral's own Vibe Code. The worked examples, by category, are in [The Redesigned Portal → Category FAQs](./proposed-portal#category-faqs).
+
+*The full case, including a direct audit of Stripe's implementation and the honest debunking of `llms.txt` as an SEO play, is in [Docs for Humans and Agents](./docs-for-humans-and-agents).*
+
+## Stage 6: The architecture that falls out of all this
+
+Only now — readers, jobs, inventory, gaps, and the machine-reader dimension all established — does the information architecture become a decision rather than a guess. It is downstream of everything above, and it resolves to two headline moves.
+
+**Give the two most underserved segments a first-class home.** The Production Operator and the Enterprise Buyer had *no section* in the current nav — their content was absent, or scattered where they'd never look. The redesign gives each a top-level section: **Deploy** (architecture diagrams, compliance, security, deployment options — the Buyer's and SE's home) and **Production** (errors, rate limits, retries, cost, latency, deprecation — the Operator's home). These aren't sections added for tidiness; they're the only way to serve those workflows without burying them three levels deep inside Models or Admin.
+
+**Consolidate the top nav from six items to a cleaner seven.** Products dissolves (a container the homepage already replicates); Developers dissolves into Studio & API where developers actually look; API demotes from a top tab to a link inside Resources. Twelve dead-weight pages become redirects, eight misplaced pages get surfaced to the right reader, and the confirmed content bugs get fixed.
+
+I'm keeping the architecture itself — every cut, move, rename, and new page, annotated so each judgement is visible — in a separate deliverable rather than inlining a 130-line tree into this rationale, because a reviewer wants to read the *reasoning* here and inspect the *artifact* there:
+
+> **→ [The Redesigned Portal](./proposed-portal)** — the full annotated IA, the moved-vs-new-writing split, and the rewrite shown on an actual page.
+
+## Stage 7: Sequencing and how I'd know it worked
+
+A redesign this size is a change-management problem, not just a writing one, so the rollout is ordered by **credibility, not just priority**: Week 1 items are fast, visible fixes that earn the trust needed to make the bigger structural case internally, and each week's work maps to a business outcome so the pitch to a stakeholder is never "the docs will be nicer."
+
+- **Acquisition** — the Models cut and the missing decision guide are what stand between an evaluator and a decision. Week 1.
+- **Deal velocity & support deflection** — the Deploy section replaces the blog posts SEs improvise from today. Week 2.
+- **Activation-to-production** — the Production section catches developers who finish a quickstart and then stall. Week 3.
+- **Trust** — the redirect audit (F-02): a reader who watches the nav restructure mid-task learns not to trust the docs' own next-step links.
 
 <Roadmap />
 
-**Not on this list:** a page-scoped assistant — the one genuinely generative piece of the AI readiness work. That is a real feature with real trust and hallucination trade-offs, not a cleanup item. The full case for making docs.mistral.ai first-class for AI-agent readers — benchmarked against Stripe's implementation — is in [Docs for Humans and Agents](./docs-for-humans-and-agents).
+**Deliberately not on this list:** a live page-scoped assistant — the one generative piece of the agent-readiness work, held back because it's a real feature with real trade-offs, not a 30-day cleanup item.
+
+### Who this serves inside Mistral — the stakeholder map
+
+Documentation is usually treated as a cost centre owned by one team. It's actually a shared asset, and the redesign pays for itself in reduced internal workload and faster revenue long before it's a nicer reading experience. Mapped by the team that stops losing time:
+
+| Stakeholder | What the redesign gives them | Driven by | How they'd measure it |
+|---|---|---|---|
+| **Engineering / DevRel** | Doc bugs stop arriving as "your SDK is broken" tickets; the docs become the source of truth Vibe Code reads to generate correct code | F-09, F-06 | Fall in quickstart/SDK tickets; Vibe Code first-run success rate |
+| **Sales / Solutions Engineering** | Screenshot-ready architecture and compliance collateral — no improvising from blog posts on a live call | F-07 · M-05/M-06/M-17 | Velocity through the security-review stage; SE deal-retro feedback |
+| **Product / PMM** | One canonical product story — the Le Chat → Vibe rename resolved, "Why Mistral" stated once | M-08, M-11 | Message-consistency audit; evaluator conversion |
+| **Support / CS** | The three biggest ticket-drivers — errors, rate limits, "where does my data go" — answered on-page and as FAQs | F-04, F-05 · category FAQs | Deflection on those categories; FAQ-query logs as a live content-gap signal |
+| **Security / Compliance / Legal** | A canonical page to send auditors and customers to — SOC 2, GDPR, EU AI Act, DPA | M-05, M-13 | Time-to-answer on security questionnaires |
+| **Growth / Leadership** | The acquisition and activation funnels stop leaking at the two decision moments — the first run and the security review | F-09, F-07 | Quickstart → signup; activation → production conversion |
+
+Read down the *Driven by* column: every row points back to a finding already in this critique. The stakeholder value isn't a separate promise added at the end — it's the same findings, read through the lens of who inside Mistral stops losing time.
+
+**How I'd validate the structure before trusting it.** Analytics after launch aren't enough on their own; I'd validate before and after:
+
+- **Before launch** — a card sort with 3–5 customers across the persona spread (do their clusters match the proposed IA?), and time-to-answer testing on the worst-served workflows ("find what a `429` means and how to fix it" in under a minute).
+- **After launch** — the concrete signals: support-ticket grep for questions the new pages now answer (if they're still arriving, the page isn't being *found*, which is a different fix from writing it); exit rate on the new Decision Guide (it exists to route readers onward — high exits mean the routing fails); and search queries that return nothing, which are content gaps stated in the reader's own words.
+
+## What I deliberately left alone
+
+The Vibe section — Work, Code, and legacy Chat — is the best-organised part of the current site. Every page maps cleanly to a real workflow. I kept it almost entirely intact, adding only the two genuinely missing pages its own audience asks for: a Le Chat → Vibe migration map and a standalone data-privacy answer.
+
+I'm stating this as a decision because it *is* one. A redesign that touches everything — including what already works — signals that the person doing it didn't actually evaluate what was good; they just rearranged. The restraint is the point. Knowing what to leave alone is the same judgement as knowing what to cut, applied in the other direction.
 
 ---
 
-**Research trail:** [Nine-segment audience analysis](./research-appendix/audience-and-workflows) · [Page-by-page content inventory](./research-appendix/content-inventory) · [Gap analysis — pages to workflows](./research-appendix/gap-analysis)
+**The deliverables this rationale produces:** [The Redesigned Portal](./proposed-portal) — the full annotated IA · [Docs for Humans and Agents](./docs-for-humans-and-agents) — the AI-reader recommendation.
