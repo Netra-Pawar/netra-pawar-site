@@ -1,72 +1,205 @@
 ---
-title: Vector Embeddings in Production Retrieval Systems
-description: Design, evaluate, and debug semantic retrieval for RAG and AI assistants.
-sidebar_label: Overview
+title: "Design Rationale: Exercise 2"
+sidebar_label: "Doc Design Rationale"
 sidebar_position: 1
 ---
 
-# Vector Embeddings in Production Retrieval Systems
+# Exercise 2: Simplifying Complex Technical Concepts
 
-**Design, evaluate, and debug semantic retrieval for RAG and AI assistants.**
+My goal in this design rationale is to make the documentation decisions visible: how the same concept changes when the reader changes, where I drew the line between conceptual clarity and production depth, and what signals would tell me whether each version is helping its intended audience.
 
-New to embeddings? Start with [Build Semantic Search with Mistral Embeddings](../build-semantic-search/).
+## Topic choice
 
-## Embeddings as a retrieval primitive
+**Vector embeddings** — how they enable semantic retrieval in RAG and AI assistant workflows.
 
-A vector embedding is a dense numerical representation of an input, optimized so that semantically related inputs are close under a similarity function. In a RAG system, embeddings serve a specific and limited role: **they select candidate context for the model to use.** They do not generate answers, verify correctness, or enforce access control.
+I chose embeddings over token limits, quantization, or deployment modalities because this is a point where developers are likely to lose momentum between "tried the API" and "shipped something that works." The API call is four lines. The concept itself is approachable. But the gap between "I embedded my documents" and "my retrieval actually works in production" is where many developers get stuck, and it is where documentation can have the most leverage.
 
-This distinction matters in production. When a RAG application returns an incorrect answer, the root cause is either a retrieval failure (the right content was not in the candidate set) or a generation failure (the model misinterpreted the context). Conflating the two makes debugging impossible.
+**The specific problem this submission solves:** Mistral's current embeddings documentation covers the API and adjacent workflows well: embeddings reference material, a RAG quickstart, Search Toolkit component docs, and cookbooks for related use cases. What is less explicit is the layer between "here's how to call the API" and "here's how to make retrieval work reliably in production." There is no clear conceptual entry point for developers new to embeddings. There is no dedicated troubleshooting path for when retrieval fails. There is also limited production-depth coverage of evaluation metrics, failure diagnostics, and the operational decisions — latency budgets, hybrid search, and permission-aware retrieval — that determine whether a deployment actually works. Version A fills the first gap; Version B fills the second.
 
-## Retrieval architecture
+---
 
-Embeddings appear in two paths:
+## How the concept transforms between audiences
 
-```
-INDEXING PATH
-source → parse → chunk → embed → store (vector + metadata)
+This is the core of Exercise 2: the same technical concept, written for two readers.
 
-QUERY PATH
-query → embed → ANN search → filter → rerank → context assembly → generation
-```
+### Three personas, two versions
 
-**Indexing** converts source documents into searchable vectors. Each step is a potential failure point: a parser that drops table structure, a chunking boundary that splits a procedure across two chunks, or a stale index that still contains deprecated content.
+Mistral's docs serve at least three distinct personas who encounter embeddings. Understanding all three clarifies which two the exercise versions target and where the boundaries are.
 
-**Query processing** converts the user's input into the same vector space and retrieves the nearest neighbors. The retrieved set is then narrowed by metadata filters, optionally reranked, and assembled into a prompt.
+**The beginner developer.** Can code, understands APIs and JSON, and has probably built search features before. Doesn't know what a vector embedding is. This person's question is "what does this do and why would I use it?" They need motivation, a working example they can run, and enough troubleshooting guidance to avoid abandoning the product when retrieval does not work on the first attempt.
 
-### Mistral embedding models
+**→ Version A is written for this reader.** The entry point is a problem they recognise — "keywords miss what users mean" — not a definition. Code is complete and runnable. Troubleshooting is a beginner checklist, not a pipeline diagnostic.
 
-| Model | Dimensions | Context | Best for | Pricing |
-|---|---|---|---|---|
-| `mistral-embed` | 1,024 | 8,192 tokens | Natural-language documents, knowledge bases, support content | $0.10/M tokens |
-| `codestral-embed` | Up to 3,072 (configurable via `output_dimension`) | 8,192 tokens | Source code, repository search, code analytics | $0.15/M tokens |
+**The Vibe user.** Builds by describing what they want, often through managed or agentic product surfaces, and may use embeddings indirectly through Libraries or through an Agent with the `document_library` tool, without ever calling the Embeddings API directly. Their question is not "how do embeddings work?" but "why isn't my assistant finding the right answer?"
 
-`codestral-embed` supports Matryoshka-style dimensionality reduction — dimensions are ordered by information density, so truncating to 1,024 or 256 dimensions trades precision for speed without re-embedding.
+**→ Version A partially serves this reader.** The concept page's "when to use embeddings" section includes Libraries and Agents as use cases, and the troubleshooting page covers failures they would recognise: stale content, vague queries, and the wrong version surfacing. But a Vibe user who never touches the API will not need the quickstart page. If I were building a third path, it would be a short Libraries-focused guide: "Upload your documents, test retrieval, troubleshoot quality" — no API calls, no code, just the managed abstraction. That would complement both versions.
 
-:::note SDK vs REST parameter
-The current `mistralai` Python and TypeScript SDKs use **`inputs`** (plural). The REST endpoint accepts **`input`** (singular). Mixing these up is a common source of silent failures. See [Text Embeddings](/studio-api/knowledge-rag/embeddings/text_embeddings) for verified examples in both formats.
-:::
+**The production engineer.** Knows what embeddings are, has used them, and is now debugging retrieval quality or designing a production pipeline. Their question is "why is my system failing and how do I fix it?" They need pipeline-stage diagnostics, evaluation metrics, operational guidance — latency, cost, permissions — and architecture decisions.
 
-## Semantic similarity is not correctness
+**→ Version B is written for this reader.** The entry point is a precise definition and an architecture diagram. No analogies, no motivation. Failure modes are pipeline-stage specific. Metrics are quantitative.
 
-This is the most consequential distinction in production retrieval:
+### The researcher — a deliberate scoping decision
 
-> Embedding search retrieves semantically **similar** candidates. It does not guarantee that a candidate is **correct, current, authorized, complete, or canonical.**
+The exercise says "experienced engineer *or researcher*." I optimised Version B for the production engineer, not the ML researcher. A researcher-oriented version would cover embedding space geometry, training methodology, distance metric theory, and benchmark comparisons against competing embedding models. I chose the engineer because that is the primary reader who needs embeddings to work reliably in a deployed system, not the person studying the model itself. If a researcher version were needed, it would be a third path, not a longer Version B, likely structured around benchmarks, ablations, and model-comparison tables rather than pipeline diagnostics.
 
-| Scenario | What happens | Why similarity fails |
+### How the same concept changes
+
+Here is how the two versions differ across every dimension that matters. Each row is a deliberate choice, not a default.
+
+| Dimension | Version A | Version B |
 |---|---|---|
-| Deprecated documentation | A retired API guide is semantically identical to its replacement | Similarity has no concept of currency |
-| Near-duplicate outranking | The v1 version of a page outranks the v2 version | Both are semantically close; ranking is arbitrary without metadata |
-| Partial chunk | A chunk contains the concept but omits the critical warning or prerequisite | The chunk boundary was poorly placed |
-| Permission-excluded content | The canonical source is in a restricted corpus that the user's query doesn't reach | Retrieval respects filter boundaries, not semantic relevance |
-| Structurally complex content | The answer is in a table, but the table was extracted as flat text and embedded poorly | Extraction quality, not embedding quality, is the root cause |
+| **Opens with** | A problem: "keywords miss what users mean" | A definition: "a dense numerical representation... optimized so that semantically related inputs are close under a similarity function" |
+| **Core metaphor** | "Coordinates on a map of meaning" | None — the reader does not need one |
+| **What "understanding embeddings" means** | Knowing *what* they do and *when* to use them | Knowing *where they fail* and *how to measure whether they are working* |
+| **Code** | Complete runnable quickstart with expected output | Referenced, not included — the reader knows how to call an API |
+| **Failure modes** | Beginner checklist: "Was the content indexed? Was it chunked well?" | Pipeline-stage diagnostic table with an interactive decision tree |
+| **Metrics** | Not covered — this reader is not in production yet | recall@k, MRR, nDCG, latency, freshness lag, end-to-end RAG metrics |
+| **"Similarity is not correctness"** | Mentioned as a note: "Embeddings retrieve candidate content... They do not generate answers" | Full treatment: five specific failure scenarios where similarity misleads, with root causes and mitigations |
+| **What's deliberately absent** | Math, ANN internals, evaluation metrics, production operations | Analogies, motivation, beginner walkthroughs |
 
-The mitigation is not a better embedding model. It is metadata filtering (version, status, permissions), reranking (promoting authoritative sources), and content pipeline hygiene (correct extraction, deduplication, freshness tracking).
+The sharpest version of the difference: Version A's troubleshooting page is titled *"Why Didn't My Assistant Find the Right Answer?"* Version B's equivalent is titled *"Retrieval Failure Diagnostics."* Same category of content. Different reader, different framing.
 
-## In this section
+---
 
-| Page | What it covers |
-|---|---|
-| [Retrieval Quality](./retrieval-quality) | Chunk size, metadata, query specificity, near-duplicates, domain vocabulary |
-| [Diagnostics](./diagnostics) | Pipeline-stage failure table and interactive diagnostic tree |
-| [Evaluation Metrics](./evaluation) | Recall@k, MRR, nDCG, end-to-end metrics, measure-before-generate |
-| [Production Operations](./production-ops) | Latency, cost, hybrid search, permissions, observability, architecture decision |
+## Writing decisions at the sentence level
+
+### Entry points
+
+Version A opens with a scenario:
+
+> *Imagine you're building a documentation assistant. A user asks: "How do I rotate my API key?"*
+
+Version B opens with a definition:
+
+> *A vector embedding is a dense numerical representation of an input, optimized so that semantically related inputs are close under a similarity function.*
+
+Why: Version A's reader does not know what embeddings are. A definition would be premature — they need to feel the *problem* before they invest in the *solution*. The scenario creates recognition: "that's happened to me." Version B's reader already knows the problem. They need precision, not motivation. A scenario opening would waste their time and signal that the doc underestimates them.
+
+### Headers
+
+Version A uses questions: *"Why Didn't My Assistant Find the Right Answer?"*
+
+Version B uses noun phrases: *"Retrieval Failure Diagnostics"*
+
+Why: Questions mirror how a newcomer thinks — they arrive with a question, not a category name. Noun phrases are scannable for an engineer who already has the vocabulary and is looking for a specific reference section in the sidebar.
+
+### Voice
+
+Version A uses second person: *"You rarely embed an entire document as one input."*
+
+Version B uses an impersonal register: *"Retrieval quality is not solely a property of the embedding model. It is a joint function of the model, the content, and the pipeline."*
+
+Why: Second person creates a guided experience — the doc walks alongside the reader. Impersonal voice creates authority — the doc states how the system works, as a trusted reference. Version B's reader needs to trust the content enough to base production decisions on it. Informality would undercut that trust.
+
+### What Version A explains that Version B takes as given
+
+Version A explains what a vector is: *"A list of 1,024 numbers that represents the meaning of a piece of text."* Version B never defines this. Instead, it immediately uses the term in context: *"embeddings serve a specific and limited role: they select candidate context for the model to use."*
+
+Why: Version B's reader already knows what a vector is. Defining it would be condescending. But notice that Version B still starts with a clarification — not of the concept itself, but of its *scope*. Experienced engineers often overestimate what embeddings do, expecting them to verify correctness or enforce access control. The production overview corrects this misconception with the "similarity is not correctness" section. Version A does not need this correction because the reader has not had time to form the misconception yet.
+
+### The code example decision
+
+Version A includes a complete, runnable quickstart with expected output. Version B does not include runnable code — it references the existing API reference docs.
+
+Why: Version A's reader needs a "copy, paste, run, see it work" moment. That is how they build confidence that they understand the concept. Version B's reader already knows how to call an API. Giving them a walkthrough wastes page space and signals the doc does not trust their competence.
+
+The risk of *not* including code in Version B: an engineer who wants to quickly test a specific claim, such as whether the vectors are actually normalized, has to leave the page. The mitigation: the Jupyter notebook attached to this submission serves that role, and the API reference page is one click away.
+
+---
+
+## Structure: why 8 pages, not 2
+
+The initial draft was two monolith documents, approximately 1,900 words and 2,400 words. I decomposed them into 8 focused pages across two paths.
+
+### The decomposition
+
+**Version A — Build Semantic Search**: 3 pages
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `index.mdx` | Concept | 630 | "What are embeddings and why do they matter?" |
+| `quickstart.mdx` | Task | 800 | "Show me the API call and expected result" |
+| `troubleshooting.mdx` | Troubleshooting | 530 | "My retrieval isn't working — why?" |
+
+**Version B — Production Retrieval**: 5 pages
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `index.mdx` | Architecture | 650 | "How do embeddings fit in a production pipeline?" |
+| `retrieval-quality.mdx` | Design | 570 | "What affects my retrieval quality?" |
+| `diagnostics.mdx` | Troubleshooting | 360 | "Diagnose a specific failure by pipeline stage" |
+| `evaluation.mdx` | Evaluation | 390 | "What metrics should I measure?" |
+| `production-ops.mdx` | Operations | 580 | "Latency, cost, permissions, architecture decisions" |
+
+Every page is under 800 words. Total word count is preserved — the content is decomposed, not cut.
+
+### Three reasons for the decomposition
+
+**Different content types have different access patterns.** A developer looking up API call syntax should not have to scroll past a conceptual explanation. An engineer debugging a retrieval failure should not have to scroll past evaluation metrics. Concepts are read once; tasks are followed step-by-step; troubleshooting is searched in crisis. One page per content type means the reader never has to scan for their section.
+
+**Progressive disclosure via page boundaries, not scroll depth.** The monolith relied on the reader to skip sections they did not need. The decomposed version lets the sidebar title do the work. "Diagnostics" is immediately findable; "the section between Failure Modes and Production Considerations" is not.
+
+**Agent-consumable docs need focused pages.** An AI agent retrieving context about "stale embeddings" should get the 360-word diagnostics page, not a 2,400-word monolith where the relevant paragraph is at line 140. Smaller, focused pages produce better retrieval quality — which is the thing this documentation itself teaches.
+
+### The graduation link
+
+The most important structural decision: Version A's "Designing retrieval for production?" link pointing to Version B's overview. This is the seam between the two audiences. Its click-through rate is the single best measure of whether the IA works — it tells you how many developers naturally progress from "trying embeddings" to "building with embeddings in production."
+
+### What I cut and what the cut bought
+
+| Cut from Version A | What it cost | What it bought |
+|---|---|---|
+| Cosine similarity formula | Reader will not see the connection when they encounter it elsewhere | The code uses `np.dot` directly, which is correct for normalized vectors. The formula would have been misleading in this context. A code comment explains the equivalence. |
+| Evaluation metrics: recall@k, MRR, nDCG | A developer who ships with no metrics has no diagnostic signal when quality degrades | This reader is not in production yet. Metrics before a working system creates anxiety, not capability. The production metrics page is one click away in Version B. |
+| Embedding dimensions detail | A dimension mismatch error will not immediately make sense | Dimension mismatches are usually a production problem caused by mixing models. The error message is descriptive enough to search for. |
+
+| Cut from Version B | What it cost | What it bought |
+|---|---|---|
+| Runnable API walkthrough | An engineer checking SDK syntax has to click to the reference page | This reader needs to understand where embeddings fail, not learn the SDK. A walkthrough would consume a third of the page. |
+| Beginner analogies: "coordinates on a map" | An SE cannot borrow the metaphor for a customer call | Mixing metaphors with production metrics undermines credibility with the primary reader. The cross-link to Version A is in the first line. |
+| Clustering and classification examples | Reader does not see that embeddings work beyond retrieval | The existing Text Embeddings page already covers both with code examples. Duplicating it would add 400+ words without serving the production-retrieval focus. |
+
+---
+
+## Interactive components
+
+### SemanticSearchDemo: Version A
+
+The reader types a query, or picks a preset, and sees keyword matching and semantic matching rank the same three documents differently. The component is placed inline after the problem statement, before any code or API calls.
+
+Why interactive: the core insight — "embeddings match meaning, not words" — is conceptual. A paragraph can state it. Trying "rotate my API key" and watching keyword search fail while semantic search succeeds builds intuition that text alone cannot replicate. The component uses pre-computed `mistral-embed` scores verified in the attached notebook, not live API calls, so it works without an API key.
+
+### RetrievalDiagnostic: Version B
+
+Interactive decision tree: describe the symptom, answer narrowing questions, arrive at a diagnosis with specific checks. It models how an engineer actually debugs — start with the symptom, narrow to the pipeline stage.
+
+Why interactive: the static pipeline-stage failure table lists all possibilities at once. The decision tree is how an experienced engineer actually works: "My retrieval returns stale results → When was the index last rebuilt? → Compare timestamps." It could also be used by support staff to triage embedding-related tickets.
+
+---
+
+## Technical accuracy
+
+I ran the quickstart code against the live Mistral API and verified the core technical claims. The attached Jupyter notebook, `exercise-2-verification.ipynb`, captures the full output. Key findings:
+
+- **SDK parameter:** `inputs` plural in Python/TypeScript SDKs; `input` singular in REST. This discrepancy is called out in the production overview because it is a realistic source of implementation mistakes.
+- **Vector normalization:** `mistral-embed` returns L2-normalized vectors, with all norms approximately 1.0. This confirms the quickstart code is correct to use `np.dot` rather than `cosine_similarity`, which would apply redundant normalization.
+- **Semantic matching works as claimed:** "rotate my API key" matches "credential renewal procedure" by a clear score margin over the other two chunks.
+- **Edge cases are real:** Vague queries such as "help with my account" produce low-spread scores. Exact identifiers such as "ERR_AUTH_042" produce weak, undifferentiated matches. Both confirm the troubleshooting page's warnings.
+- **At the time of testing, I did not find a Mistral multimodal embedding model exposed for this workflow.** The production-ops page is explicit about that constraint and documents the workaround: extract text with Document AI, then embed the extracted text.
+
+---
+
+## Placement in Mistral's docs
+
+Both page groups sit under **Knowledge & RAG → Embeddings**, as siblings to the existing API reference pages:
+
+```text
+Knowledge & RAG/
+├── embeddings/
+│   ├── text_embeddings/        ← existing API reference
+│   ├── code_embeddings/        ← existing API reference
+│   ├── build-semantic-search/  ← NEW: Version A (3 pages)
+│   └── production-retrieval/   ← NEW: Version B (5 pages)
+├── rag_quickstart/             ← existing
+├── libraries/                  ← existing
+└── search-toolkit/             ← existing

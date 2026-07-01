@@ -1,145 +1,195 @@
 ---
 title: "Design Rationale: Exercise 5"
+sidebar_label: "Doc Design Rationale"
 sidebar_position: 1
 ---
 
 # Exercise 5: Product Documentation – Internal Enablement
 
-This document explains the decisions behind the enablement doc — what I built, why it's structured the way it is, what I deliberately cut, and how I'd know it's working.
+My goal in this design rationale is to make the enablement decisions visible: who the document is for, why it is structured around a sales conversation rather than a tutorial, what I deliberately excluded, and how I would know whether it helps Solutions Engineers explain, demo, and sell Workflows effectively.
 
 ---
 
 ## 1. Audience definition and how the doc changes for different readers
 
-The enablement doc is written for **Solutions Engineers who need to demo and sell Workflows to enterprise customers**. That's a specific reader with a specific job: they're technically fluent (they can read Python, they understand distributed systems concepts), but they're not building the product. They need to *explain and demonstrate* it under pressure, in a room with a CTO, a security reviewer, and a procurement lead all asking different questions.
+The enablement doc is written for **Solutions Engineers who need to demo and sell Workflows to enterprise customers**. That is a specific reader with a specific job: they are technically fluent, can read Python, and understand distributed systems concepts, but they are not building the product. They need to explain and demonstrate it under pressure, often in a room with a CTO, a security reviewer, and a procurement lead all asking different questions.
 
-Here's how this doc would change for the two other obvious audiences:
+Here is how this document would change for two other obvious audiences:
 
-| Decision | SE enablement doc (this one) | Self-serve developer docs (existing public docs) | Post-sale implementation guide |
+| Decision | SE enablement doc: this one | Self-serve developer docs | Post-sale implementation guide |
 |---|---|---|---|
-| **Opening** | Starts with the 30-second pitch and the one-liner they can use in a call | Starts with "What is Workflows?" conceptual definition | Starts with prerequisites and environment setup |
-| **Code examples** | Annotated with *what to highlight during the demo* and *what the customer will ask about* | Standalone, complete, copy-pasteable | Step-by-step with expected outputs at each stage |
-| **Architecture diagram** | Focused on the hybrid split (where data lives, who controls what) because that's the enterprise security conversation | Focused on the programming model (workflow vs. activity vs. worker) | Focused on deployment topology (Helm charts, network config, scaling) |
-| **Tone** | Directive ("here's what to say," "here's what to show") | Explanatory ("here's how it works") | Procedural ("do this, then this") |
-| **Competitive positioning** | Included, marked internal-only | Absent | Absent |
+| **Opening** | Starts with the 30-second pitch and the one-liner they can use in a customer call | Starts with a conceptual definition: "What is Workflows?" | Starts with prerequisites and environment setup |
+| **Code examples** | Annotated with what to highlight during the demo and what the customer is likely to ask | Standalone, complete, copy-pasteable | Step-by-step with expected outputs at each stage |
+| **Architecture diagram** | Focused on the hybrid split: where data lives, who controls what, and what connects to what | Focused on the programming model: workflow, activity, worker | Focused on deployment topology: Helm charts, network configuration, scaling |
+| **Tone** | Directive: "here's what to say," "here's what to show" | Explanatory: "here's how it works" | Procedural: "do this, then this" |
+| **Competitive positioning** | Included, clearly marked internal-only | Absent | Absent |
 | **Limits and caveats** | Framed as "what to tell the customer" with approved language | Stated as technical reference | Framed as "what to watch for in production" |
 
-The public docs at docs.mistral.ai are well-structured developer documentation. They explain *how the system works*. The SE enablement doc answers a different question: *how do I convince a room full of enterprise stakeholders that this is the right choice?* That's why the doc leads with positioning, not installation.
+The public docs explain how the system works for builders. The SE enablement doc answers a different question: **how do I help an enterprise customer understand why this product matters, whether it fits their use case, and what objections they are likely to raise?** That is why the enablement doc leads with positioning, not installation.
 
 ---
 
-## 2. Information architecture: what's in, what's out, and why it's in this order
+## 2. Information architecture: what is in, what is out, and why it is in this order
 
 ### The reading order is a sales conversation, not a tutorial
 
 The doc follows the sequence an SE actually needs information in:
 
-1. **What is it / the pitch** — so they can open a conversation. (Section 1)
-2. **How it works** — the mental model to explain it. (Section 2)
-3. **A demo they can run** — the proof. (Section 3)
-4. **Technical Q&A** — what the room asks after the demo. (Section 4)
-5. **Competitive positioning** — how to handle objections. (Section 5)
-6. **Quick reference** — the install commands and links they need at their desk. (Section 6)
+1. **What is it / the pitch** — so they can open the conversation.
+2. **How it works** — the mental model they need to explain the product.
+3. **A demo they can walk through** — the proof point.
+4. **Technical Q&A** — what the room is likely to ask after the demo.
+5. **Competitive positioning** — how to handle objections.
+6. **Quick reference** — the install commands, links, and reminders they need at their desk.
 
-Compare this to the public docs, which follow a tutorial order: Introduction → Installation → Your First Workflow → Core Concepts → Building Workflows. That's the right order for a developer who's going to build something. It's the wrong order for an SE who has 45 minutes with a prospect.
+This is intentionally different from a developer-docs flow such as Introduction → Installation → First Workflow → Core Concepts → Build. That order works for a developer who is going to implement the product. It is less useful for an SE who has 45 minutes with a prospect and needs to move between value proposition, technical credibility, security posture, and objections.
 
 ### What I cut and what I traded for clarity
 
-**Cut: detailed activity configuration (retry policies, timeouts, heartbeats).** The public docs cover this well. An SE doesn't need to configure retry backoff during a demo; they need to *say* "retries are automatic and configurable" and point to the docs if the customer's engineering team wants detail.
+**Cut: detailed activity configuration: retry policies, timeouts, heartbeats.**  
+The public docs are the right place for implementation detail. An SE does not need to configure retry backoff during a demo; they need to be able to say, accurately, "retries are automatic and configurable," and point the customer's engineering team to the detailed docs.
 
-**Cut: Connectors and OBO (on-behalf-of) authentication.** These are important features but they're a beta-within-a-preview, require hardened deployment, and add significant complexity to a demo. I flagged them in the caveats section but didn't build a demo around them. An SE who needs this can reference the cookbook examples.
+**Cut: Connectors and OBO authentication.**  
+These are important topics, but they add significant complexity to a first enablement demo. I flagged them in the caveats section rather than making them the centre of the walkthrough. An SE who needs to discuss them can use the cookbook examples or escalate to Product/Engineering for deal-specific guidance.
 
-**Cut: Vibe Code, Mistral Code, model selection guidance.** These are adjacent products, not Workflows-specific. Including them would dilute the doc's focus.
+**Cut: Vibe Code, Mistral Code, and model selection guidance.**  
+These are adjacent products or adjacent decisions, not Workflows-specific. Including them would dilute the core story of Workflows as orchestration for reliable multi-step AI processes.
 
-**Kept: the hybrid architecture diagram.** This is the single most important visual in an enterprise deal. "Where does my data go?" is question #1 from every security and compliance team. The public docs explain the architecture in prose. I turned it into a visual because SEs need to draw this on a whiteboard in 10 seconds.
+**Kept: the hybrid architecture diagram.**  
+This is the most important visual in an enterprise conversation. "Where does my data go?" and "Who controls the execution environment?" are usually among the first questions from security and compliance stakeholders. The public docs can explain the architecture in prose; the enablement doc turns it into a visual that an SE can draw on a whiteboard quickly.
 
-**Kept: the determinism explanation.** Customers always ask "what constraints does this impose on my code?" The public docs explain this well technically; I added the SE framing ("This is a feature, not a limitation — it prevents production bugs that are notoriously hard to debug").
+**Kept: the determinism explanation.**  
+Customers are likely to ask what constraints Workflows imposes on their code. The enablement doc frames determinism as a reliability feature, not just a programming restriction: it prevents production bugs that are difficult to reproduce and debug.
 
-**Kept: "What's NOT ready yet."** Honesty about preview limitations builds trust. An SE who gets caught saying "yes, pricing is published" when it isn't loses credibility for the rest of the deal. The doc explicitly tells SEs what they don't know yet and gives them an escalation path.
+**Kept: "What is not ready yet."**  
+Honesty about preview limitations builds trust. An SE who overstates pricing, availability, or production readiness can lose credibility for the rest of the deal. The doc explicitly tells SEs what is not yet confirmed and where to escalate.
 
 ---
 
 ## 3. Specific writing decisions
 
-### The "one-liner" pattern
-Every major section includes a sentence in quotation marks that the SE can use verbatim in a customer conversation. This is the talk-track pattern from Klue's battlecard research: cards with talk tracks have measurably higher retention than cards without them. I'm applying the same principle to enablement docs.
+### The one-liner pattern
+
+Every major section includes a sentence in quotation marks that the SE can use directly in a customer conversation. This is a deliberate enablement pattern: the reader does not just need information; they need usable language under pressure.
 
 ### The table format for Q&A
-Section 4 uses question-answer tables rather than prose. This is a deliberate formatting choice: an SE scanning the doc during a call can find "Where does our data run?" in 2 seconds. They can't do that with a paragraph.
+
+Section 4 uses question-answer tables rather than prose. This is a deliberate formatting choice. An SE scanning the doc during a call can find "Where does our data run?" in a few seconds. They cannot do that as easily inside a long paragraph.
 
 ### Internal-only markers
-Section 5 (competitive positioning) opens with "internal only — do not share with customers." This isn't just a label; it changes what goes in the section. The build-vs-buy reframe includes a suggested question to ask the prospect ("Have you scoped the engineering effort to...") — that's a selling technique, not product documentation. It has to be clearly internal.
+
+Section 5, competitive positioning, opens with "Internal only — do not share with customers." This is not just a label; it changes what belongs in the section. The build-vs-buy reframe includes a suggested discovery question for the prospect. That is a selling technique, not product documentation, so it needs to be clearly marked as internal guidance.
 
 ### The code example is illustrative, not runnable
-The invoice processing code in Section 3 is annotated pseudocode, not a fully runnable example. This is intentional: the SE needs to *walk through the code on screen and narrate it*, not run it live and risk a demo failure. The public docs and cookbook examples provide runnable code. The enablement doc provides a *story* built around code.
 
-If I were building this for real, I'd pair the doc with a pre-recorded "golden path" demo video that the SE can fall back on if the live environment has issues — model latency, rate limits, or network problems during the demo.
+The invoice-processing code in Section 3 is annotated pseudocode, not a fully runnable example. This is intentional. The SE needs to walk through the code on screen and narrate the concept, not risk a live demo failure because of environment, latency, rate limits, or network issues.
+
+The public docs and cookbook examples are the right place for runnable implementation examples. The enablement doc provides the story around the demo: what to show, what to emphasize, and what questions the customer is likely to ask.
+
+If I were building this enablement package for production, I would pair the doc with a pre-recorded golden-path demo video that the SE can fall back on if the live environment has issues.
 
 ---
 
-## 4. How I adapted the public docs (specific examples)
+## 4. How I adapted the public docs
 
-Here are three places where the public docs are well-written but aimed at the wrong audience for an SE, and what I changed:
+Here are three places where public product documentation and SE enablement need different treatment.
 
-**Example 1: The introduction**
+### Example 1: The introduction
 
-Public docs say: *"Workflows addresses the complexity of building, managing, and scaling multi-step AI processes reliably."*
+A public developer doc typically starts by defining the product and explaining how it works.
 
-My doc says: *"Workflows is the layer between your AI models and your business process — it handles durability, retries, observability, and human-in-the-loop so your team writes business logic, not infrastructure."*
+The enablement doc starts with a customer-facing value proposition:
 
-The public version describes the product. My version describes the *value proposition from the customer's perspective*. An SE doesn't need to define the product for themselves; they need a sentence they can say to a VP of Engineering.
+> "Workflows is the layer between your AI models and your business process — it handles durability, retries, observability, and human-in-the-loop so your team writes business logic, not infrastructure."
 
-**Example 2: The architecture**
+The difference is intentional. A developer needs to understand the product model. An SE needs a sentence they can say to a VP of Engineering.
 
-The public docs describe the hybrid architecture in a few paragraphs of prose. I restructured this as an ASCII diagram with a labelled callout: "Workers connect OUTBOUND — Mistral never initiates connections into the customer's network." That one line answers the question a CISO will ask. The full prose is in the public docs for anyone who wants it.
+### Example 2: The architecture
 
-**Example 3: Limitations**
+The public docs can describe the hybrid architecture in prose. I restructured that explanation as an ASCII diagram with a specific callout:
 
-The public docs list limitations as a technical reference at the bottom of the core concepts page. I pulled them forward into a table with a third column: "What to tell the customer." The 2 MB input/output limit, for example, is a non-issue if you immediately follow it with "for larger payloads, use payload offloading to your own S3/GCS/Azure." The SE needs the objection and the answer in the same row.
+> "Workers connect outbound — Mistral never initiates connections into the customer's network."
+
+That one line answers the kind of question a CISO or security reviewer is likely to ask. The full technical explanation can remain in the public docs for anyone who wants implementation detail.
+
+### Example 3: Limitations
+
+Public docs can list limitations as technical reference. The enablement doc pulls them into a table with a third column: **"What to tell the customer."**
+
+For example, a 2 MB input/output limit sounds like a blocker if stated alone. It becomes a manageable design constraint when paired with approved guidance: for larger payloads, use payload offloading to customer-controlled storage such as S3, GCS, or Azure Blob Storage.
+
+The SE needs the objection and the response in the same row.
 
 ---
 
 ## 5. Stakeholder management: keeping Engineering, Product, and Support served
 
-This doc touches three internal teams differently:
+This document touches three internal teams differently.
 
-**Engineering** needs to trust that the technical detail is accurate. Every claim in the doc is sourced from the public docs or the official announcement blog post. The metadata header includes a "Last verified" date and a named owner field (currently TBD — in production, this would be a specific person who owns accuracy). The doc explicitly says: "If anything in this doc is inaccurate or out of date, update it and change the Last verified date."
+**Engineering** needs to trust that the technical detail is accurate. Every product claim in the doc should be sourced from public docs, release notes, or an approved internal source. The metadata header includes a "Last verified" date and an owner field. In production, this owner would be a named person accountable for technical accuracy. The doc also includes the operating rule: if anything is inaccurate or out of date, update it and change the Last verified date.
 
-**Product/PMM** needs to control positioning. The competitive section is marked internal-only. The pricing section deliberately says "escalate to [pricing owner]" rather than inventing an answer. These are guardrails that prevent SEs from freelancing on sensitive topics. In a real deployment, I'd route the competitive section through PMM review and the pricing section through the pricing lead before publishing.
+**Product/PMM** needs to control positioning. The competitive section is marked internal-only. The pricing section deliberately says "escalate to the pricing owner" rather than inventing an answer. These are guardrails that prevent SEs from freelancing on sensitive topics. In a real deployment, I would route the competitive section through PMM review and the pricing section through the pricing lead before publishing.
 
-**Support/CS** benefits from the Q&A tables in Section 4 — these are the same questions that Support will get post-sale, and having consistent approved answers across SE and Support prevents the "the sales team told us X but support says Y" problem.
+**Support/CS** benefits from the Q&A tables in Section 4. These are the same questions that may appear after the sale, and consistent answers across SE and Support prevent the "the sales team told us X, but support says Y" problem.
 
-The review cycle I'd propose: monthly review for the first 3 months after GA launch (when the product is changing fastest), then quarterly. Every review touches all three stakeholders. The review date goes on the owner's calendar the day the doc publishes.
-
----
-
-## 6. How I'd measure whether this doc is working
-
-Word of mouth is not a signal. Here's what I'd actually look at:
-
-**Leading indicators (first 30 days):**
-- **Doc open rate.** If SEs aren't opening it, the title or location is wrong. Track this via whatever internal knowledge tool hosts the doc (Guru, Notion, Confluence analytics).
-- **Time on page / scroll depth.** If they open it but bounce after Section 1, the structure isn't delivering value past the intro.
-- **Slack/Teams questions that are answered in the doc.** If SEs are still asking "where does customer data go?" in the SE channel, the doc isn't being found or isn't trusted.
-
-**Lagging indicators (60-90 days):**
-- **Demo-to-next-step conversion for Workflows deals.** If SEs who use the doc convert demos at a higher rate than those who don't, the doc is working. This requires CRM tagging.
-- **Support ticket deflection.** If the same questions from Section 4 show up in post-sale support tickets, either the SE isn't using the doc or the doc's answers aren't sticking.
-- **SE feedback in deal retros.** Specifically: "Was there a question in the room you didn't have an answer for?" Those gaps become the next doc update.
-
-**The signal that tells me to change the doc:**
-- A competitor starts appearing in >20% of deals → spin up a branded battlecard, not just the build-vs-buy objection.
-- Pricing is locked at GA → replace the "what we don't know yet" language with the actual pricing sheet.
-- Demo failures cluster on a specific failure mode (latency, rate limits) → add a pre-recorded golden-path asset and a specific recovery script.
+The review cycle I would propose: monthly review for the first three months after GA launch, when the product and messaging are changing fastest, then quarterly after that. Every review should include Engineering, Product/PMM, and Support/CS. The review date should go on the owner's calendar the day the doc is published.
 
 ---
 
-## 7. What I'd do next if this were a real project
+## 6. How I would measure whether this doc is working
 
-1. **Run it past 2-3 SEs before publishing.** The fastest way to find gaps is to have an SE read it and then try to demo Workflows to me as if I'm a prospect. Whatever they fumble or skip reveals what the doc doesn't cover well enough.
+Word of mouth is not enough. Here is what I would actually look at.
 
-2. **Build the demo environment.** The code example is illustrative. A real enablement program needs a working demo environment with a pre-seeded invoice, a Studio workspace SEs can log into, and a fallback video capture for when live demos go wrong.
+### Leading indicators: first 30 days
 
-3. **Create a 1-page "cold open" derivative.** A version of this doc trimmed to one page, designed to be forwarded to a security reviewer or executive who joins a deal mid-cycle with zero context. Different artifact, same source material.
+**Doc open rate.**  
+If SEs are not opening it, the title, location, or launch communication is wrong. Track this through the internal knowledge tool that hosts the doc, such as Guru, Notion, Confluence, or an internal docs platform.
 
-4. **Add a discovery question bank.** What questions should the SE ask *before* demoing Workflows? ("Walk me through what happens today when a step in your AI pipeline fails." "How do you currently handle human approvals in automated processes?" "What's your compliance team's audit requirement for AI-driven decisions?") These qualify whether Workflows is the right product to demo, and they set up the demo story.
+**Time on page and scroll depth.**  
+If SEs open it but bounce after Section 1, the structure may not be delivering value beyond the intro.
+
+**Repeated Slack or Teams questions already answered in the doc.**  
+If SEs are still asking "where does customer data go?" in the SE channel, the doc is either not being found, not being trusted, or not answering the question clearly enough.
+
+### Lagging indicators: 60-90 days
+
+**Demo-to-next-step conversion for Workflows deals.**  
+If SEs who use the doc convert demos at a higher rate than those who do not, the doc is likely helping. This would require CRM tagging or deal notes that identify when the enablement asset was used.
+
+**Support ticket deflection.**  
+If the same questions from Section 4 show up repeatedly in post-sale support tickets, either the SE is not using the doc, the customer-facing explanation is not sticking, or the answer itself is incomplete.
+
+**SE feedback in deal retros.**  
+The most useful retrospective question is: "Was there a question in the room you did not have an answer for?" Those gaps become the next doc update.
+
+### Signals that would trigger a change
+
+| Signal | What I would do |
+|---|---|
+| A competitor starts appearing in more than 20% of deals | Create a branded battlecard instead of relying only on the build-vs-buy objection |
+| Pricing is finalized at GA | Replace the "what we do not know yet" language with the approved pricing guidance |
+| Demo failures cluster around latency, rate limits, or environment setup | Add a pre-recorded golden-path asset and a specific recovery script |
+| SEs repeatedly ask questions answered in the doc | Improve discoverability, rename the section, or move the answer earlier |
+| Security reviewers ask the same architecture question repeatedly | Expand the hybrid architecture section and add a security-review one-pager |
+
+---
+
+## 7. What I would do next if this were a real project
+
+1. **Run it past 2-3 SEs before publishing.**  
+   The fastest way to find gaps is to have an SE read it and then try to demo Workflows to me as if I were a prospect. Whatever they fumble, skip, or paraphrase badly reveals what the doc does not cover well enough.
+
+2. **Build the demo environment.**  
+   The code example is illustrative. A real enablement program needs a working demo environment with a pre-seeded invoice, a Studio workspace SEs can log into, and a fallback video capture for when live demos go wrong.
+
+3. **Create a 1-page cold-open derivative.**  
+   This would be a shorter version designed for a security reviewer, executive, or late-stage stakeholder who joins the deal with little context. It would use the same source material but compress it into the essential value proposition, architecture, caveats, and next step.
+
+4. **Add a discovery question bank.**  
+   The enablement package should also tell SEs what to ask before demoing Workflows. Example questions:
+   - "Walk me through what happens today when a step in your AI pipeline fails."
+   - "How do you currently handle human approvals in automated processes?"
+   - "What audit requirements does your compliance team have for AI-driven decisions?"
+   - "Which parts of the process need to run in your environment versus a vendor-managed environment?"
+
+   These questions help the SE qualify the opportunity and tailor the demo around the customer's real failure modes, approval requirements, and deployment constraints.
