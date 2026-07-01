@@ -1,0 +1,597 @@
+/*
+ * Documentation Audit Report — styles
+ *
+ * Scoped with the `mistral-audit-` prefix to avoid colliding with any
+ * existing site styles. Built on the same tokens as src/css/custom.css
+ * (near-black text, off-white backgrounds, Instrument Serif display type,
+ * frosted-glass panels) rather than introducing a separate visual system —
+ * this page should read as part of the site, not a bolted-on artifact.
+ *
+ * Semantic colors (severity, category) are new — the base site is
+ * intentionally near-grayscale, so these are the only saturated color in
+ * the report. Kept desaturated and editorial rather than SaaS-dashboard
+ * bright, to match the site's restraint.
+ */
+
+.mistral-audit-root {
+  --ma-ink: #1d1d1f;
+  --ma-ink-secondary: #424245;
+  --ma-ink-tertiary: #86868b;
+  --ma-border: #d2d2d7;
+  --ma-border-soft: rgba(210, 210, 215, 0.6);
+  --ma-bg: #fbfbfd;
+  --ma-panel: rgba(255, 255, 255, 0.72);
+  --ma-panel-solid: #ffffff;
+  --ma-shadow: 0 22px 70px rgba(0, 0, 0, 0.055);
+  --ma-shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.045);
+
+  --ma-critical: #A33B26;
+  --ma-critical-bg: #FBF0EC;
+  --ma-high: #93631A;
+  --ma-high-bg: #FBF3E4;
+  --ma-medium: #3E5678;
+  --ma-medium-bg: #EEF2F7;
+  --ma-low: #4B6B4E;
+  --ma-low-bg: #EFF4EF;
+
+  --ma-serif: "Instrument Serif", Georgia, serif;
+  --ma-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+
+  font-family: var(--ma-sans);
+  color: var(--ma-ink);
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ── Hero / verdict ── */
+.mistral-audit-hero {
+  margin: 40px 0 56px;
+  padding: 40px 40px 36px;
+  border-radius: 24px;
+  border: 1px solid var(--ma-border-soft);
+  background: var(--ma-panel);
+  box-shadow: var(--ma-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.mistral-audit-kicker {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ma-ink-tertiary);
+  margin-bottom: 18px;
+}
+
+.mistral-audit-hero-title {
+  font-family: var(--ma-serif);
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ma-ink);
+  margin: 0 0 20px;
+}
+
+.mistral-audit-score-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.mistral-audit-score-ring {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+}
+
+.mistral-audit-score-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ma-serif);
+  font-size: 1.7rem;
+  color: var(--ma-ink);
+}
+
+.mistral-audit-score-caption {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--ma-ink-secondary);
+  max-width: 480px;
+}
+
+/* ── Stat strip ── */
+.mistral-audit-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 1px;
+  background: var(--ma-border-soft);
+  border: 1px solid var(--ma-border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 32px 0 40px;
+}
+
+.mistral-audit-stat {
+  background: var(--ma-panel-solid);
+  padding: 18px 14px;
+  text-align: center;
+}
+
+.mistral-audit-stat-number {
+  font-family: var(--ma-serif);
+  font-size: 1.75rem;
+  color: var(--ma-ink);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.mistral-audit-stat-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ma-ink-tertiary);
+}
+
+/* ── Thesis callout ── */
+.mistral-audit-thesis {
+  margin: 32px 0;
+  padding: 26px 30px;
+  border-radius: 16px;
+  border-left: 3px solid var(--ma-ink);
+  background: var(--ma-panel-solid);
+  box-shadow: var(--ma-shadow-sm);
+}
+
+.mistral-audit-thesis p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ma-ink);
+}
+
+/* ── Filter chips ── */
+.mistral-audit-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 28px 0 24px;
+}
+
+.mistral-audit-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 15px;
+  font-size: 0.83rem;
+  font-weight: 500;
+  font-family: var(--ma-sans);
+  border: 1px solid var(--ma-border);
+  border-radius: 999px;
+  background: var(--ma-panel-solid);
+  color: var(--ma-ink-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.mistral-audit-chip:hover {
+  border-color: var(--ma-ink-tertiary);
+}
+
+.mistral-audit-chip:focus-visible {
+  outline: 2px solid var(--ma-ink);
+  outline-offset: 2px;
+}
+
+.mistral-audit-chip-active {
+  background: var(--ma-ink);
+  color: #ffffff;
+  border-color: var(--ma-ink);
+}
+
+.mistral-audit-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mistral-audit-chip-count {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.mistral-audit-chip-active .mistral-audit-chip-count {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ── Finding cards ── */
+.mistral-audit-findings {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.mistral-audit-finding {
+  padding: 22px 26px;
+  border-radius: 16px;
+  border: 1px solid var(--ma-border-soft);
+  background: var(--ma-panel-solid);
+  transition: box-shadow 0.15s ease;
+}
+
+.mistral-audit-finding:hover {
+  box-shadow: var(--ma-shadow-sm);
+}
+
+.mistral-audit-finding-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.mistral-audit-finding-id {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 650;
+  color: var(--ma-ink-tertiary);
+  margin-top: 3px;
+}
+
+.mistral-audit-finding-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--ma-ink);
+  flex: 1;
+  min-width: 200px;
+  line-height: 1.4;
+}
+
+.mistral-audit-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mistral-audit-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 0.68rem;
+  font-weight: 650;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.mistral-audit-badge-effort {
+  background: #F3F3F4;
+  color: var(--ma-ink-secondary);
+  font-weight: 500;
+}
+
+.mistral-audit-finding-field {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ma-ink-secondary);
+  margin-top: 10px;
+}
+
+.mistral-audit-finding-label {
+  font-size: 0.68rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ma-ink-tertiary);
+  margin-bottom: 3px;
+}
+
+.mistral-audit-finding-impact {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: #F7F7F8;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--ma-ink);
+  line-height: 1.55;
+}
+
+/* ── Before / after ── */
+.mistral-audit-ba {
+  border-radius: 18px;
+  border: 1px solid var(--ma-border-soft);
+  background: var(--ma-panel-solid);
+  overflow: hidden;
+  margin-bottom: 22px;
+  box-shadow: var(--ma-shadow-sm);
+}
+
+.mistral-audit-ba-header {
+  padding: 20px 26px 16px;
+}
+
+.mistral-audit-ba-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--ma-ink);
+  margin: 0 0 4px;
+}
+
+.mistral-audit-ba-context {
+  font-size: 0.86rem;
+  color: var(--ma-ink-tertiary);
+}
+
+.mistral-audit-ba-toggle {
+  display: flex;
+  border-top: 1px solid var(--ma-border-soft);
+  border-bottom: 1px solid var(--ma-border-soft);
+}
+
+.mistral-audit-ba-btn {
+  flex: 1;
+  padding: 10px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: var(--ma-sans);
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ma-ink-tertiary);
+  transition: all 0.15s ease;
+}
+
+.mistral-audit-ba-btn:first-child {
+  border-right: 1px solid var(--ma-border-soft);
+}
+
+.mistral-audit-ba-btn-active-before {
+  background: var(--ma-critical-bg);
+  color: var(--ma-critical);
+}
+
+.mistral-audit-ba-btn-active-after {
+  background: var(--ma-low-bg);
+  color: var(--ma-low);
+}
+
+.mistral-audit-ba-content {
+  padding: 22px 26px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--ma-ink);
+}
+
+.mistral-audit-ba-content p {
+  margin: 0 0 14px;
+}
+
+.mistral-audit-ba-content p:last-child {
+  margin-bottom: 0;
+}
+
+.mistral-audit-ba-content code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.84rem;
+  background: #F3F3F4;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.mistral-audit-code-block {
+  margin: 0 0 14px;
+  padding: 16px 18px;
+  background: #1d1d1f;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.mistral-audit-code-block code {
+  background: none;
+  padding: 0;
+  color: #f5f5f7;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.mistral-audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 14px;
+  font-size: 0.86rem;
+}
+
+.mistral-audit-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 650;
+  color: var(--ma-ink);
+  border-bottom: 2px solid var(--ma-border);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ma-ink-tertiary);
+}
+
+.mistral-audit-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--ma-border-soft);
+  color: var(--ma-ink-secondary);
+}
+
+.mistral-audit-table tr:last-child td {
+  border-bottom: none;
+}
+
+.mistral-audit-ba-why {
+  padding: 15px 26px;
+  background: #F7F7F8;
+  border-top: 1px solid var(--ma-border-soft);
+  font-size: 0.86rem;
+  color: var(--ma-ink-secondary);
+  line-height: 1.6;
+}
+
+.mistral-audit-ba-why b {
+  color: var(--ma-ink);
+  font-weight: 650;
+  margin-right: 4px;
+}
+
+/* ── AI readiness rows ── */
+.mistral-audit-ai-intro {
+  font-size: 0.9rem;
+  color: var(--ma-ink-secondary);
+  margin-bottom: 18px;
+}
+
+.mistral-audit-ai-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.mistral-audit-ai-row {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 14px;
+  align-items: start;
+  padding: 14px 18px;
+  border: 1px solid var(--ma-border-soft);
+  border-radius: 12px;
+  background: var(--ma-panel-solid);
+}
+
+.mistral-audit-ai-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.mistral-audit-ai-icon-missing {
+  background: var(--ma-critical-bg);
+  color: var(--ma-critical);
+}
+
+.mistral-audit-ai-icon-present {
+  background: var(--ma-low-bg);
+  color: var(--ma-low);
+}
+
+.mistral-audit-ai-feature {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ma-ink);
+  margin-bottom: 2px;
+}
+
+.mistral-audit-ai-desc {
+  font-size: 0.83rem;
+  color: var(--ma-ink-secondary);
+  line-height: 1.5;
+}
+
+.mistral-audit-ai-competitor {
+  font-size: 0.76rem;
+  color: var(--ma-ink-tertiary);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+/* ── Roadmap ── */
+.mistral-audit-roadmap {
+  display: grid;
+  gap: 20px;
+}
+
+.mistral-audit-roadmap-row {
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  gap: 18px;
+}
+
+.mistral-audit-roadmap-label {
+  text-align: right;
+  padding-top: 2px;
+}
+
+.mistral-audit-roadmap-phase {
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: var(--ma-ink);
+}
+
+.mistral-audit-roadmap-caption {
+  font-size: 0.76rem;
+  color: var(--ma-ink-tertiary);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.mistral-audit-roadmap-tag {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+.mistral-audit-roadmap-tag-quick {
+  background: var(--ma-low-bg);
+  color: var(--ma-low);
+}
+
+.mistral-audit-roadmap-tag-strategic {
+  background: var(--ma-medium-bg);
+  color: var(--ma-medium);
+}
+
+.mistral-audit-roadmap-body {
+  padding: 16px 22px;
+  border-radius: 14px;
+  border: 1px solid var(--ma-border-soft);
+  border-left: 3px solid var(--ma-ink);
+  background: var(--ma-panel-solid);
+}
+
+.mistral-audit-roadmap-item {
+  font-size: 0.88rem;
+  color: var(--ma-ink);
+  padding: 4px 0;
+  line-height: 1.55;
+}
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  .mistral-audit-hero { padding: 28px 22px 26px; }
+  .mistral-audit-score-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .mistral-audit-roadmap-row { grid-template-columns: 1fr; }
+  .mistral-audit-roadmap-label { text-align: left; }
+  .mistral-audit-ai-row { grid-template-columns: 22px 1fr; }
+  .mistral-audit-ai-competitor { grid-column: 2; }
+  .mistral-audit-thesis, .mistral-audit-finding { padding: 18px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mistral-audit-root * { transition: none !important; }
+}

@@ -1,0 +1,419 @@
+---
+title: "Docs for Humans and Agents"
+sidebar_label: "Docs for Humans and Agents"
+sidebar_position: 2
+---
+
+# Docs for Humans and Agents
+
+*A recommendation for docs.mistral.ai, grounded in verified 2026 research on llms.txt
+adoption and a direct feature audit of Stripe's documentation. I've anchored this in
+Mistral specifically rather than a generic "docs portal" — the argument is sharper with a
+real site attached to it. Because the live docs are moving quickly, the safest presentation
+frame is: "here is what I verified during the audit, here is what appears fixed now, and here is the durable pattern underneath." The recommendation itself generalizes to any developer docs site
+if you want a portable version later.*
+
+---
+
+## Executive summary
+
+Documentation consumption has split into two audiences that used to be one: people
+reading pages in a browser, and AI systems — coding agents, RAG pipelines, and LLM-based
+workflows — retrieving and acting on the same content programmatically. docs.mistral.ai
+currently serves the human-in-browser audience more visibly than the agent-reader audience. I could not find page-level affordances such as View as Markdown, Copy for LLM, or Ask about this page in the rendered docs UI; the only visible reader affordance I found was the standard `⌘K` search box. Stripe's docs expose these agent-facing actions directly, which makes the contrast easy to demonstrate.
+
+The recommendation is not "add a chatbot." It's narrower and cheaper than that: most of
+what makes documentation AI-ready is exposing content that already exists in a form
+agents can parse *without* an LLM in the loop — clean Markdown, a curated agent-facing
+index, one-command tool setup. That's the majority of the value, and it ships without
+solving hallucination. The one genuinely generative feature — a page-scoped "ask about
+this" assistant — should be scoped small, grounded strictly to page content, and for a
+demo context, simulated and explicitly labeled as such rather than wired to a real
+inference pipeline that isn't the point of the exercise.
+
+For an AI-native company whose own product line is coding agents (Vibe Code) and
+enterprise AI deployment, shipping docs that don't work for AI readers isn't a missed
+trend — it's a credibility gap between what Mistral sells and what Mistral's own
+documentation demonstrates.
+
+---
+
+## Council notes
+
+The honest version of how I'd argue this internally — including where the room would disagree with itself.
+
+**Documentation architect:** The IA question isn't "where does the assistant go." It's which affordances are global versus conditional. A conceptual overview page doesn't need "Install tools." A quickstart doesn't need the same weight of "Ask about this page" as a 500-line API reference. Ship this as one undifferentiated toolbar on every page and it reads like a feature checklist, not a documentation decision.
+
+**Developer experience lead:** The win condition is time-to-first-successful-call, not "has an AI feature." Copy for LLM and View as Markdown move that number because they remove a manual, error-prone step developers already do today — copy-pasting rendered HTML into a prompt and getting broken code back because the markdown got mangled. That's a real, observable pain point. I don't have the same confidence that a chat widget moves that number, and I'd say so if asked.
+
+**AI product strategist:** This is a genuine shift, and it's not hype — it's already observable in server logs industry-wide. But I'd stop the room from over-indexing on llms.txt as an SEO play. The 2026 data is unambiguous: it does not improve AI-search citation rates, and Google has publicly compared it to the keywords meta tag. The real case for llms.txt is narrower and better: IDE agents — Cursor, Claude Code, Windsurf, GitHub Copilot — already fetch it when pointed at a docs site, and Mistral's own models read it "with caveats," per the research. Ship it as agent infrastructure, not as a marketing lever. Overselling the SEO angle is the fastest way to lose the room's trust in the rest of the pitch.
+
+**Solutions engineer:** From a demo-credibility standpoint, "Copy for LLM," "View as Markdown," and "Install tools" are the pieces I can show a customer and have them immediately understand the value, because they can watch it work in real time with no caveats. "Ask about this page" is the one I'd want clearly framed before I demo it — customers ask sharp questions about hallucination and data handling the second they see a chat box, and I don't want to be improvising an answer live.
+
+**Support lead:** Agreed on caution, different reason. I'd resist the claim "this reduces support tickets" as a headline number in the demo — that's a causal claim that needs real usage data, not a portfolio piece. What I'd claim instead: page-level self-service affordances are a leading indicator, and the highest-value version of this feature isn't the assistant answering questions — it's logging *which* questions get asked on which pages. That's a content-gap signal, not a support-deflection guess.
+
+**Frontend/docs engineer:** Cost reality check, since it changes what belongs in a demo. View as Markdown, Copy for LLM, and llms.txt are near-zero marginal cost if the site already stores content as Markdown/MDX — which most modern docs platforms do. "Ask about this page" is the only piece that requires real infrastructure (retrieval, a model call, grounding, guardrails against hallucination). Everything else on this list is a formatting and exposure problem, not an AI problem. That's worth saying plainly, because it reframes the whole pitch: most of the value here doesn't require building AI at all.
+
+**Critical reviewer:** That last point is the pitch. Say it first, not last. "Add an AI assistant to the docs" is a generic, slightly tired idea, and a stakeholder panel has heard it a dozen times this year. "Most of what makes docs AI-ready has nothing to do with generating text — it's about exposing content that already exists in a form agents can parse without an LLM in the loop, and the one generative piece should be scoped and labeled honestly" is a genuinely different, more defensible claim, and it happens to be true.
+
+---
+
+## 2. Recommended umbrella / positioning
+
+Three options, ranked:
+
+1. **"Docs for Humans and Agents"** — *recommended.* Plain language, no buzzword decay,
+   and it states the actual thesis directly: two audiences, not one feature. It also
+   sets up every section that follows, because the whole document is organized around
+   what each audience needs differently.
+2. **"Agent-Legible Documentation"** — the most technically precise option. "Legible"
+   correctly implies structure and parseability, not just "an AI touched it," which is a
+   useful distinction to have available if a technical stakeholder pushes on what
+   "AI-ready" actually means. Slightly too dry to lead with in a room.
+3. **"AI-Ready Documentation"** — the safe, expected option. It's not wrong, but by mid-2026
+   "AI-ready" is on the way to meaning nothing — every vendor claims it. I'd hold this in
+   reserve as the label a search-engine-optimized landing page might use, not the internal
+   framing.
+
+I'd open with option 1 and introduce option 2 as the precise definition underneath it —
+"docs for humans and agents, which in practice means agent-legible content" gives you both
+the memorable framing and the technical rigor in one breath.
+
+---
+
+## 3. Strategic rationale
+
+The shift is real, and it's measurable without reaching for hype. Coding agents — Cursor,
+Claude Code, Windsurf, GitHub Copilot, Cline, Aider — routinely fetch `/llms.txt` and
+`/llms-full.txt` when pointed at a documentation site, and use it to decide which pages to
+pull before generating code. That's not a projection; it's current, observed agent
+behavior as of 2026. LangChain shipped an open-source MCP server, `mcpdoc`, whose entire
+purpose is exposing `llms.txt` files to tools like Cursor and Claude Desktop.
+
+What I want to be precise about, because overselling this is the fastest way to lose
+credibility with a technical panel: **`llms.txt` is not an SEO or AI-search-citation
+lever.** A 300,000-domain study found adoption sits around 10% regardless of site traffic
+tier, and a predictive model of AI-citation likelihood actually got *worse* when
+`llms.txt` presence was included as a feature — the file added noise, not signal, to
+citation prediction. Google's John Mueller has publicly compared it to the deprecated
+keywords meta tag. If someone on the panel has read the same research I have, and pitches
+this as "it'll improve our AI search visibility," that claim doesn't survive five minutes
+of scrutiny.
+
+The honest case is narrower and, I think, more interesting: this is **infrastructure for
+agents that already visit your site on a user's behalf**, not a marketing surface.
+Mistral's own crawler policy — published at `/robots` — already distinguishes
+`MistralAI-User` (Vibe visiting a page to answer a user's question, with attribution) from
+`MistralAI-Index` (indexing). Mistral has already built the access-control half of this
+story. It hasn't yet built the content-legibility half — the part that determines whether
+an agent visiting on a user's behalf gets clean, accurate, current information or has to
+scrape it out of rendered HTML. And per the most current adoption research available,
+Mistral's own models "read `llms.txt` where present but spec support is still maturing" —
+which means shipping one on docs.mistral.ai isn't hypothetical infrastructure. It's a file
+Mistral's own product would use, today, imperfectly, and better tomorrow.
+
+That's the "why now" that doesn't require hand-waving at a trend: the company's own
+product line is the audience for this change.
+
+---
+
+## 4. User problems this solves
+
+- **The copy-paste-into-a-prompt tax.** A developer today who wants to ask Claude or
+  ChatGPT a question about a Mistral docs page has to select rendered HTML, paste it, and
+  hope the formatting survives. Code blocks break. Tables mangle. "View as Markdown" and
+  "Copy for LLM" remove this entirely — the content is already stored as Markdown/MDX;
+  the fix is exposing it, not generating anything new.
+- **Coding agents guessing instead of retrieving.** Without `llms.txt`, an agent pointed
+  at docs.mistral.ai has no curated map of what matters — it either scrapes the whole
+  rendered site or hallucinates an endpoint that doesn't exist. This is precisely the
+  Cursor failure mode Stripe's own documentation calls out as the reason to ship a
+  well-curated file.
+- **"Where do I even start" on a page with 40 code samples.** A page-scoped assistant,
+  even a narrow one, answers "does this apply to my language/framework/use case" faster
+  than scanning tabs.
+- **Losing the thread across a multi-step setup.** "Install tools" as a page-contextual
+  action — the exact CLI command for *this* page's prerequisite, not a generic "see
+  installation docs" link — removes a context switch that's currently a full page
+  navigation away.
+
+---
+
+## 5. Organizational problems this solves
+
+- **Self-service and support deflection** — directionally, not as an overclaimed number.
+  The defensible version of this claim: friction removed from self-service is a leading
+  indicator, not a guaranteed ticket-count reduction, and I'd present it that way rather
+  than promising a number I can't back with usage data yet.
+- **Onboarding speed** — every quickstart currently asks a developer to manually translate
+  "the docs say to do X" into "here's the exact command for my environment." Page-scoped
+  install actions collapse that translation step.
+- **Discoverability for the reader who doesn't know the product's vocabulary yet** — a
+  page-scoped assistant, grounded strictly to that page, can answer "does this handle
+  streaming" without the reader needing to know that's called `stream=true` and buried in
+  a different section.
+- **Content reuse and gap detection — the sharpest organizational win, and the one I'd
+  lead with to a support or content strategy stakeholder.** If page-level questions are
+  logged (never the answers if there's any ambiguity about page-grounding accuracy — the
+  *questions*), that's a direct, low-noise signal of exactly where documentation is
+  unclear, because it's the reader telling you in their own words what the page didn't
+  answer. This is a content-gap-detection mechanism that's more accurate than support
+  ticket analysis, because it captures the moment of confusion before the reader gives up
+  and files a ticket — or worse, doesn't file anything and just leaves.
+- **Trust in the docs as a single source of truth.** If `llms.txt` and the page-level
+  Markdown export are generated from the same source content that renders the HTML page,
+  there's structurally no way for the AI-facing version and the human-facing version to
+  drift apart. That's not true today of, for example, a separate blog post explaining a
+  launch in more detail than the docs page for the same feature.
+
+---
+
+## 6. Stripe benchmark — what to learn, not copy
+
+I audited this directly rather than taking the reference at face value. Confirmed across
+eight+ Stripe docs pages — quickstarts, SDK reference, the changelog, the MCP page, testing
+docs — the same toolbar appears consistently: **Ask about this page · Copy for LLM · View
+as Markdown · Install tools.** On page types where "tools" doesn't fit (embedded component
+reference pages), the label adapts to "Install skills" — a detail worth noting, because it
+shows Stripe treats these as *conditional, page-typed actions*, not a single global bar
+bolted onto every template. That's the documentation architect's point from the council
+notes, demonstrated in production by the company being cited as the benchmark.
+
+Stripe also ships a Dashboard assistant (RAG over their docs and support articles, capable
+of taking confirmed actions like creating a product) and a real MCP server at
+`mcp.stripe.com` that exposes both API tools and knowledge-base search to Cursor, Claude
+Code, and ChatGPT with a one-click install.
+
+**The lesson to take, framed as a pattern rather than an imitation:** Stripe didn't build
+one AI feature. They built a content-exposure layer (Markdown, LLM-copy, llms.txt-style
+curation) that required no generative model at all, and layered exactly one generative
+feature — the page assistant — on top of it, scoped to page content. The pattern that
+generalizes isn't "Stripe has a chatbot." It's "separate the deterministic, zero-hallucination-risk
+affordances from the one generative affordance, ship the first tier broadly, and scope the
+second tier narrowly." Vercel and Anthropic follow the same split. That's an emerging
+convention among API-first companies, not a Stripe idiosyncrasy — which is the honest way
+to cite it without sounding like "let's copy Stripe."
+
+---
+
+## 7. Proposed feature set
+
+**Must-have for the demo — deterministic, no model call required:**
+- View as Markdown (renders the actual page source)
+- Copy for LLM (one-click, clean Markdown + minimal frontmatter to clipboard)
+- `llms.txt` for the demo site, hand-curated per the emerging best-practice pattern:
+  H1 project name, one-paragraph blockquote summary, H2-organized links, under 5KB
+- Page-contextual "Install tools" — one real, worked example (e.g., a Studio quickstart
+  page showing the exact SDK install command for that page, not a generic link)
+
+**Must-have for the demo — simulated, clearly labeled:**
+- "Ask about this page" — grounded to hardcoded page content, 4–6 realistic question/answer
+  pairs per demo page, visibly marked as a simulation in the UI and in any accompanying
+  notes. Not wired to a live model call for this deliverable.
+
+**Nice-to-have for a future, real version:**
+- A genuine RAG-backed assistant, grounded strictly to retrieved page content with visible
+  source citation
+- Suggested-prompt chips per page, derived from the actual top queries once real usage
+  data exists
+- A real MCP server exposing docs search (and, longer-term, API tools) to Cursor/Claude
+  Code/Windsurf — the Stripe pattern, scoped to Mistral's own product surface
+- The question-logging content-gap pipeline described in Section 5 — this is the highest
+  long-term-value item on this list and the one I'd pitch hardest for a real roadmap slot
+
+**Out of scope for now, and I'd say so explicitly if asked:**
+- An assistant that takes actions on the user's behalf (Stripe's "create a product for me")
+  — a documentation site is the wrong trust boundary for that, and it's a different product
+- Any custom model training — retrieval over existing content is sufficient; there's no
+  case here for a fine-tune
+- A full analytics/attribution product for AI-referral traffic — worth tracking, not worth
+  building as part of this initiative
+
+---
+
+## 8. Demo deliverable proposal
+
+**What the user sees:** A documentation page — I'd use a real Mistral Studio quickstart as
+the template, rebuilt as a static demo — with a compact action bar at the top of the
+content area: `View as Markdown` · `Copy for LLM` · `Ask about this page` · `Install tools`.
+Clicking each does something real and immediate; nothing requires a loading spinner longer
+than a local render.
+
+**What's simulated, and how I'd label it:** Only "Ask about this page." The UI would show
+a small, honest badge — "Simulated for this demo — grounded to this page's content" — next
+to the assistant panel, not hidden in a tooltip. When the user asks one of a handful of
+pre-seeded realistic questions (or types free text, matched loosely against the hardcoded
+set with a graceful fallback), the assistant answers using only that page's actual content
+and links back to the specific section it drew from.
+
+**What's hardcoded:** The Q&A pairs for "Ask about this page," and the `llms.txt` content
+for the demo site (a real, correctly-formatted file, just covering a handful of demo pages
+rather than the full site).
+
+**What's real, not simulated:** The Markdown rendering, the clipboard copy, and the
+`llms.txt` file itself — these have no reason to be faked, and faking them would undercut
+the credibility of the parts that are genuinely simulated.
+
+**What makes this look interview-ready rather than a toy:** Restraint. One page, done
+convincingly, with an honest simulation label, reads as senior judgment. Five pages with a
+half-working chatbot reads as a rushed feature demo. I'd rather present one page and be
+asked "can you show me another" than present five and have the panel find the seam.
+
+---
+
+## 9. Suggested UX flow
+
+1. Reader lands on a docs page — say, the Chat Completions reference.
+2. The action bar is visible immediately above the content, not hidden behind a menu —
+   these are first-class actions, not settings.
+3. Reader clicks **Ask about this page** and asks, "does this support streaming?"
+4. The assistant answers using only this page's content, cites the specific section
+   (`## Streaming`, in this example), and offers one concrete next step — a link to the
+   streaming code sample already on the page, not a generic "see the docs" deflection.
+5. Reader clicks **Copy for LLM** to paste the page into their own coding-agent context
+   before asking it to implement streaming in their own codebase.
+6. If the reader is a coding agent rather than a human, none of steps 2–5 happen — it
+   fetches `/llms.txt`, decides this page is relevant, and requests it directly as Markdown
+   via **View as Markdown**'s underlying route. The UX flow for the agent reader is the
+   same content, a different path, and that's the point: one content source, two valid
+   ways in.
+
+---
+
+## 10. Content model
+
+For this to work well — not just for the demo, but as a real content architecture — every
+page needs a small, consistent frontmatter contract:
+
+- `title`, `product_area` (Vibe / Studio / Admin / Deploy), `user_intent` (the one-sentence
+  job this page does)
+- `prerequisites` (linked, not prose — a list an agent can walk)
+- `related_tasks` (explicit "what comes next," which doubles as the human-facing "next step"
+  and the agent-facing graph edge)
+- `code_snippet_languages` (which of Python/TS/curl exist on this page — lets an agent or
+  the llms.txt generator know without parsing the body)
+- `last_updated` (both a trust signal for humans and a freshness signal for any RAG index)
+- `llm_summary` (one or two sentences, written for a model context window, not for SEO —
+  this is the string that ends up in `llms.txt` next to this page's link)
+
+This is a small, disciplined schema, deliberately — the temptation with "structured
+metadata for AI" is to over-specify. A frontmatter block a writer actually fills in
+consistently beats a comprehensive one that's half-empty by page fifty.
+
+---
+
+## 11. IA placement
+
+- **Page-level, not global.** The action bar belongs in the content template, rendered
+  conditionally by page type — the documentation architect's point from the council notes.
+  A conceptual page gets `Ask about this page` and `Copy for LLM`; it doesn't need
+  `Install tools` if there's nothing to install.
+- **`llms.txt` lives at the domain root**, generated from the same source-of-truth content
+  that renders the site — ideally auto-regenerated in CI on every deploy, the way Yoast and
+  Supabase already do it, so it can't silently go stale.
+- **Right-rail or top-of-content, not a floating global chat widget.** A floating widget
+  implies "ask about anything," which is a much bigger, riskier scope than "ask about this
+  page." Keeping the assistant visually scoped to the page it answers for is a UX decision
+  that also happens to be an honesty decision.
+- **Search stays search.** I would not merge `⌘K` search and the page assistant into one
+  surface — they answer different questions ("where is X" versus "what does this page say
+  about X") and collapsing them makes both worse.
+
+---
+
+## 12. Implementation plan for a dummy/simulation
+
+A practical build that avoids standing up a real RAG system:
+
+1. **Content layer:** pick 2–3 real docs.mistral.ai pages (Chat Completions, a Studio
+   quickstart, one Vibe Work page) and store their actual Markdown source as the demo's
+   data.
+2. **View as Markdown / Copy for LLM:** pure functions over that stored Markdown — no
+   backend needed beyond serving static content and a clipboard call.
+3. **`llms.txt`:** hand-write one covering just those 2–3 pages, following the format
+   confirmed across Anthropic, Stripe, and Vercel's real files — H1, blockquote summary,
+   H2-grouped links with one-line descriptions.
+4. **Ask about this page:** a small lookup table per page — 4–6 question/answer pairs
+   written to sound like real developer questions, each answer citing a real heading from
+   that page's actual content, plus a fallback response for anything that doesn't match
+   ("I can only answer questions about this page in this demo — try one of the suggested
+   questions above") that's honest rather than pretending to understand everything.
+5. **Install tools:** a single hardcoded, page-relevant command block with a copy button —
+   the SDK install line for whichever page is showing.
+
+No vector database, no live model call, no backend beyond static hosting. Every piece
+above is buildable as a single-file interactive artifact.
+
+---
+
+## 13. Risks and caveats
+
+- **Hallucination.** Mitigated entirely for this deliverable by *not* calling a live model
+  for the assistant — the simulation only ever returns pre-written, page-grounded answers.
+  For a real future version: strict retrieval-grounding, visible citations, and a
+  confidence floor below which the assistant says "I'm not sure — here's the closest
+  section" instead of guessing.
+- **Stale content.** `llms.txt` and Copy-for-LLM output are only trustworthy if generated
+  from the same source as the rendered page, not maintained separately. This is a build
+  constraint, not a nice-to-have — a hand-maintained second copy of the content will drift
+  and become the thing that erodes trust in the whole feature.
+- **Trust and source attribution.** Every assistant answer, real or simulated, should cite
+  the section it came from. This isn't just good UX — it's the difference between "the
+  docs told me this" and "an AI told me this," and developers trust the former more.
+- **Security and privacy.** A future real assistant that can query account or usage data
+  (Stripe's Dashboard assistant does this) is a materially different trust boundary than
+  one scoped to public documentation content. I'd keep this initiative firmly in the
+  latter category and treat the former as a separate, much later proposal if it's ever
+  warranted.
+- **Overpromising AI capability.** The single biggest risk to this pitch's credibility is
+  presenting `llms.txt` as an SEO win when the 2026 data says otherwise, or presenting a
+  simulated assistant as a working one without the label. Both are avoidable by just being
+  precise about what's real.
+
+---
+
+## 14. Final recommendation
+
+Ship the deterministic, zero-hallucination-risk layer first — `llms.txt`, View as Markdown,
+Copy for LLM, page-contextual Install actions — because it's cheap, it's honest, it serves
+an audience (coding agents) that demonstrably already exists for a developer docs site, and
+it doesn't require solving anything hard. Treat the page-scoped assistant as a second,
+clearly-labeled tier: real if there's appetite for the retrieval and grounding work, honestly
+simulated if this is a portfolio or early-stage pitch. Do not lead with the assistant — lead
+with the reframe that most of "AI-ready docs" isn't an AI feature at all, it's a legibility
+and structure problem that a documentation team is uniquely positioned to own, and the one
+generative piece on top should be scoped like a feature, not sold like a trend.
+
+---
+
+## 15. Optional copy
+
+**Short version:**
+> docs.mistral.ai is built for one reader — a human in a browser. Increasingly, the second
+> reader is a coding agent retrieving and acting on the same content. This proposal makes
+> the docs work for both: clean Markdown on demand, a curated agent-facing index, and a
+> page-scoped assistant — most of it shippable without a single model call.
+
+**Strategic version:**
+> Documentation consumption has split into two audiences docs.mistral.ai currently serves
+> unevenly: human readers, and the AI coding agents and retrieval systems that now
+> routinely fetch documentation on a developer's behalf. This is not a speculative trend —
+> Cursor, Claude Code, and Windsurf already look for machine-readable documentation
+> conventions when pointed at a site, and Mistral's own models are early, if imperfect,
+> consumers of the same conventions. The recommendation is to treat content legibility for
+> agents as a first-class documentation requirement alongside human readability: expose
+> existing content as clean Markdown, publish a curated `llms.txt`, and scope exactly one
+> generative feature — a page-grounded assistant — narrowly enough to ship without
+> overclaiming what it can do. Most of the value here is a structure and exposure problem,
+> not an AI-capability problem, which means most of it is cheap, fast, and low-risk to ship.
+
+**Portfolio/demo version:**
+> I built this after noticing that docs.mistral.ai — built by a company whose own product
+> line is AI agents — doesn't yet serve AI agents as a reader. I audited Stripe's
+> implementation directly rather than taking it at face value, verified the actual 2026
+> adoption data on `llms.txt` rather than assuming it's a proven SEO play, and scoped the
+> demo around a deliberate split: ship the deterministic pieces for real, simulate the one
+> generative piece honestly, and label the difference clearly. The strategic case isn't
+> "add a chatbot" — it's that most of what makes documentation AI-ready doesn't require AI
+> at all, and the discipline to tell those two things apart is, I'd argue, exactly the
+> judgment a senior documentation hire should bring to a proposal like this.

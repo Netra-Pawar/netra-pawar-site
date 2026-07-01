@@ -1,0 +1,235 @@
+---
+title: "Gap Analysis: Pages to Workflows"
+sidebar_label: "Gap Analysis"
+sidebar_position: 3
+---
+
+# Gap Analysis: Pages ↔ Audience Workflows (v2)
+
+## What changed from v1
+
+The first draft of this analysis was built on an under-verified content inventory. A
+dedicated fact-checking pass caught three real errors, all in the same direction — content
+that exists was classified as missing:
+
+1. **Migration guide from competitors (was M-09, "missing")** — a full migration guide
+   already exists at `/resources/migration-guides`, covering OpenAI and self-hosted Llama
+   migration paths with working code. It is not missing. It is misplaced — buried under
+   Developers > Resources instead of surfaced to Evaluators during their decision window.
+2. **Error code reference (was M-03, "missing")** — the error glossary at
+   `/resources/error-glossary` already documents every HTTP status code, the full error
+   JSON schema, and a working exponential-backoff retry sample. It is not missing. It is
+   under-surfaced — a Production Operator debugging a `429` has no reason to look under
+   "Developers > Resources" for it.
+3. **Retry / error handling strategy (was M-07, "missing")** — same page, same correction.
+   The retry code sample already exists on the error glossary page.
+
+This matters beyond just getting three rows right. It changes the *type* of fix each one
+needs. "Missing content" means someone has to write new documentation from scratch —
+research the topic, draft it, review it, ship it. "Misplaced content" means the content
+already exists and the fix is architectural: add a cross-link, duplicate a summary, move
+a nav entry. The second kind of fix is roughly an order of magnitude cheaper and faster
+to ship. Recommending "write a new production guide" when the real problem is "nobody
+surfaced the guide that already exists" would have been a wasted recommendation — and
+worse, if implemented, would have created a duplicate, competing page instead of fixing
+the actual problem (findability).
+
+The rest of the original analysis held up under re-verification and is carried forward
+with minor corrections noted inline.
+
+---
+
+## Part 1: Page-to-workflow mapping
+
+### Getting Started section
+
+*(Unchanged from v1 — re-verification did not surface errors in this section's mapping.)*
+
+| Page | URL | Segments served | Workflow(s) supported | Assessment |
+|------|-----|-----------------|----------------------|------------|
+| Homepage | / | All | Orientation, routing | ✅ Essential |
+| Platform overview | /getting-started/platform-overview | Evaluator, Builder, Vibe User | Orientation | ✅ Essential |
+| Platform overview (old slug) | /getting-started/le-chat-studio-admin | Same | Duplicate | ❌ Dead weight |
+| SDK Clients (old slug) | /getting-started/clients | Builder | SDK discovery | ❌ Dead weight |
+| Quickstarts landing | /getting-started/quickstarts | All | Routing | ⚠️ Container page |
+| Vibe Work quickstarts (×3) | /getting-started/quickstarts/vibe-work/* | Vibe User | First task, Skill creation | ✅ Good |
+| Le Chat quickstarts (×3, legacy sidebar) | /getting-started/quickstarts/le-chat/* | Vibe User | Duplicate of Vibe Work quickstarts | ❌ Dead weight |
+| Vibe Code quickstarts (×2) | /getting-started/quickstarts/vibe-code/* | Vibe Code Dev | CLI install, scaffolding | ✅ Good |
+| Studio quickstarts (×4) | /getting-started/quickstarts/studio/* | Builder | API activation, playground, prompts, skills | ✅ Good; one (key activation) should be a step, not a standalone page |
+| Developer quickstarts (×4) | /getting-started/quickstarts/developer/* | Builder, Evaluator | First call, tools, RAG, workflows | ✅ Essential — but see the sidebar-inconsistency finding, which affects exactly this folder |
+| Admin quickstarts (×3) | /getting-started/quickstarts/admin/* | IT Admin | Org setup, SSO, workspaces | ✅ Good |
+| Glossary | /getting-started/glossary | All | Reference | ✅ Utility |
+
+
+### Models section
+
+**Corrected entries below.**
+
+| Page | URL | Segments served | Workflow(s) supported | Assessment |
+|------|-----|-----------------|----------------------|------------|
+| Models Overview | /models/overview | Evaluator, Builder, AI Agent | Model comparison, model selection | ⚠️ Serves poorly — undifferentiated; **and now confirmed to contain a real content bug**: Devstral 2 is listed as both an active Featured model and a Legacy/Deprecated model with the same version number |
+| Model Selection Guide | /models/model-selection-guide | Evaluator, Builder, AI Agent | Model comparison / selection | ⚠️ Now renders comparison content, but should be reframed as a use-case-first decision guide |
+| Prompting best practices | /models/best-practices/prompt-engineering | Builder | Prompt optimization | ✅ Good |
+| Sampling | /models/best-practices/sampling | Builder | Advanced tuning | ✅ Niche, valid |
+| Cloud deployments | /models/deployment/cloud-deployments | Builder, SE, Buyer | Deployment options | ⚠️ Model-focused, no architecture diagrams |
+| Self-deployment | /models/deployment/local-deployment | Builder, SE, Buyer | Self-hosted deployment | ⚠️ Same issue |
+| Labs | /models/labs | Builder | Experimental models | ⚠️ Niche |
+| Active model cards (×18) | /models/model-cards/* | Builder, AI Agent | Model selection, parameter/pricing reference | ✅ Essential — confirmed rich, accurate data (pricing, context, API strings) |
+| Deprecated model cards | /models/model-cards/* | Prod Operator | Deprecation response | ⚠️ **45 rows confirmed (not "35+")**; dominate the overview page |
+
+
+### Vibe, Studio, and Admin sections
+
+Unchanged from v1 — re-verification confirmed URLs and content for the sampled pages in
+these sections without finding mapping errors. See the v1 gap analysis or the v2 content
+inventory for the full page-by-page tables; they are not reproduced here to avoid
+duplicating ~70 rows of unchanged material. Two additions from the inventory correction:
+
+| Page | URL | Segments served | Workflow(s) supported | Assessment |
+|------|-----|-----------------|----------------------|------------|
+| Manage Connectors (Admin) | /admin/security-access/connectors | IT Admin | Connector governance | ✅ Good — newly found, was missing from v1 mapping entirely |
+| Document Processing sub-pages (×3, corrected URLs) | `/studio-api/document-processing/basic_ocr`, `annotations`, `document_qna` | Builder | OCR/document AI usage | ✅ Good — content assessment unchanged, only the URLs were wrong in v1 |
+
+
+### Developers / Resources section
+
+**Substantially corrected — this section had the most errors in v1.**
+
+| Page | URL | Segments served | Workflow(s) supported | Assessment (v2) |
+|------|-----|-----------------|----------------------|-------------------|
+| Developers landing | /developers | Builder | Routing | ⚠️ Container page |
+| SDKs | /resources/sdks | Builder | SDK discovery | ✅ Good |
+| Cookbooks | /resources/cookbooks | Builder | Advanced patterns | ✅ Good |
+| **Error glossary** | /resources/error-glossary | Prod Operator | Error diagnosis, retry strategy | ✅ **Content is comprehensive** (HTTP codes, error schema, working retry code sample) — the problem is purely findability, not content quality |
+| Known limitations | /resources/known-limitations | Builder, Prod Operator, **Buyer** | Gotcha awareness, **and a fragment of data residency info** ("served from EU data centers by default") | ✅ Good, but the data-residency fragment is too thin and too buried to serve the Buyer's actual workflow |
+| Observability integrations | /resources/observability-integrations | Prod Operator | Observability setup | ✅ Good |
+| **Migration guides** | /resources/migration-guides | **Evaluator**, Migrator (edge case) | **Competitor migration** (OpenAI, self-hosted Llama) with working code | ✅ **Content is comprehensive and directly on-target.** v1 mischaracterized this as a deprecation-response page for Prod Operator; it is actually a well-built competitive migration guide for Evaluators |
+| Changelog | /resources/changelogs | Builder, Prod Operator | Change awareness | ✅ Good |
+| Security advisories | /resources/security-advisories | Prod Operator, Buyer | Security patch awareness | ✅ Good — **newly found in v2, entirely absent from v1's mapping** |
+| Supported languages | /resources/languages | Builder | Localization planning | ✅ Good — **newly found in v2** |
+| Deprecated features (×3 sub-pages) | /resources/deprecated/* | Builder (legacy) | Fine-tuning/Classifier Factory migration | ✅ Good — **newly found in v2**, was "unknown sub-pages" |
+| Ambassadors | /community/ambassadors | None of the 9 segments | Community programme | ⚠️ Not documentation |
+
+---
+
+## Part 2: Dead weight — pages serving no clear workflow
+
+**Unchanged from v1.** Re-verification did not find errors in this list — every dead-weight
+page was either confirmed to still exist and duplicate real content, or confirmed to serve no clear user workflow.
+
+| # | Page | URL | Reason | Recommendation |
+|---|------|-----|--------|----------------|
+| D-01 | Platform Overview (old slug) | /getting-started/le-chat-studio-admin | Duplicate | Redirect |
+| D-02 | SDK Clients (old slug) | /getting-started/clients | Duplicate of /resources/sdks | Redirect |
+| D-03 | Le Chat quickstarts (×3) | /getting-started/quickstarts/le-chat/* | Replaced by Vibe Work quickstarts | Redirect each |
+| D-04 | Le Chat overview | /le-chat/overview | Replaced by /vibe/overview | Redirect |
+| D-05 | Le Chat Vibe Code workflow | /le-chat/content-creation/vibe-code-workflow | Legacy path | Redirect to /vibe/code/overview |
+| D-06 | Model Selection Guide | /models/model-selection-guide | Comparison content exists, but the page does not yet guide a decision by use case | Rewrite as decision support, not as a new blank page |
+| D-07 | Products landing page | /products | Container, adds a click | Remove from top nav |
+| D-08 | Quickstarts landing page | /getting-started/quickstarts | Container, adds a click | Merge routing elsewhere |
+| D-09 | Mistral Vibe quickstart landing | /getting-started/quickstarts/vibe | Unclear purpose | Review — likely redirect |
+| D-10 | Activate Studio and generate key | /getting-started/quickstarts/studio/activate-and-generate-api-key | Prerequisite, not standalone | Merge as Step 1 of first API request |
+| D-11 | Ambassadors | /community/ambassadors | Community, not documentation | Keep, move out of docs sidebar |
+| D-12 | Prompting (under Studio Conversations) | /studio-api/conversations/chat-completion/prompting | Overlaps with Models > Best Practices > Prompting | Merge, redirect one |
+
+**Total dead weight:** ~15 pages, unchanged from v1.
+
+---
+
+## Part 3: Missing content — workflows with no page (revised)
+
+Three items have moved out of this table entirely (they're addressed in Part 4 now,
+since the content exists). The table below reflects only genuinely absent content,
+re-verified.
+
+### Tier 1: Critical gaps — confirmed still absent after re-verification
+
+| # | Workflow | Audience segment | Impact if missing | Recommended page | v2 status |
+|---|----------|-----------------|-------------------|-----------------|-----------|
+| M-01 | Model comparison / decision matrix | Evaluator | Lost developers | Reframe /models/model-selection-guide | Partially present: comparison exists; decision matrix absent |
+| M-02 | Going to production guide | Builder | Activation→production drop-off | New: /studio/production/ | Confirmed absent — no single page covers pinning + retries + cost + security together, even though retries (error glossary) and rate limits (admin tier page) individually exist elsewhere |
+| M-05 | Data residency / compliance page | Enterprise Buyer | Deals stall | New: /deploy/compliance/ | **Downgraded from "fully missing" to "thin fragment exists, needs a real page."** Known Limitations has one sentence ("served from EU data centers by default"); nowhere near sufficient for a compliance reviewer's actual workflow (SOC 2, GDPR, EU AI Act, DPA) |
+| M-06 | Deployment architecture overview | SE, Buyer | SEs build custom decks | New: /deploy/architecture/ | Confirmed absent |
+
+### Tier 2: High-value gaps — confirmed, with two reclassified out
+
+| # | Workflow | Audience segment | Recommended action | v2 status |
+|---|----------|-----------------|---------------------|-----------|
+| M-08 | "Why Mistral" / differentiation page | Evaluator | New page | Confirmed absent |
+| ~~M-09~~ | ~~Migration guide from competitors~~ | ~~Evaluator~~ | ~~New page~~ | **REMOVED — content already exists at /resources/migration-guides. Moved to Part 4 (misplaced content) as a surfacing fix, not a content-creation task.** |
+| M-10 | Model version pinning explainer | Builder | New page or section | Confirmed absent as a standalone explainer, though the underlying facts (versioned vs. `-latest` strings) are implicitly demonstrated across quickstart code samples without ever being explained |
+| M-11 | Le Chat → Vibe migration guide | Vibe User | New page | Confirmed absent as a dedicated page — the info box on /vibe/overview is the only acknowledgment |
+| M-12 | Streaming guide | Builder | Expand existing or new page | Confirmed thin — covered as a tab within chat completions, not a standalone pattern page |
+| M-13 | Security architecture overview | Buyer, SE | New page | Confirmed absent |
+| M-14 | Cost estimation guide | Prod Operator, Builder | New page or section | Confirmed absent as a unified guide, though raw pricing figures do exist scattered across model cards |
+
+### Tier 3: Valuable, lower urgency — unchanged from v1
+
+| # | Workflow | Audience segment | Recommended action |
+|---|----------|-----------------|---------------------|
+| M-15 | Context management (Vibe Code) | Vibe Code Dev | New page |
+| M-16 | Latency debugging checklist | Prod Operator | New page or section |
+| M-17 | Solution blueprints | SE | New section |
+| M-18 | Demo recipes | SE | New page |
+| M-19 | Machine-readable model registry | AI Agent | New structured endpoint or frontmatter |
+| M-20 | Data privacy surfaced for Vibe Users | Vibe User | Cross-link, not new content |
+
+---
+
+## Part 4: Misplaced content — right page, wrong location (revised, expanded)
+
+This table grew from v1 — three items moved here from "missing," because the
+verification pass found the content already exists.
+
+| Page | Current location | Target audience | Where they'd look | Fix needed |
+|------|-----------------|-----------------|--------------------|------------|
+| **Error glossary** | /resources/error-glossary | Prod Operator | Studio / API section | **Content is complete.** Surface via a cross-link from Studio, or a nav entry near the API reference. No new writing required. |
+| **Migration guides** | /resources/migration-guides | Evaluator (primarily), not just Prod Operator as v1 assumed | Getting Started, during the evaluation window | **Content is complete.** Surface via a link from the "Why Mistral" page (once it exists) or directly from Getting Started. No new writing required. |
+| Rate limits and usage tiers | /admin/user-management-finops/tier | Prod Operator | Studio / API section | Cross-link from Studio; the content itself is accurate and sufficient |
+| Known Limitations (data residency sentence) | /resources/known-limitations | Buyer | A compliance/security page | The one-sentence fragment should be expanded into, or at minimum linked prominently from, the new compliance page proposed in M-05 |
+| Privacy | /admin/security-access/privacy | Vibe User, Buyer | Vibe section, or Deploy/security page | Cross-link from /vibe/overview and the future compliance page |
+| Cloud deployments | /models/deployment/cloud-deployments | SE, Buyer | A "Deploy" section | Move to proposed /deploy/ top-level section |
+| Self-deployment | /models/deployment/local-deployment | SE, Buyer | A "Deploy" section | Move to proposed /deploy/ top-level section |
+| Security advisories | /resources/security-advisories | Prod Operator, Buyer | Studio / API or Deploy section | Cross-link — newly found, wasn't assessed for placement in v1 at all |
+
+---
+
+## Summary: the numbers (v2)
+
+| Category | v1 count | v2 count | What changed |
+|----------|----------|----------|--------------|
+| Pages confirmed in inventory | ~120–130 | ~125–135 | +6 pages found in Resources/Admin |
+| Pages serving a clear workflow | ~90 | ~95 | Adjusted for newly found pages |
+| Dead weight | ~15 | ~15 | Unchanged, re-verified |
+| Deprecated model cards | "35+" | **45 (confirmed count)** | Corrected, was an undercount |
+| Missing pages (genuinely absent) | 20 | **17** | 3 items reclassified as misplaced, not missing |
+| Misplaced pages (right content, wrong location) | 6 | **8** | +2 (error glossary and migration guides moved here; known limitations fragment noted) |
+
+### What this changes about the recommended structural moves
+
+The three big structural conclusions from v1 still hold, but with sharper framing now
+that the "missing vs. misplaced" split is accurate:
+
+**1. The "Deploy" top-level section is still the single biggest gap**, and it's now more
+precisely scoped: it needs to house genuinely new content (M-05 compliance page, M-06
+architecture diagrams, M-13 security overview) *and* absorb two pages that already exist
+elsewhere but belong there (Cloud deployments, Self-deployment).
+
+**2. The "Production" section under Studio is now a smaller lift than v1 suggested.**
+Two of its three anchor pages — error handling and rate limits — already exist and are
+well-built. The section mostly needs to *aggregate and cross-link* existing content,
+plus author the one piece that's genuinely missing: a unified model-pinning and
+cost-estimation guide (M-02, M-10, M-14).
+
+**3. The Le Chat → Vibe migration cleanup should be presented cautiously**, because a final review found the developer sidebar issue no longer reproducing in fetched text. The durable point is still valid: product renames require redirects, migration notes, and stale-label audits.
+the sidebar problem isn't "old section vs. new section," it's page-by-page inconsistency
+within the same folder — which argues for a systematic redirect audit across every single
+page in Getting Started, not just the obviously-old ones.
+
+---
+
+*This is the corrected foundation for the IA redesign. The proposed architecture should
+distinguish, in its own presentation, between sections that require new writing and
+sections that require re-surfacing existing work — because the second category is
+something a hiring panel can reasonably expect to ship in week one, and conflating the
+two would understate how much of this problem is genuinely solvable fast.*

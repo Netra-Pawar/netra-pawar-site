@@ -1,0 +1,390 @@
+---
+title: "Exercise 4: Structure & Narrative Proposal"
+sidebar_label: Structure & narrative
+sidebar_position: 2
+---
+
+import ArchitectureLayerMap from '@site/src/components/ArchitectureLayerMap';
+import HardwareSizingCalculator from '@site/src/components/HardwareSizingCalculator';
+import DeploymentDiagnosticTree from '@site/src/components/DeploymentDiagnosticTree';
+
+## Part A: What Works and What Doesn't in Complex Deployment Docs
+
+### Reference: Kubernetes Documentation
+
+I'm using the Kubernetes docs (kubernetes.io/docs) as my reference because they represent the most mature attempt at documenting a system with a comparable surface area to Mistral's on-prem offering: multiple deployment modalities, a wide persona spread, and configuration complexity that can't be collapsed into a single linear tutorial.
+
+#### What works
+
+**The four-section taxonomy.** Kubernetes organizes into Concepts, Tasks, Tutorials, and Reference. This maps to how people actually use documentation at different stages — evaluating, deploying, onboarding, and looking things up are different reading modes that need different structures.
+
+**Progressive disclosure within sections.** The "Getting Started" path doesn't try to teach etcd consensus or CNI plugins up front. It gets you to a running cluster first, then links outward.
+
+**Consistent page structure.** Every Task page follows the same skeleton: Prerequisites, Steps, What's Next. In deployment docs where a reader might touch 15 pages in one session, this consistency is load-bearing.
+
+#### What doesn't work
+
+**The gap between "it works on my laptop" and "it's in production."** The Kubernetes docs tell you what a DaemonSet is and how to configure one, but not when to use one versus a sidecar for your log collector. The page on `kubeadm init` is a masterclass in "run these commands" and a complete silence on "but should you use kubeadm at all, or should you use a managed control plane?" The docs explain the mechanism and skip the decision. Mistral will face the exact same gap: explaining vLLM's tensor parallelism is straightforward, but "given four H100 GPUs serving 200 concurrent users, which model and partitioning should I use?" is the harder, unanswered question. This is why the proposed structure puts a Decision Guide before any installation path — the decision is harder than the deployment, and it's the part no one documents.
+
+**Cross-cutting concerns get scattered.** Security is everywhere and therefore nowhere — RBAC in one section, NetworkPolicies in another, Secrets in a fourth. An operator hardening a cluster has to assemble these pieces themselves.
+
+**The "reference architecture" vacuum.** Kubernetes describes components but doesn't prescribe topologies, partly for neutrality reasons as a community project. Mistral doesn't have that constraint and should ship opinionated reference architectures — on-prem customers are buying certainty, not flexibility.
+
+---
+
+## Part B: Proposed Documentation Structure
+
+### The architectural model that drives the structure
+
+The documentation is organised around a layered sovereign stack — a model I'm proposing for structuring the content, not a confirmed internal architecture diagram from Mistral. Each layer has different owners, different documentation needs, and different trust properties:
+
+```
++------------------------------------------------+
+|  Layer 1: Orchestration plane (Mistral)         |  <- Hosted by Mistral (optional)
+|  Studio . Model registry . Agent runtime        |
++------------------------------------------------+
+|  ====== DATA SOVEREIGNTY BOUNDARY ============  |  <- Trust boundary
++------------------------------------------------+
+|  Layer 2: API gateway & authentication          |  <- Customer-owned
+|  TLS . RBAC . Rate limiting . Routing           |
++------------------------------------------------+
+|  Layer 3: Inference engine (vLLM)               |  <- Customer-owned
+|  Model serving . Tensor parallel . Batching     |
++------------------------------------------------+
+|  Layer 4: Hardware & GPU foundation             |  <- Customer-owned
+|  NVIDIA GPUs . CUDA . NVMe storage . K8s        |
++------------------------------------------------+
+|  === Day 1 (build) ===  |  === Day 2 (run) ===  |
++------------------------------------------------+
+|  Observability & operations (spans all layers)  |  <- Cross-cutting
+|  Prometheus . Grafana . Alerting . Recovery     |
++------------------------------------------------+
+```
+
+Every documentation page maps to exactly one of these layers (or, for Observability, spans all of them). This matters because it means a reader can point at any layer and immediately know which page covers it — see the layer-to-doc mapping table later in this section. The explorable version of this same map is embedded below: click any layer to expand it, or filter by persona to dim the layers that aren't on your path.
+
+<ArchitectureLayerMap />
+
+### Guiding principles
+
+1. **Reader-state-first, not product-feature-first.** People arrive wanting to know if Mistral can run in their air-gapped facility, not to learn about vLLM as a product. Structure follows the reader's journey.
+2. **Decision support before configuration reference.** Every config knob has an upstream decision. Surface the decision (which model? which engine? how many GPUs?) before the YAML.
+3. **Layered architecture as the organising spine.** Pages map to stack layers, not to inference-engine brand names.
+4. **Separate the "what" from the "how to operate."** Day 1 (setup) and Day 2 (monitor, scale, recover) are different mental modes.
+5. **Named, semantic URLs — never numbered steps.** A URL like `/deploy/on-premises/decision-guide` is memorable, linkable, and something both a human and a search engine or AI retrieval system can reason about. A URL like `/on-premises/02` tells nobody anything. All page references in this proposal use the actual slug, never a step number.
+
+---
+
+### Proposed IA (Information Architecture)
+
+Every page below is named by its slug — the same name a reader, a search engine, or an AI retrieval system would use to find it. No numbers.
+
+```
+/deploy/on-premises/                           (section root, under the existing Deployment parent)
+|
+|-- start-here                                  landing page & persona router
+|
+|-- UNDERSTAND
+|   |-- architecture                            layered stack, trust boundaries, request lifecycle
+|   +-- decision-guide                          decision tree, model matrix, sizing rules
+|
+|-- PREPARE
+|   |-- planning                                compute/storage/network prerequisites, readiness checklist
+|   +-- security                                data residency, auth, secrets, audit, compliance evidence
+|
+|-- INSTALL
+|   +-- install/
+|       |-- kubernetes-production               fully rendered exemplar (HA, multi-GPU)
+|       |-- single-node-eval                     Docker fast path for developers
+|       +-- air-gapped                          zero-connectivity pattern
+|
+|-- CONFIGURE & VALIDATE
+|   |-- configuration                           runtime, model, scaling, environment overrides
+|   +-- validation                              smoke tests, acceptance criteria checklist
+|
+|-- OPERATE
+|   |-- operations                              health model, metrics, alerts, maintenance windows
+|   |-- rollback-recovery                       rollback criteria, model/config rollback, disaster recovery
+|   +-- troubleshooting                         diagnostic workflow, symptom matrix, escalation
+|
++-- LOOK UP
+    +-- reference                               CLI/API, config parameters, metrics catalog, compatibility matrix
+```
+
+---
+
+### What each page contains
+
+The reference-analysis exercise made me realise a table of contents isn't a narrative — it's a promise. Here is what each page actually delivers, so the promise is checkable. Word counts are targets for the fully-scoped version of each page — the Kubernetes Production guide, at ~1,450 words, is already built to this target; see the [exemplar page](./kubernetes-production-exemplar.mdx).
+
+**UNDERSTAND**
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `architecture` | Concept | 900 | "What are the pieces and where does my data go?" |
+| `decision-guide` | Decision tool | 650 | "Which deployment path fits my constraints?" |
+
+**PREPARE**
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `planning` | Checklist | 750 | "What do I need before I start?" |
+| `security` | Reference + checklist | 800 | "What can I tell my security team?" |
+
+**INSTALL**
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `install/kubernetes-production` | Task (fully rendered) | 1,450 | "Stand up an HA, multi-GPU production deployment" |
+| `install/single-node-eval` | Task (fast path) | 350 | "Get one model responding on one GPU, right now" |
+| `install/air-gapped` | Task (variant) | 900 | "Deploy with zero external network dependency" |
+
+**CONFIGURE & VALIDATE**
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `configuration` | Reference + task | 700 | "Tune the runtime for my model and workload" |
+| `validation` | Checklist | 500 | "Prove this deployment is actually production-ready" |
+
+**OPERATE**
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `operations` | Reference + task | 850 | "What does healthy look like, and how do I watch for trouble?" |
+| `rollback-recovery` | Task (crisis) | 600 | "Something changed and broke things — how do I undo it?" |
+| `troubleshooting` | Diagnostic | 700 | "Something is broken right now — diagnose it fast" |
+
+**LOOK UP**
+
+| Page | Content type | ~Words | Job-to-be-done |
+|---|---|---|---|
+| `reference` | Pure reference | 1,100 (mostly tables) | "What's the exact flag / metric / compatible version?" |
+
+Total: roughly 10,250 words across 13 pages plus the landing page, none exceeding ~1,450 words. This mirrors a decomposition principle worth stating explicitly: **a page a reader can't finish in one sitting is a page they'll bounce off of, and a page an AI retrieval system can't cleanly chunk is a page that returns bad answers.** An agent asked "why is my vLLM pod OOMing" should retrieve the ~700-word `troubleshooting` page, not have to parse the relevant three sentences out of a 9,000-word monolith.
+
+---
+
+### Five reader paths through one structure
+
+Five personas read this same set of pages in different orders. Each path below is named by the actual page sequence — no step numbers, so the path is self-describing whether a person or an AI agent is following it.
+
+#### 1. Solutions Engineer / Platform Lead — evaluating
+
+**Path:** `start-here` → `architecture` → `decision-guide` → `planning`
+
+They need to answer "can we do this, and what will it cost?" before any technical work begins. See the
+[`start-here` exemplar](./start-here-exemplar.mdx) for what the first page in this path actually looks like.
+
+**Interactive component: Deployment Path Selector** (embedded in `decision-guide`)
+A short branching questionnaire — production vs. evaluation, networked vs. air-gapped, available VRAM — that ends by naming one of the three install paths and linking directly to it. This replaces a static decision tree diagram with something the reader actually operates instead of just reads, and it produces a shareable outcome ("Kubernetes Production, air-gapped variant") the Solutions Engineer can paste into a scoping document.
+
+#### 2. Deployment / Infrastructure Engineer — building
+
+**Path:** `start-here` → `install/kubernetes-production` → `configuration` → `validation`
+
+They've already decided; now they need to build, using the fully rendered exemplar with annotated manifests and expected output at every step.
+
+**Interactive component: Hardware Sizing Calculator** (embedded in `decision-guide`, referenced again in `install/kubernetes-production`)
+Select model, precision, context length, and concurrency; get back estimated VRAM, GPU count, recommended `--tensor-parallel-size`, and the exact vLLM flags to paste into the deployment manifest. This directly replaces the static "hardware sizing rules of thumb" prose with something computed live, and it closes the loop between the Decision Guide (which model?) and the Kubernetes Production guide (which flags?).
+
+##### Hardware Sizing Calculator
+
+<HardwareSizingCalculator />
+
+#### 3. Security Reviewer / Compliance Officer — auditing
+
+**Path:** `start-here` → `architecture` → `security`
+
+They review the security model in parallel with the platform team's technical build — these are concurrent workstreams, not sequential ones.
+
+**Interactive component: Compliance Evidence Checklist** (embedded in `security`)
+A checklist grouped by common frameworks (GDPR, HIPAA, FedRAMP-adjacent controls) where checking an item reveals the specific architectural guarantee that satisfies it (e.g. checking "data residency" surfaces "no prompt or completion data crosses the sovereignty boundary; see architecture diagram"). The checked state persists in the page as the reviewer works through it, and a "copy summary" button produces text they can paste into their review packet.
+
+#### 4. SRE / Support — operating
+
+**Path:** `start-here` → `operations` → `rollback-recovery` → `troubleshooting`
+
+They inherited a running deployment and need to diagnose failures fast, without reading the setup guides first.
+
+**Interactive component: Deployment Diagnostic Tree** (embedded in `troubleshooting`)
+Pick a symptom, answer one narrowing question, get a specific diagnosis and the exact `kubectl`/`curl` command to confirm and fix it. This replaces the static "symptom → action" table with the actual triage flow an SRE runs mentally — the interactive version can also be handed to a first-line support engineer who doesn't yet have the pattern-matching experience to jump straight from symptom to cause.
+
+##### Deployment Diagnostic Tree
+
+<DeploymentDiagnosticTree />
+
+#### 5. Self-Serve Developer — quick evaluation
+
+**Path:** `start-here` → `install/single-node-eval`
+
+Skip the enterprise journey. One GPU, one Docker command, first inference in minutes.
+
+**Interactive component: Quickstart Command Builder** (embedded in `install/single-node-eval`)
+Two dropdowns — model size and GPU type — that assemble the exact `docker run` command with correct flags, rather than making the reader adapt a generic example. Small in scope deliberately: this persona wants speed, not a dashboard.
+
+---
+
+### How tone and depth change per persona — a concrete example
+
+The five-persona model isn't just a routing table — it changes the actual prose on each page. Here's how the same technical concept, tensor parallelism, would be written on two different pages for two different readers:
+
+**On `architecture` (for the Solutions Engineer):**
+
+> Mistral models that exceed a single GPU's memory are distributed across multiple GPUs using tensor parallelism — the model's weight matrices are split across devices and computed in parallel. For planning purposes, this means the GPU count you need scales with model size: Mistral 7B fits on one GPU, while Mistral Medium 3.5 requires four. The Hardware Sizing Calculator on the Decision Guide page produces the exact count for your model and workload.
+
+**On `install/kubernetes-production` (for the Deployment Engineer):**
+
+> ```yaml
+> args:
+>   - "--tensor-parallel-size=2"  # Distribute model across 2 GPUs per pod.
+>                                  # Must match nvidia.com/gpu in resources.limits.
+>                                  # Doubling this halves per-GPU memory but requires
+>                                  # NVLink or PCIe bandwidth between devices.
+> ```
+
+The Solutions Engineer needs to know what tensor parallelism *means for procurement* — how many GPUs to buy. The Deployment Engineer needs to know what the flag *does in the manifest* — what happens if it doesn't match the resource limits, and what hardware interconnect it assumes. Same concept, different job-to-be-done, different depth. This is what audience differentiation looks like in practice, not just as a persona label.
+
+---
+
+### Mapping docs to architecture layers
+
+| Architecture layer | Pages that cover it | Primary persona |
+|---|---|---|
+| Orchestration plane (Mistral) | `architecture`, `decision-guide` | Solutions Engineer |
+| Data sovereignty boundary | `security`, `install/air-gapped` | Security Reviewer |
+| API gateway & auth | `install/kubernetes-production`, `configuration` | Deployment Engineer |
+| Inference engine (vLLM) | `install/kubernetes-production`, `install/single-node-eval`, `configuration` | Deployment Engineer |
+| Hardware & GPU foundation | `planning`, `reference` | Solutions Engineer, Deployment Engineer |
+| Observability & operations | `operations`, `rollback-recovery`, `troubleshooting`, `validation` | SRE |
+
+---
+
+### Page template (applied example)
+
+Out of 13 pages, exactly one is fully rendered rather than a structural stub: the Kubernetes Production
+deployment guide. It sits at the intersection of the most architectural layers (gateway, inference, hardware),
+touches the most personas, and contains the hardest content to get right — annotated manifests, acceptance
+criteria, production-vs-dev distinctions. If this page works, the structure works.
+
+**→ [Read the full exemplar page](./kubernetes-production-exemplar.mdx)** — complete YAML (PersistentVolumeClaim,
+PodDisruptionBudget, Deployment, Service), every flag annotated, and the six-point acceptance criteria checklist
+that actually gets tested by the manifest above it, not just claimed by the prose.
+
+`start-here` is also rendered, as a second, lighter exemplar — the persona router this proposal describes
+in every section above but doesn't otherwise show. **→ [Read the start-here exemplar](./start-here-exemplar.mdx)**.
+
+---
+
+## Part C: What This Structure Deliberately Avoids
+
+1. **The "wall of options" problem.** Mistral supports vLLM, TensorRT-LLM, TGI, SkyPilot, Cerebrium, and Cloudflare Workers AI. Listing them all equally forces the reader to evaluate six tools before starting. This structure leads with vLLM and positions alternatives only where they have a genuine advantage.
+
+2. **The "developer curl" vs. "enterprise validation" conflation.** A developer runs `curl` to see if the model responds. An enterprise team runs the same command to prove the architecture is secure, observable, and policy-compliant — and needs six pieces of evidence, not one HTTP 200. `install/single-node-eval` and `validation` are deliberately separate pages for this reason.
+
+3. **The "one page per product" silo.** Security, observability, and compliance don't belong under a single inference engine's page. They get their own sections so a security review can happen against the full deployment, not just the vLLM config.
+
+4. **No dedicated on-prem model-selection page.** Mistral already has a Model Selection Guide at the top level of `docs.mistral.ai`. An on-prem-specific version — filtered to self-hostable models, with GPU requirements attached — would be a genuinely useful page, and it's the one exclusion here I'd revisit first if user research showed Solutions Engineers bouncing off `decision-guide` to go find model specs. The trade-off accepted for now: one cross-link and the Hardware Sizing Calculator's live GPU math cost less to maintain than a second model-comparison table that drifts out of sync with the canonical one every time Mistral ships a new model.
+
+5. **No fine-tuning-on-prem guide inside this section.** Enterprise buyers evaluating on-prem deployment frequently ask "can we fine-tune here too?" in the same conversation as "can we deploy here?" — the two questions arrive together even though they're different workflows with different infrastructure requirements (fine-tuning needs training-grade GPU memory and checkpointing, not just inference serving). Folding fine-tuning into this IA would double its scope and blur a genuinely different workflow into a deployment-focused structure. The trade-off: a reader with both questions has to visit two sections instead of one. A single cross-link from `configuration` ("deploying a fine-tuned model") keeps the two connected without merging them.
+
+---
+
+## Part D: Placement in Mistral's Existing Docs
+
+This is not a greenfield section — it nests inside an existing one. Mistral's docs already have a top-level `Deployment` section with two children: `Cloud` (Azure, Bedrock, Vertex, etc.) and `Self-Deployment` (vLLM, TensorRT, TGI, SkyPilot, Cerebrium, Cloudflare Workers AI). The on-premises documentation proposed here replaces `Self-Deployment` as a third sibling — not a new top-level nav item, but a proper deployment path sitting alongside Cloud in the place where a reader is already looking for deployment guidance.
+
+Here is the current structure with every node marked:
+
+```
+docs.mistral.ai
++-- Deployment/                                                      [KEEP — this is the parent]
+|   +-- (landing page)                                                [REWRITE — currently ~80 words
+|   |                                                                      describing Cloud vs. Self-Deployment;
+|   |                                                                      becomes the deployment modality decision
+|   |                                                                      guide covering Cloud, On-Premises, and
+|   |                                                                      Third-Party Tools — Hybrid explained as
+|   |                                                                      a configuration of On-Premises, not a
+|   |                                                                      fourth path (see below)]
+|   +-- Cloud/                                                        [KEEP — unchanged]
+|   |   +-- Azure AI, Bedrock, Vertex, Snowflake, etc.                [KEEP — unchanged]
+|   +-- Self-Deployment/                                              [REPLACE with On-Premises/]
+|   |   +-- vLLM                                                      [MOVE + EXPAND -> on-premises/install/]
+|   |   +-- TensorRT                                                  [KEEP as cross-link from configuration]
+|   |   +-- TGI                                                       [KEEP as cross-link from configuration]
+|   |   +-- SkyPilot                                                  [MOVE to a "third-party tools" section
+|   |   |                                                                  outside On-Premises — infra-management
+|   |   |                                                                  tool, not an on-prem deployment path]
+|   |   +-- Cerebrium                                                 [MOVE alongside SkyPilot — serverless,
+|   |   |                                                                  out of on-prem scope]
+|   |   +-- Cloudflare Workers AI                                     [MOVE alongside SkyPilot — edge,
+|   |                                                                      out of on-prem scope]
+|   +-- Labs                                                          [KEEP — unchanged]
+```
+
+Resulting structure:
+
+```
+docs.mistral.ai
++-- Deployment/                                                       [existing top-level section]
+    +-- overview                                                       [REWRITTEN — deployment modality comparison
+    |                                                                        covering Cloud, On-Premises, and
+    |                                                                        Third-Party Tools]
+    +-- Cloud/                                                         [unchanged]
+    |   +-- Azure AI, Bedrock, Vertex, Snowflake, etc.
+    +-- On-Premises/                                                   [NEW — replaces Self-Deployment]
+    |   +-- start-here
+    |   +-- architecture
+    |   +-- decision-guide
+    |   +-- planning
+    |   +-- security
+    |   +-- install/
+    |   |   +-- kubernetes-production
+    |   |   +-- single-node-eval
+    |   |   +-- air-gapped
+    |   +-- configuration
+    |   +-- validation
+    |   +-- operations
+    |   +-- rollback-recovery
+    |   +-- troubleshooting
+    |   +-- reference
+    +-- Third-Party Tools/                                             [NEW — absorbs misplaced items]
+    |   +-- SkyPilot
+    |   +-- Cerebrium
+    |   +-- Cloudflare Workers AI
+    +-- Labs                                                           [unchanged]
+```
+
+**Why nest under Deployment instead of promoting to a top-level sibling?** The `Deployment` section already exists and already answers the question "how do I run Mistral models." A reader arriving with that question finds it in the sidebar, opens it, and sees the three deployment modalities side by side: Cloud, On-Premises, and third-party tools. Adding a separate top-level `On-Premises Deployment` item next to `Models`, `Capabilities`, `Deployment`, and `Agents` forces the reader to decide whether their question is a "Deployment" question or an "On-Premises Deployment" question — a distinction that doesn't exist in their head. The existing parent is the right home; the existing child (`Self-Deployment`) is what needs replacing, not the parent.
+
+**Why rewrite the Deployment landing page?** Currently it's ~80 words that say "use Cloud or Self-Deployment." With On-Premises, Third-Party Tools, and the existing Cloud path all living under one parent, the landing page becomes the first decision point in the deployment journey: "Which deployment modality fits your constraints?" This is the upstream decision the on-premises `decision-guide` then refines into "which on-prem path?" — a two-stage funnel rather than a single flat choice.
+
+**Where does Hybrid deployment fit?** It isn't a fourth path with its own section — it's a configuration of On-Premises. The layered stack in Part B marks Layer 1 (the orchestration plane — Studio, model registry, agent runtime) as *"Hosted by Mistral (optional)"*. A hybrid deployment is exactly that: Layers 2 through 4 (gateway, inference, hardware) run on customer infrastructure while Layer 1 stays Mistral-hosted. That's already the `architecture` page's job to explain, as one of two supported configurations for Layer 1 — not a new section that would need its own `start-here`, `decision-guide`, and install paths for a choice that's really a checkbox on an existing one. Naming Hybrid as a fourth sibling of Cloud and On-Premises in the landing page's comparison table would promise a documentation tree that doesn't need to exist.
+
+**Why separate SkyPilot, Cerebrium, and Cloudflare Workers AI into their own section?** They're currently listed alongside vLLM and TGI as if they're equivalent deployment options. They're not — they're managed platforms or infra-orchestration tools that happen to support Mistral models, not on-premises deployment paths. A reader evaluating air-gapped deployment does not need to scan past Cloudflare Workers AI to find their guide. Moving them to a `Third-Party Tools` sibling section gives them a home that accurately describes what they are without cluttering the on-prem path.
+
+**Why not delete the old vLLM page outright?** Two of its things are genuinely reused: the exact `docker run` command becomes the seed for `install/single-node-eval`, and the flag list becomes the annotated baseline for `install/kubernetes-production`'s manifest. The existing page's technical content is correct — just underdeveloped for the audience that actually needs it.
+
+---
+
+## Part E: Interactive Components — Summary and Feasibility
+
+Five components, one per persona, each solving a specific problem that static prose or a static table can't:
+
+| Component | Persona | Page | Replaces | Status |
+|---|---|---|---|---|
+| Deployment Path Selector | Solutions Engineer | `decision-guide` | Static decision-tree diagram | Specified, not built for this submission |
+| Hardware Sizing Calculator | Deployment Engineer | `decision-guide`, `install/kubernetes-production` | Static "rules of thumb" prose | **Built — embedded above.** KV-cache term calibrated against Mistral 7B's published architecture (32 layers, 8 KV heads, head_dim 128) rather than an arbitrary constant, stated explicitly in the component so a reader can judge how far to trust it for other model tiers |
+| Compliance Evidence Checklist | Security Reviewer | `security` | Static compliance bullet list | Specified, not built for this submission |
+| Deployment Diagnostic Tree | SRE / Support | `troubleshooting` | Static symptom → action table | **Built — embedded above.** Includes a branch for a missing PersistentVolumeClaim and a corrected device-plugin namespace check (GPU Operator installs typically run outside `kube-system`) |
+| Quickstart Command Builder | Self-Serve Developer | `install/single-node-eval` | Static example command | Specified, not built for this submission |
+
+All five are feasible as React components dropped straight into Docusaurus MDX — none require a backend, a
+database, or live API calls to Mistral's infrastructure. This is a deliberate constraint: documentation tooling
+that depends on live infrastructure breaks when that infrastructure is unavailable, which is precisely the
+air-gapped scenario this documentation set has to serve. Every component here runs entirely client-side, which
+matches the sovereignty story the docs are telling.
+
+Three components are built and embedded live on this page and its siblings, not described in prose: the
+Hardware Sizing Calculator and Deployment Diagnostic Tree above, and the Architecture Layer Map in Part B. All
+three were stress-tested against real formulas and real cluster behavior rather than accepted on first pass —
+see [Design rationale](./index.mdx) → "Technical grounding" for what that check surfaced and how it changed the output.

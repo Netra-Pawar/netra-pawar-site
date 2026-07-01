@@ -1,0 +1,511 @@
+---
+title: "Content Inventory"
+sidebar_label: "Content Inventory"
+sidebar_position: 2
+---
+
+# docs.mistral.ai — Complete Content Inventory (v2)
+
+## Verification methodology
+
+This is a full rewrite of the initial inventory, not a patch. A dedicated verification
+pass was run after the first draft, and it caught real errors — some claims were
+under-evidenced, some URLs were wrong, some content marked "missing" in downstream
+analysis turned out to exist. That pass is folded into this version. The standard applied:
+
+- **Confirmed** — verified by direct fetch of the live page, in most cases more than once.
+- **Confirmed via search index** — the page wasn't directly fetched but its content was
+  corroborated through indexed search snippets showing real body text (not just meta tags).
+- **Structure known, URL unconfirmed** — the page's existence is implied by a sidebar
+  listing (its title appears as a nav item) but the exact slug was not independently
+  verified. These are marked explicitly rather than presented as fact. This replaces the
+  previous version's practice of writing "(inferred)" next to a guessed URL — a guessed
+  URL is not useful information, so where I could not confirm a slug, I now say so plainly
+  and omit the guess.
+
+Any claim in this document without one of these markers should be treated as unconfirmed
+and re-checked before being relied on.
+
+
+
+> **Freshness note — July 1, 2026:** A final review found that two previously high-severity observations appear to have changed on the live site: `/models/model-selection-guide` now renders body content, and the developer quickstart pages now show the newer Vibe-oriented sidebar consistently in fetched text. I would not present the older "empty page" or "mixed sidebar" claims as current defects without screenshots/time-stamped evidence. The more durable critique is that model-selection content still behaves like a catalogue rather than a decision workflow, and tabbed code examples duplicate in extracted text, which matters for AI-reader legibility.
+
+Page count: **~125–135 pages** across 6 top-level sections, plus the API reference.
+
+---
+
+## Top navigation bar
+
+Confirmed. Persistent across all pages, six items:
+
+| Position | Label | URL |
+|----------|-------|-----|
+| 1 | Getting Started | https://docs.mistral.ai/ |
+| 2 | Models | https://docs.mistral.ai/models |
+| 3 | Products | https://docs.mistral.ai/products |
+| 4 | Developers | https://docs.mistral.ai/developers |
+| 5 | Admin | https://docs.mistral.ai/admin |
+| 6 | API | https://docs.mistral.ai/api |
+
+CTA buttons (top-right): "Reach out" → mistral.ai/contact | "Try Studio" → console.mistral.ai
+
+---
+
+## 1. Getting Started
+
+### Developer quickstarts — freshness correction
+
+A final review on July 1, 2026 found the developer quickstarts rendering the newer Getting Started sidebar consistently in fetched text. That means the older mixed-sidebar finding should not be presented as current without screenshots or a timestamped cache.
+
+The remaining machine-readable issue in this area is different: tabbed code samples duplicate or collapse in extracted text, which can confuse search snippets and coding agents even when the visual browser experience looks correct.
+
+### Version A — New sidebar (confirmed on build-an-agent, build-a-workflow, and the homepage)
+
+```
+Getting started
+├── Platform overview                           /getting-started/platform-overview
+├── Quickstarts
+│   ├── Vibe Work
+│   │   ├── Run your first task                 /getting-started/quickstarts/vibe-work/first-task
+│   │   ├── Analyze a dataset                   /getting-started/quickstarts/vibe-work/analyze-data
+│   │   └── Create your first Skill             /getting-started/quickstarts/vibe-work/create-first-skill
+│   ├── Vibe Code
+│   │   ├── Install the Vibe CLI                /getting-started/quickstarts/vibe-code/install-cli
+│   │   └── Scaffold a project                  /getting-started/quickstarts/vibe-code/scaffold-a-project
+│   ├── Studio
+│   │   ├── Activate Studio and generate key    /getting-started/quickstarts/studio/activate-and-generate-api-key
+│   │   ├── Test a model in the playground      /getting-started/quickstarts/studio/test-model-playground
+│   │   ├── Create a reusable Prompt            /getting-started/quickstarts/studio/create-reusable-prompt
+│   │   └── Create a Skill in Studio             /getting-started/quickstarts/studio/create-skill
+│   ├── Developer
+│   │   ├── Send your first API request         /getting-started/quickstarts/developer/first-api-request
+│   │   ├── Build an agent with tools           /getting-started/quickstarts/developer/build-an-agent
+│   │   ├── RAG with document search            /getting-started/quickstarts/developer/rag-document-search
+│   │   └── Build a workflow                    /getting-started/quickstarts/developer/build-a-workflow
+│   └── Admin
+│       ├── Create your organization            /getting-started/quickstarts/admin/create-organization
+│       ├── Configure SSO                       /getting-started/quickstarts/admin/configure-sso
+│       └── Manage workspaces                   /getting-started/quickstarts/admin/manage-workspaces
+├── Glossary                                    /getting-started/glossary
+├── SDK Clients ↗                               /resources/sdks
+└── API Reference ↗                             /api
+```
+
+### Version B — legacy sidebar structure (archival finding; no longer reproduces on final fetch)
+
+```
+Getting started
+├── Platform Overview                           /getting-started/le-chat-studio-admin   ⚠️ different slug
+├── SDK Clients                                 /getting-started/clients                ⚠️ different slug
+├── Quickstarts                                 /getting-started/quickstarts
+│   ├── Le Chat                                 /getting-started/quickstarts/le-chat     ⚠️ still says "Le Chat"
+│   │   ├── Draft a research report             /getting-started/quickstarts/le-chat/draft-research-report
+│   │   ├── Analyze data                        /getting-started/quickstarts/le-chat/analyze-data
+│   │   └── Create a custom agent               /getting-started/quickstarts/le-chat/create-custom-agent
+│   ├── Studio                                  /getting-started/quickstarts/studio
+│   ├── Developer                               /getting-started/quickstarts/developer
+│   │   └── (same four pages as above)
+│   ├── Admin                                   /getting-started/quickstarts/admin
+│   │   └── (same three pages as above)
+│   └── Mistral Vibe                            /getting-started/quickstarts/vibe
+└── Glossary                                    /getting-started/glossary
+```
+
+---
+
+## 2. Models
+
+Confirmed via direct fetch (multiple passes).
+
+```
+Models
+├── Overview                                    /models/overview
+├── Model Selection Guide                       /models/model-selection-guide           ⚠️ SEE NOTE BELOW
+├── Best Practices
+│   ├── Prompting                               /models/best-practices/prompt-engineering
+│   └── Sampling                                /models/best-practices/sampling
+├── Deployment
+│   ├── Cloud                                   /models/deployment/cloud-deployments
+│   └── Self-Deployment                         /models/deployment/local-deployment
+└── Labs                                        /models/labs
+```
+
+**On the Model Selection Guide:** final review found the page now rendering useful body content under the visible heading "Compare Models." I would not present the earlier empty-page observation as a current defect without screenshots or timestamped evidence. The stronger current critique is that the page contains rich comparison data, but it still does not behave like a use-case-first decision guide.
+
+**Model cards** — confirmed real, individual pages at `/models/model-cards/{slug}`.
+Each card renders an interactive widget (confirmed via fetch) showing speed, performance,
+modalities, context window, and price. Confirmed pricing for six models, direct from the
+widget:
+
+| Model | Context | Input price | Output price | Versioned API string |
+|-------|---------|-------------|---------------|----------------------|
+| Mistral Medium 3.5 | 256k | $1.5/M tokens | $7.5/M tokens | `mistral-medium-3-5` |
+| Mistral Small 4 | 256k | $0.15/M tokens | $0.6/M tokens | `mistral-small-2603` |
+| Mistral Large 3 | 256k | $0.5/M tokens | $1.5/M tokens | `mistral-large-2512` |
+| Ministral 3 14B | 256k | $0.2/M tokens | $0.2/M tokens | `ministral-14b-2512` |
+| OCR 4 | — | $4/1,000 pages | $5/1,000 annotated pages | `mistral-ocr-4-0` |
+
+Worth noting because it's counterintuitive and easy to get wrong by assumption: **Mistral
+Large 3 is priced lower than Mistral Medium 3.5**, despite the tier name suggesting
+otherwise. Large 3 is the open-weight (Apache 2.0), self-hostable flagship; Medium 3.5 is
+the managed, agentic-optimized model — that's presumably the reason for the inversion, but
+that's my inference, not something the docs state directly.
+
+Separately, `-latest` aliases (`mistral-large-latest`, `mistral-medium-latest`, etc.) are
+confirmed in use throughout quickstart code samples and the migration guide — both the
+versioned string and the `-latest` alias are real and valid, they just serve different
+purposes (pinning vs. always-current).
+
+**Legacy/Deprecated models table** — recounted precisely from two direct fetches of
+`/models/overview`: **45 rows.** The original inventory said "35+," which understated it.
+
+One row is a genuine content anomaly, not a miscount: **Devstral 2** appears simultaneously
+in the "Featured Models" section at the top of the page (marked as a current, active
+model) **and** in the Legacy/Deprecated table lower on the same page, both showing the
+identical version `25.12`. Confirmed via two separate fetches, so this is a real
+inconsistency on Mistral's live site, not a fetch artifact — worth flagging as its own
+finding, since it means a reader scanning the Legacy table for guidance could reasonably
+conclude a currently-recommended model is deprecated.
+
+---
+
+## 3. Products — Vibe
+
+Confirmed via direct fetch. No changes from the original inventory — this section held up
+under re-verification.
+
+```
+Vibe
+├── Overview                                    /vibe/overview
+├── Choose Chat, Work, or Code                  /vibe/choose-chat-work-code
+├── Work
+│   ├── Get started                             /vibe/work/get-started
+│   ├── Safety and approvals                    /vibe/work/safety-and-approvals
+│   ├── Work with Files and Canvas              /vibe/work/files-and-canvas
+│   ├── Add context with Libraries              /vibe/work/libraries
+│   ├── Connect tools with Connectors           /vibe/work/connectors
+│   ├── Search the web                          /vibe/work/web-search-open-url
+│   ├── Reuse work with Skills                  /vibe/work/skills
+│   ├── Run Workflows                           /vibe/work/workflows
+│   ├── Schedule tasks                          /vibe/work/scheduled-tasks
+│   ├── Switch Organization or Workspace        /vibe/work/switch-organization-workspace
+│   ├── Set custom instructions                 /vibe/work/custom-instructions
+│   ├── Group tasks with Projects               /vibe/work/projects
+│   ├── Generate images                         /vibe/work/image-generation
+│   └── Use Voice mode                          /vibe/work/voice-mode
+├── Chat (legacy)
+│   ├── Agents                                  /vibe/chat-legacy/agents
+│   ├── Think mode                              /vibe/chat-legacy/think-mode
+│   ├── Code Interpreter                        /vibe/chat-legacy/code-interpreter
+│   ├── Deep Research                           /vibe/chat-legacy/deep-research
+│   └── Memories                                /vibe/chat-legacy/memories
+└── Code
+    ├── Overview                                /vibe/code/overview
+    ├── Choose CLI, VS Code, or web sessions    /vibe/code/choose-cli-vscode-web-sessions
+    ├── Safety, approvals, and permissions       /vibe/code/safety-approvals-permissions
+    ├── CLI
+    │   ├── Install and setup                   /vibe/code/cli/install-setup
+    │   └── Skills                              /vibe/code/cli/skills
+    │   └── [additional CLI sub-pages likely exist — structure known from sidebar depth, exact count/URLs unconfirmed]
+    ├── VS Code extension
+    │   └── Install and authenticate            /vibe/code/vs-code-extension/install-authenticate
+    │   └── [additional sub-pages likely exist — unconfirmed]
+    └── Vibe Code Web
+        ├── Get started                         /vibe/code/vibe-code-web/get-started
+        └── Security                            /vibe/code/vibe-code-web/security
+        └── [additional sub-pages referenced elsewhere but not directly confirmed: Projects, Sandbox environment, GitHub repositories and permissions — these are referenced BY the Security page's "see also" links, which is reasonably strong secondary evidence they exist, but the URLs themselves were not fetched directly]
+```
+
+---
+
+## 4. Products — Studio & API
+
+Confirmed via direct fetch, with corrections below.
+
+```
+Studio
+├── Overview                                    /studio-api/overview
+├── Conversations
+│   ├── Chat Completions                        /studio-api/conversations/chat-completion
+│   │   └── Prompting                           /studio-api/conversations/chat-completion/prompting
+│   ├── Vision                                  /studio-api/conversations/vision
+│   ├── Reasoning                               /studio-api/conversations/reasoning
+│   ├── Citations & References                  /studio-api/conversations/citations
+│   ├── Function Calling                        /studio-api/conversations/function-calling
+│   ├── Structured Outputs                      /studio-api/conversations/structured-output
+│   └── Moderation & Guardrailing               /studio-api/conversations/moderation
+├── Agents
+│   ├── Agents Introduction                     /studio-api/agents/introduction
+│   ├── Agents & Conversations                  /studio-api/agents/agents-api
+│   ├── Agent Tools                             /studio-api/agents/agent-tools
+│   │   ├── Websearch                           /studio-api/agents/agent-tools/websearch
+│   │   ├── Code Interpreter                    /studio-api/agents/agent-tools/code_interpreter
+│   │   ├── Image Generation                    /studio-api/agents/agent-tools/image_generation
+│   │   └── Function Calling                    /studio-api/agents/agent-tools/function-calling
+│   └── Handoffs                                /studio-api/agents/handoffs
+├── Knowledge & RAG                              ⚠️ label inconsistency confirmed — see Observations
+│   ├── Libraries                               /studio-api/knowledge-rag/libraries
+│   ├── Connectors                              /studio-api/knowledge-rag/connectors
+│   ├── Embeddings                              /studio-api/knowledge-rag/embeddings
+│   └── RAG Quickstart                          /studio-api/knowledge-rag/rag_quickstart
+├── Document AI
+│   ├── Document Processing (overview)          /studio-api/document-processing/overview
+│   ├── OCR Processor                           /studio-api/document-processing/basic_ocr          ✅ CORRECTED — was guessed as "ocr-processor"
+│   ├── Document Annotations                    /studio-api/document-processing/annotations
+│   └── Document QnA                            /studio-api/document-processing/document_qna       ✅ CORRECTED — was guessed as "qna"
+├── Search Toolkit                              /studio-api/search-toolkit
+│   └── [Vespa Application Management sub-tree — sidebar shows Quickstart, Search index, Ingestion,
+│        Retrieval, Anatomy of an application, Manage schema, Manage ranking, Local development
+│        (confirmed: /studio-api/knowledge-rag/search-toolkit/vespa/local-development),
+│        Deploy and operate, CLI reference. Only "Local development" was directly fetched;
+│        the rest are structure-known-URL-unconfirmed.]
+├── Audio                                       /studio-api/audio/overview
+├── Observability                               /studio-api/observability
+├── Workflows                                   [~30 pages across 4 sub-sections — see below]
+├── Moderation & Guardrailing                   /studio-api/safety-moderation
+└── Batch Processing                            /studio-api/batch-processing
+```
+
+### Workflows sub-tree (confirmed structure, most URLs directly confirmed)
+
+```
+Workflows
+├── Getting Started
+│   ├── Overview                                /studio-api/workflows/getting-started/overview
+│   ├── Installation                            /studio-api/workflows/getting-started/installation
+│   ├── Cookbook examples                       /studio-api/workflows/getting-started/cookbook_examples
+│   ├── Core concepts                           [referenced by other pages — not directly fetched]
+│   └── Your first workflow                     /studio-api/workflows/getting-started/your_first_workflow
+├── Building Workflows
+│   ├── Workflows                               /studio-api/workflows/building-workflows/workflows
+│   ├── Connectors in Workflows                 /studio-api/workflows/building-workflows/connectors
+│   └── [12+ further sub-pages confirmed to exist via sidebar listing: Determinism, Activities,
+│        Dependency Injection, Streaming Events, Consuming Streaming Events, Durable Agents,
+│        Payload offloading, Workflow scheduling, Child workflows, Plugins, Waiting for
+│        Conditions, Continue-As-New, Workflows Exception, On-behalf-of workflows, Encryption
+│        — titles confirmed via sidebar, exact URLs not individually fetched]
+├── Interacting with Workflows
+│   ├── Conversational workflows                /studio-api/workflows/interacting-with-workflows/conversational_workflows
+│   └── [8 further sub-pages confirmed via sidebar: Signals, Queries, Updates, Forms and
+│        confirmations, Progress tracking, Canvas, Tool UI, Publish in Vibe]
+└── Managing Workflows in Production
+    ├── Deployments                             /studio-api/workflows/managing-workflows-in-production/deployments
+    └── [6 further sub-pages confirmed via sidebar: Concurrency Patterns, Rate Limiting,
+         API Error Codes, Hardened deployments, Resetting Workflows, Execution Context]
+```
+
+---
+
+## 5. Admin
+
+Confirmed via direct fetch, with one addition.
+
+```
+Admin
+├── Admin Quickstarts                           (links to /getting-started/quickstarts/admin/*)
+├── Security & Access
+│   ├── Admin Panel                             /admin/security-access/back-office
+│   ├── Organizations and Workspaces            /admin/security-access/organization
+│   ├── Manage Connectors                       /admin/security-access/connectors            ✅ NEW — missed in v1
+│   ├── SSO                                     /admin/security-access/sso
+│   ├── Email domain authentication              /admin/security-access/email-domain-auth
+│   ├── API keys                                /admin/security-access/api-keys
+│   ├── Audit logs                              /admin/security-access/audit-logs
+│   ├── Admin API                               /admin/security-access/admin-api
+│   └── Privacy                                 /admin/security-access/privacy
+└── User Management & Fin Ops
+    ├── User management                         /admin/user-management-finops/user-management
+    ├── Subscriptions                           /admin/user-management-finops/subscriptions
+    ├── Billing                                 /admin/user-management-finops/billing
+    ├── Rate limits and usage tiers              /admin/user-management-finops/tier
+    └── Usage limits                            /admin/user-management-finops/usage-limits
+```
+
+---
+
+## 6. Developers (top-level nav item) / Resources
+
+**Corrected — the original inventory of this section was incomplete.** Re-fetching four
+different pages under `/resources/` all showed the identical, fuller sidebar below.
+
+```
+Resources
+├── API Reference                               /api                                       ✅ NEW — also appears directly in this sidebar
+├── SDKs                                        /resources/sdks
+├── Changelog                                   /resources/changelogs
+├── Security advisories                         /resources/security-advisories             ✅ NEW — missed in v1
+├── Supported languages                         /resources/languages                        ✅ NEW — missed in v1
+├── Cookbooks                                   /resources/cookbooks
+├── Error glossary                              /resources/error-glossary
+├── Known limitations                           /resources/known-limitations
+├── Observability integrations                  /resources/observability-integrations
+├── Deprecated features
+│   ├── Fine-tuning API (legacy)                /resources/deprecated/customization          ✅ NEW — confirmed, was "unknown" in v1
+│   ├── Fine-tuning                             /resources/deprecated/finetuning              ✅ NEW — confirmed
+│   └── Classifier Factory                      /resources/deprecated/finetuning/classifier_factory  ✅ NEW — confirmed
+└── Migration guides                            /resources/migration-guides
+
+Community
+└── Ambassadors                                 /community/ambassadors
+```
+
+### Content check: Error glossary (corrected characterization)
+
+The original inventory listed this page correctly by URL but did not read its actual
+content. Direct fetch confirms it contains:
+
+- Full HTTP status code reference (400, 401, 403, 404, 422, 429, 500, 502, 503, 504) with plain-language causes
+- The complete error response JSON schema (`message`, `type`, `param`, `code` fields)
+- **A working exponential-backoff retry code sample** in Python, plus a note that the official SDKs implement this automatically
+
+This page is substantially more complete than it was given credit for downstream (see
+Gap Analysis v2).
+
+### Content check: Known limitations (new detail)
+
+Direct fetch confirms this page documents: context window limits and the resulting `400`
+error, rate limit enforcement mechanics (RPS and TPM enforced independently, per
+organization, batch exempted), file retention (30 days), max batch file size (512 MB) —
+and, notably: **"The Mistral API is served from EU data centers by default. Some models
+may not be available in all regions."** This is a real, if minimal, fragment of the data
+residency information that the Enterprise Buyer persona needs — it exists, but not as a
+dedicated, citable compliance page. This matters for the Gap Analysis (see M-05 correction).
+
+### Content check: Migration guides (major correction)
+
+The original inventory correctly listed this URL but the downstream Gap Analysis
+mischaracterized its content as being about *model deprecation* and separately claimed
+a competitor-migration guide was *missing entirely*. Both were wrong. Direct fetch
+confirms this page:
+
+- Explicitly covers **"From OpenAI"** and **"From self-hosted Llama"** as two dedicated migration paths
+- States plainly that the Mistral Chat Completions API mirrors the OpenAI request structure
+- Provides working code samples showing the exact three changes needed (client import, base URL, model name) to migrate from OpenAI's SDK
+- Notes tokenizer differences for Llama migrations
+- Confirms OpenAI-compatible clients (LangChain, LlamaIndex) work by changing only base URL and model name
+
+This is real, well-built content serving exactly the workflow the Gap Analysis (v1)
+claimed was missing. See Gap Analysis v2 for the corrected classification.
+
+---
+
+## 7. API Reference
+
+Auto-generated from OpenAPI spec at `/api`. Single rendered page with anchor links per
+endpoint. Not individually inventoried — standard API reference format, confirmed to exist
+and to be linked from at least three different locations (top nav, Getting Started sidebar,
+Resources sidebar).
+
+---
+
+## 8. Legacy / ghost pages still reachable
+
+Unchanged from v1 — all five were directly confirmed via fetch or found in a linked
+"Go deeper" section.
+
+| Page | URL | Where it is linked from |
+|------|-----|------------------------|
+| Le Chat overview | /le-chat/overview | Quickstarts "Go deeper" section |
+| Old Platform Overview | /getting-started/le-chat-studio-admin | Old sidebar (Version B) |
+| Old SDK Clients | /getting-started/clients | Old sidebar (Version B) |
+| Le Chat quickstarts (×3) | /getting-started/quickstarts/le-chat/* | Old sidebar (Version B) |
+| Le Chat Vibe Code workflow | /le-chat/content-creation/vibe-code-workflow | Found via search, orphaned |
+
+---
+
+## Observations from the inventory (v2 — corrected and expanded)
+
+### O-01: Developer quickstart sidebar issue appears resolved; machine-readable tab output still needs audit
+
+Restated at the top of the Getting Started section. This is a more serious and more
+precise finding than the v1 draft.
+
+### O-02: Knowledge & RAG label inconsistency
+
+Confirmed. Some pages show "Knowledge & RAG" in the sidebar; the RAG Quickstart page and
+its siblings surface as "RAG & Embeddings" with slightly different children shown. Both
+were directly observed in different fetches.
+
+### O-03: Studio sidebar appears beneath Vibe sidebar on all Vibe pages
+
+Confirmed via direct fetch — every Vibe page renders the full Vibe tree followed
+immediately by the full Studio tree underneath it.
+
+### O-04: Workflows is the deepest, most complex section of the docs
+
+Confirmed — 4 sub-sections, ~30 pages, up to 5 levels of nesting (Studio > Workflows >
+Building Workflows > Connectors in Workflows).
+
+### O-05: Model Selection Guide is populated, but not yet use-case-first
+
+Confirmed with elevated confidence — see the note under Section 2 above. Recommend a live
+visual spot-check given how load-bearing this claim is for the wider critique.
+
+### O-06: Connectors appear in four different locations
+
+Confirmed unchanged from v1: `/vibe/work/connectors`, `/studio-api/knowledge-rag/connectors`,
+`/admin/security-access/connectors` (this one newly found in v2), and
+`/studio-api/workflows/building-workflows/connectors`.
+
+### O-07: "Products" top-nav item is a low-value container page
+
+Unchanged from v1 — not independently re-verified in this pass, carried forward with
+original confidence level (single fetch, not re-checked).
+
+### O-08: Search Toolkit's Vespa sub-tree is a deep, specialized nest
+
+Unchanged from v1. Only one URL in this sub-tree (`local-development`) was ever directly
+fetched; the rest are sidebar-confirmed titles without confirmed URLs — flagged explicitly
+in Section 4 above rather than presented as fact.
+
+### O-09: Document AI sub-page URLs were wrong in v1 — now corrected
+
+The original inventory guessed `ocr-processor` and `qna` as slugs. Real slugs are
+`basic_ocr` and `document_qna`, confirmed via direct fetch of all three pages
+(`basic_ocr`, `annotations`, `document_qna`).
+
+### O-10: Meta descriptions are generic and duplicated across major landing pages
+
+Confirmed via direct fetch of both pages: the Studio overview and Vibe overview pages
+carry the identical meta-description string, "Documentation for the deployment and usage
+of Mistral AI's LLMs."
+
+### O-11 (NEW): Devstral 2 is listed as both an active Featured model and a Legacy/Deprecated model
+
+Confirmed via two independent fetches of `/models/overview`. Devstral 2 (version `25.12`)
+appears in the "Featured Models" carousel at the top of the page and again in the
+Legacy/Deprecated table further down, with an identical version number in both places.
+This is a genuine content bug on the live site, not a fetch or parsing artifact.
+
+### O-12 (NEW): The Resources section is larger and more substantive than initially catalogued
+
+Security advisories, Supported languages, and three Deprecated Features sub-pages
+(Fine-tuning API legacy, Fine-tuning, Classifier Factory) were missed entirely in v1.
+The Error glossary and Known Limitations pages, while correctly URL-identified in v1,
+were not read closely enough — both contain more complete, useful content than the v1
+inventory credited them with. This matters because the v1 Gap Analysis built directly
+on top of the under-read version of this inventory, and inherited its blind spots.
+
+---
+
+## Summary statistics (v2)
+
+| Section | Page count | Depth (max levels) | Change from v1 |
+|---------|-----------|--------------------|--------------------|
+| Getting Started | ~20 | 4 | No change |
+| Models | ~8 + ~50 model cards (45 confirmed legacy rows) | 3 | Count corrected: 45, not "35+" |
+| Vibe (Work + Chat + Code) | ~25+ | 4 | No change |
+| Studio (all capabilities) | ~50+ | 5 | Two Document AI slugs corrected |
+| Admin | ~14 | 3 | +1 page found (Manage Connectors) |
+| Developers / Resources | ~13 | 3 | +5 pages found; two pages' content corrected |
+| API Reference | 1 (rendered) | 1 | No change |
+| Legacy / ghost pages | ~5+ | varies | No change |
+| **Total** | **~125–135+** | **5** | Net +6 pages found, 2 URLs corrected, 1 major content bug found |
+
+---
+
+*This inventory feeds into the Gap Analysis (v2), which has also been rewritten to
+reflect these corrections — most significantly, three items previously classified as
+"missing content requiring new pages" are now correctly classified as "existing content
+that is misplaced or under-surfaced," which changes the effort estimate and the proposed
+fix for each.*

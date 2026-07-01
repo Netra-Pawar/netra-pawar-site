@@ -1,0 +1,225 @@
+---
+title: Design Rationale, Exercise 4
+sidebar_label: Doc Design Rationale
+sidebar_position: 1
+---
+
+This page is the design rationale. The proposal itself — structure, narrative, and the five
+reader paths — lives on [Structure & narrative](./structure-and-narrative.mdx). Two pages render the proposed
+IA rather than just describing it: [Kubernetes production exemplar](./kubernetes-production-exemplar.mdx) (the
+deep exemplar, full technical depth) and [Start-here exemplar](./start-here-exemplar.mdx) (the lighter one —
+the persona router every path in the proposal begins from).
+
+## How I read the brief
+
+The exercise says "propose the structure and narrative." It does not say "write the documentation." This distinction matters. The deliverable is an information architecture decision, not a content production task. The evaluators are testing whether I can:
+
+1. Decompose a complex product surface into a navigable structure
+2. Justify that structure with documentation theory, not just intuition
+3. Demonstrate that I understand Mistral's actual deployment landscape well enough to know what the docs need to cover, including things Mistral's current docs don't cover well
+4. Show I can think from the reader's position, not just the product team's
+
+The reference-analysis requirement ("analyze any complex technical deployment documentation you know well") is there to test whether I can evaluate existing docs critically — not just describe them, but articulate what structural decisions work and why they transfer (or don't) to Mistral's context.
+
+I went further than the brief requires: I built the actual IA as a working set of MDX files with Docusaurus metadata, rendered two pages fully rather than leaving every page as a stub (the Kubernetes Production deployment guide, and the `start-here` persona router at a lighter weight), created an interactive architecture-to-documentation map, and produced a sovereign architecture reference deck. The brief asked for "structure and narrative." I delivered structure, narrative, and evidence that the structure works.
+
+## Key decisions and why I made them
+
+### Decision 1: Kubernetes as the reference, not PostgreSQL or Terraform
+
+The brief offers K8s, PostgreSQL, Docker, and Terraform as examples. I chose Kubernetes because its documentation problem is most structurally similar to Mistral's on-prem challenge:
+
+- **Multiple deployment modalities** (minikube, kubeadm, managed K8s, bare metal) map to Mistral's modalities (bare metal, Docker, K8s, air-gapped, VPC)
+- **Wide persona spread** (developer, operator, architect) maps to Mistral's audience (ML engineer, platform engineer, security reviewer, CTO evaluating)
+- **Cross-cutting concerns** (security, networking, storage) that resist clean per-feature organization — exactly the challenge with Mistral's security/compliance/networking concerns
+
+PostgreSQL docs are excellent but solve a simpler structural problem — PostgreSQL is fundamentally one thing (a database) with configuration knobs. Mistral on-prem is multiple things (model selection + inference engine + infrastructure + orchestration + monitoring) composed together, which is closer to K8s.
+
+Terraform docs are well-structured but provider-centric, which doesn't map well to Mistral's challenge.
+
+### Decision 2: The layered architecture model as the organising spine
+
+This is the core structural insight of the proposal. Instead of organising docs by topic (security, configuration, operations) or by product (vLLM, TensorRT, TGI), I organise them by *architectural layer*:
+
+```
+Orchestration plane → Sovereignty boundary → API gateway → Inference engine → Hardware
+                                                                                │
+                                                        Observability (cross-cutting)
+```
+
+This decision comes from studying how Mistral's CTO Timothée Lacroix describes the deployment model: a modular stack where customers choose which layers they own and which Mistral manages. The docs should reflect this modularity — a reader should be able to point at any layer and know exactly which docs cover it.
+
+The architecture-to-documentation map embedded on the [Structure & narrative](./structure-and-narrative.mdx) page makes this relationship explorable. Each layer expands to show its linked docs, and persona filtering dims irrelevant layers. This is the artefact I'd propose for the live documentation site — not just a sidebar tree, but a spatial map that encodes the architecture itself.
+
+### Decision 3: Five personas with explicit routing, not one "happy path"
+
+Kubernetes docs have an implicit four-persona model (Concepts → Tasks → Tutorials → Reference), but they never make it explicit. The reader has to figure out "which section am I?" by trial and error.
+
+I made persona routing the very first thing on the landing page. Five named roles, each with a prescribed entry point:
+
+| Persona | Entry point (named path, not numbers) | What they need |
+|---|---|---|
+| Solutions Engineer | `architecture` → `decision-guide` → `planning` | "Can we do this? What will it cost?" |
+| Deployment Engineer | `install/kubernetes-production` → `configuration` → `validation` | "How do I build it?" |
+| Security Reviewer | `architecture` → `security` | "Is it safe?" |
+| SRE / Support | `operations` → `rollback-recovery` → `troubleshooting` | "How do I keep it running?" |
+| Self-Serve Developer | `install/single-node-eval` | "Does it work?" |
+
+This matters because on-prem deployment is a team sport. The Solutions Engineer, the Platform Engineer, the CISO, and the SRE are all reading the same documentation set but at different times and for different reasons. Making the routing explicit means nobody reads content that isn't for them.
+
+It also means the documentation serves Mistral's internal stakeholders, not just external readers. The five persona paths are simultaneously an internal alignment tool: Engineering gets fewer repeat support tickets because Day 2 content (operations, troubleshooting, rollback) exists for the first time — today, when a customer's vLLM pod OOMs, an SE has to reconstruct the fix from scratch because there's no runbook. Product gets the sovereign architecture story told consistently across every page, not improvised differently by each Solutions Engineer in the field. Sales gets a Decision Guide with a hardware sizing calculator that does the scoping math in front of the customer instead of requiring a follow-up email to Engineering. Support gets the Diagnostic Tree, which is the same triage logic a senior SE runs in their head, externalized into something a first-line support agent can follow without that experience. These are the structural reason each page exists, not a side effect of it — and they're how the documentation pays for itself in reduced internal workload rather than being a cost center that only benefits external users.
+
+Every path in this proposal is written as a named slug, never a step number. Numbers describe position in a list; they carry no information about content. Nobody remembers that `03` means "planning" three weeks later, and a search engine or an AI retrieval system indexing this documentation gets nothing useful from a numeral either — it needs `/deploy/on-premises/planning` to know what the page is about. Docusaurus doesn't require numeric prefixes in URLs (the `sidebar_position` frontmatter field controls ordering independently of the filename), so there's no technical reason to keep them. The uploaded MDX files use numeric filenames (`01-architecture.mdx`) as an authoring convenience on disk — that's a reasonable way to keep source files ordered in a file browser — but the URLs, the cross-links, and every path reference in this proposal use the slug, since that's what a reader, a search index, or an AI agent actually needs.
+
+### Decision 4: The "developer curl" vs. "enterprise validation" distinction
+
+This is the sharpest editorial distinction in the proposal. Mistral's existing docs treat endpoint testing as a single activity — you run `curl` and check if you get a response. But there are two fundamentally different acts here:
+
+**Developer curl** (Single-Node Eval):
+```bash
+curl "$MISTRAL_API_BASE/v1/chat/completions" \
+  -H "Authorization: Bearer $MISTRAL_API_KEY" \
+  -d '{"model": "mistral-nemo", "messages": [{"role": "user", "content": "Hello"}]}'
+```
+
+**Enterprise validation** (K8s Production Guide):
+```bash
+curl "https://mistral-inference.internal.example.com/v1/chat/completions" \
+  -H "Authorization: Bearer $INTERNAL_MISTRAL_TOKEN" \
+  -H "X-Request-ID: deployment-smoke-test-001" \
+  -d '{"model": "approved-onprem-model", "messages": [{"role": "user", "content": "Return: validation passed"}]}'
+# Expected evidence:
+# ✅ HTTP 200
+# ✅ X-Request-ID in SIEM
+# ✅ Latency metric in Grafana
+# ✅ No external egress
+```
+
+The first tests "does the model work?" The second tests "is the architecture secure, observable, and policy-compliant?" Treating them as the same thing is how enterprise docs lose the trust of platform teams — they feel like they're reading developer tutorials instead of deployment guides.
+
+The structure separates them explicitly: `install/single-node-eval` for the developer, `validation` for the enterprise acceptance criteria — two different pages with two different names, not two headings on the same page.
+
+### Decision 5: The fully rendered Kubernetes Production guide as the exemplar
+
+Out of 13 documentation pages, I chose to fully render exactly one: the Kubernetes Production deployment guide. Everything else is a structural stub — with one deliberate exception. `start-here` is also rendered, at a fraction of the length, as a [second exemplar](./start-here-exemplar.mdx). The two together demonstrate different things: the K8s guide proves the structure can carry technical depth, and `start-here` proves the persona-routing claim made throughout this document rather than just asserting it. Here's why the K8s guide is the primary exemplar:
+
+The K8s Production guide sits at the intersection of the most architectural layers (gateway + inference + hardware), touches the most personas (deployment engineer, SRE, security reviewer), and contains the hardest content to get right (annotated YAML manifests, acceptance criteria, production-vs-dev distinctions). If this page works, the structure works. If it doesn't, no amount of well-structured stubs will save it.
+
+The fully rendered page demonstrates:
+- **Annotated manifests** (every YAML field has a comment explaining what it does and why)
+- **Pinned image versions** (never `:latest` in production)
+- **Production-specific flags** (`topologySpreadConstraints` for anti-affinity, `PodDisruptionBudget` for zero-downtime maintenance)
+- **The validation-as-evidence pattern** (the smoke test isn't just "did I get a response" — it's "collect these six pieces of evidence for your deployment record")
+
+### Decision 6: Security & Compliance as a cross-cutting section, not scattered annotations
+
+Mistral's strongest on-prem selling point is sovereignty — EU data residency, GDPR compliance, air-gapped deployment for classified workloads. If security content is scattered across individual setup pages as admonitions ("remember to enable TLS"), a security reviewer doing a pre-deployment assessment has to read the entire documentation to understand the security model.
+
+By giving Security & Governance its own top-level page, `security`, I enable a specific and critical workflow: the security team can review the on-prem security model *in parallel with* the platform team doing technical setup. These are concurrent workstreams in most enterprises, and the documentation structure should support that.
+
+### Decision 7: Per-page content breakdowns, not just a table of contents
+
+The first version of this proposal listed 12 page titles in a tree and stopped. That's a table of contents, not a specification — it tells the reader *that* a `security` page exists but not what's on it, how long it is, or what job it does. I found the gap by reviewing the reference submission provided as part of the exercise brief (a "Placement in Mistral's docs" example), which included a Page / Content type / Word count / Job-to-be-done table for every page in its IA. That table is what makes a proposed structure checkable rather than aspirational.
+
+I added the same discipline here: every one of the 13 pages now has a stated content type (concept, task, checklist, diagnostic, reference), a target word count, and a one-line job-to-be-done. Two things this makes visible that a bare tree hides:
+
+- **Total scope is honest.** ~10,250 words across 13 pages, none exceeding ~1,450. If a page's job-to-be-done can't be done in that budget, that's a signal the page is doing two jobs and should split — the same logic that led the reference submission to decompose two 2,000-word monoliths into 8 focused pages.
+- **The pages are AI-retrieval-shaped, not just human-shaped.** A ~700-word `troubleshooting` page that answers exactly "why is my vLLM pod OOMing" is something a RAG system or a support agent's context window can retrieve cleanly. A 9,000-word combined operations manual is not — the relevant three sentences are buried, and a chunking pipeline will either split it badly or waste tokens including it whole. Word-count discipline isn't just a readability preference; it's what makes each page a clean retrieval unit.
+
+### Decision 8: Interactive components mapped one-to-one with personas, not decoratively
+
+The same reference submission demonstrated two named interactive components (`SemanticSearchDemo`, `RetrievalDiagnostic`) placed at the exact point in the reader's path where static prose would have been weaker than something operable. I applied the same standard here, but scaled to five personas instead of two versions, because this proposal has five distinct reader paths rather than two.
+
+Each component replaces a *specific* static artefact that was weaker as prose:
+
+- **Deployment Path Selector** (`decision-guide`) replaces a static decision-tree diagram. A diagram shows all branches at once; a selector walks the reader down the one branch that applies to them and names the destination page.
+- **Hardware Sizing Calculator** (`decision-guide`, `install/kubernetes-production`) replaces static "rules of thumb" prose. GPU sizing is arithmetic — weights plus KV cache plus overhead — and arithmetic belongs in a calculator, not in a sentence the reader has to do the math from by hand. Built and embedded live on [Structure & narrative](./structure-and-narrative.mdx).
+- **Compliance Evidence Checklist** (`security`) replaces a static bullet list. A security reviewer working through a procurement questionnaire needs to check items off and produce a summary, not re-read the same list top to bottom every session.
+- **Deployment Diagnostic Tree** (`troubleshooting`) replaces a static symptom-to-action table. This is the direct structural analogue of the reference submission's `RetrievalDiagnostic` — I used the same pattern (symptom → narrowing question → diagnosis → fix command) because it's the correct pattern for this content, not because I was copying it uncritically. Built and embedded live on [Structure & narrative](./structure-and-narrative.mdx).
+- **Quickstart Command Builder** (`install/single-node-eval`) replaces a static example command. Smallest and most deliberately scoped of the five — the self-serve developer wants speed, not a dashboard.
+
+I stopped at five, matching the five personas, rather than adding more for coverage's sake. A sixth component with no clear "this reader, this moment, this static thing is weaker" justification would just be decoration, and the frontend-design principle of spending boldness in one place applies to a set of components as much as to a single page: five well-placed interactive moments teach the reader that this documentation rewards engagement; fifteen scattered ones teach them to ignore all of them.
+
+**On feasibility:** all five are pure client-side logic — branching state, arithmetic, or a checklist with a clipboard-copy action. None call Mistral's live infrastructure. This was a deliberate constraint, not an accident: documentation tooling that depends on a live API breaks precisely in the air-gapped scenario this documentation set exists to serve. A calculator that phones home to size your GPU cluster is a bad joke in a doc about deployments with zero external network dependency.
+
+### Technical grounding: what checking the arithmetic and the manifest actually found
+
+A hardware sizing calculator and a "fully rendered exemplar" manifest are only as credible as the numbers and commands inside them. Before treating either as done, I checked both against the actual formulas and cluster behavior they claim to represent, rather than against my own first draft.
+
+**The KV cache formula.** The first version of the Hardware Sizing Calculator used an arithmetic constant I hadn't derived from anything — it produced plausible-looking numbers that were in fact roughly 10x too low for realistic production concurrency, because KV cache memory scales with context length and concurrent requests, not just model size, and the constant didn't reflect that scaling correctly. I rebuilt it from the actual formula (`2 × precision_bytes × num_layers × num_kv_heads × head_dim`, per token), calibrated against Mistral 7B's published architecture, and cross-checked the output against a hand computation before accepting it. The corrected version now surfaces a genuinely useful insight for the Decision Guide's prose: at production-scale concurrency, KV cache dominates VRAM, not model weights — so a sizing tool that only asks "which model" and ignores context length and concurrency will systematically under-provision. That's now stated as an explicit caveat inside the widget rather than left implicit.
+
+**The Kubernetes Production manifest.** Cross-checking the exemplar page against its own acceptance criteria surfaced three gaps: the checklist claims to test auth enforcement (401/403) but the manifest never enables vLLM's `--api-key` flag or fronts the service with anything that would return one; the Deployment references a PersistentVolumeClaim by name without ever creating it, which fails on first apply; and the anti-affinity rule requires at least two distinct GPU nodes, which the stated prerequisite ("4 GPUs across your node pool") doesn't make explicit — a customer with 4 GPUs on one box would have a replica stuck `Pending` indefinitely. All three are now fixed in the [exemplar page](./kubernetes-production-exemplar.mdx) and reflected in the Diagnostic Tree's branches, since a troubleshooting guide that doesn't anticipate its own setup guide's gaps isn't doing its job.
+
+I'm surfacing this rather than quietly fixing it and moving on, because the fix itself is the more interesting part of the submission: a documentation structure is only as trustworthy as the artifacts inside it, and the discipline of checking a calculator's arithmetic or a manifest's internal consistency against its own claims is the same discipline a technical writer needs when reviewing an engineer's draft before it ships. Getting it wrong once and correcting it on review is a more honest demonstration of that discipline than getting it right by accident the first time.
+
+### Decision 9: What I considered and cut, and the trade-offs I accepted
+
+**No "Getting Started with Mistral" fundamentals.** The on-prem docs assume the reader already knows what Mistral models are and what they can do. This means a reader who arrives at `/deploy/on-premises/` without that background has to leave the section, read the Models overview, and come back. I accept this trade-off because duplicating introductory content in the on-prem section creates a maintenance burden — when Mistral ships a new model, you'd have to update both the Models section and the on-prem fundamentals page. A cross-link from `start-here` to the existing Models overview costs one click and zero maintenance.
+
+Two more considered-and-cut choices — no dedicated on-prem model-selection page, and no fine-tuning guide folded into deployment — are detailed in [Structure & narrative](./structure-and-narrative.mdx) → Part C, alongside three structural exclusions (the wall-of-options problem, the developer-curl/enterprise-validation conflation, the one-page-per-product silo). A cut belongs next to the structure it's cutting from, not duplicated in a separate rationale file the reader has to cross-reference.
+
+## The gap I'm filling
+
+The full diff against Mistral's actual live docs is in [Structure & narrative](./structure-and-narrative.mdx) → Part D. The short version: `Self-Deployment` currently sits under the existing `Deployment` section as a flat list of six tools (vLLM, TensorRT, TGI, SkyPilot, Cerebrium, Cloudflare Workers AI) presented as equivalent options. Three of those six are not on-prem deployment paths at all — they're managed platforms or infra-orchestration tools that happen to support Mistral models. The proposal replaces `Self-Deployment` with an `On-Premises` section nested under the same `Deployment` parent, expands the existing vLLM page's Docker command into two separate install paths, and separates SkyPilot, Cerebrium, and Cloudflare Workers AI into their own `Third-Party Tools` sibling — giving them a home that describes what they actually are without cluttering the on-prem path. The existing `Deployment` landing page is also rewritten as a deployment-modality decision point: "Cloud, On-Premises, or Third-Party Tools?" becomes the upstream funnel that the on-prem `decision-guide` then refines.
+
+## The three interactive components built for this submission
+
+Three of the five specified components exist as working React components, embedded live on
+[Structure & narrative](./structure-and-narrative.mdx), not just specs or descriptions.
+
+**Architecture Layer Map** — embedded in [Structure & narrative](./structure-and-narrative.mdx) → Part B. A layered architecture explorer where each layer expands to show its linked pages, with persona filtering that dims irrelevant layers. This is a sixth, site-wide artefact — not tied to one persona's path, but a navigation aid that sits above all five. Most documentation sites offer two navigation modes: sidebar tree and search, both content-centric — they help you find a page by name. This adds a third mode: "I'm working on the inference layer, show me what's relevant." It also encodes the trust boundary visually, which matters because that boundary is Mistral's core sovereignty claim, and making it visible in the primary navigation artefact reinforces it at every touchpoint rather than only in the `security` page's prose.
+
+**Hardware Sizing Calculator** — embedded in [Structure & narrative](./structure-and-narrative.mdx) → the Deployment Engineer's persona path, specified for `decision-guide` and `install/kubernetes-production` in Decision 8 above. Model, precision, context length, and concurrency in; estimated VRAM, GPU count, and the exact `--tensor-parallel-size` / `--max-model-len` / `--max-num-seqs` flags out. This is the one I'd point to first if asked "what does this proposal add beyond structure" — it's the moment where the Decision Guide's "which model" question and the Kubernetes Production guide's "which flags" question stop being two separate reading exercises and become one continuous action.
+
+**Deployment Diagnostic Tree** — embedded in [Structure & narrative](./structure-and-narrative.mdx) → the SRE persona path, specified for `troubleshooting` in Decision 8 above. Symptom → narrowing question → diagnosis → exact `kubectl`/`curl` fix command. Built directly on the pattern demonstrated in the reference submission's `RetrievalDiagnostic` component, adapted to this domain's actual failure modes (OOM on load vs. under load, all-requests vs. some-requests auth failures, TTFT vs. generation-rate latency, probe-failing vs. unscheduled pods) — each branch pulled from the symptom-based troubleshooting matrix already sketched in the uploaded `troubleshooting` stub.
+
+The other three specified components (Deployment Path Selector, Compliance Evidence Checklist, Quickstart Command Builder — see the table in [Structure & narrative](./structure-and-narrative.mdx) → Part E) are described but not built for this submission, in the same way the reference submission's Version A/B split described a third "Libraries-focused guide" as a scoping decision rather than building it. Building all five would have been redundant proof — three working components plus three clearly specified equivalents establishes the pattern without turning this exercise into a six-component development sprint.
+
+## Narrative approach: technical authority without gatekeeping
+
+The prose style threads a specific needle. On-prem Mistral deployments involve genuinely hard infrastructure decisions (GPU topology, quantization tradeoffs, network architecture). The documentation must be technically precise enough that a senior platform engineer trusts it, while remaining accessible enough that an ML engineer without deep infrastructure experience can follow the setup guides.
+
+The mechanisms:
+- **Annotated commands** — every code block includes comments explaining *what* and *why*, not just the command
+- **Negative-space documentation** — explicitly stating what does NOT happen is as important as stating what does (e.g., "no data crosses this boundary")
+- **Validation-as-evidence** — the smoke test isn't "did I get a response?" but "collect these six pieces of evidence for your deployment record"
+
+## How I'd validate this structure — and how I'd know it's working
+
+Validation happens in two phases: before launch (does the structure make sense?) and after launch (is it actually helping?).
+
+**Before launch — structural validation:**
+
+1. **Card sort with 3-5 Mistral customers** across the persona spectrum. Give them 40 topic cards and ask them to organize. See if the clusters match the proposed IA.
+2. **Task-based testing** with the K8s Production guide: can a platform engineer with no prior Mistral experience go from zero to first inference in under 2 hours using only the docs?
+3. **Time-to-answer testing** for the Operations section: can an SRE find the answer to "what does high P99 latency mean and how do I fix it?" in under 3 minutes?
+4. **Security review coverage check**: does the Security & Governance guide answer every question a typical enterprise security questionnaire asks about on-prem AI deployments?
+
+**After launch — the signals I'd actually look at:**
+
+Word of mouth isn't a measurement strategy. These are the concrete signals that tell you whether the docs are working, broken, or irrelevant:
+
+- **Persona selector click distribution** on `start-here` (GA4 event). If 80% of clicks go to "Deployment Engineer" and 1% to "Security Reviewer," the five-persona model may be over-engineering for three personas — or the Security Reviewer is finding their page via search instead of the selector, which means the selector's labels don't match how they think about their job.
+- **Page-exit rate on `decision-guide`**. This page exists to send readers to one of three install paths. If a significant share of readers exit the docs entirely from this page instead of clicking through to an install guide, the decision tree isn't resolving — they're getting stuck or not finding their path.
+- **Zendesk ticket analysis**: grep for `vllm:gpu_cache_usage_perc` and `OOM` in support tickets. If customers are opening tickets about a metric the `operations` page already documents, the page isn't being found. If they're searching for a metric we *didn't* document, that's a content gap.
+- **Time-on-page for `troubleshooting`** versus Zendesk ticket volume for the same symptoms. If the Diagnostic Tree is working, time-on-page should be short (the reader found the answer) and the corresponding Zendesk category should trend down. If time-on-page is short but tickets aren't falling, readers are hitting the tree, not finding their symptom, and escalating anyway — which means the tree needs more branches, not more prose.
+- **Calculator usage**: how many readers interact with the Hardware Sizing Calculator vs. how many just scroll past it. Low interaction on a page with high traffic means the component isn't earning its position — it should be moved, simplified, or replaced with a static table that's faster to scan.
+
+## How the 13 pages get written — modularity within and across files
+
+The 13-page count is a structural commitment: 13 focused single-topic files, each under 1,450 words, each answering one reader's question. But "one file per topic" is not the same as "one monolithic wall of prose per file." Three implementation principles govern how the actual content gets written once the structure is approved.
+
+**Within a page, the heading structure does the decomposition, not file splitting.** The Kubernetes Production exemplar is one `.mdx` file at ~1,450 words, but it's structured as six named steps, each its own `###` heading with its own code block and job. A reader doesn't read it top to bottom — they jump to Step 3 via the sidebar table-of-contents, or an AI retrieval system chunks it by heading and pulls just the relevant step. This is deliberate: splitting "Step 3: Define the manifest" into its own file would create a navigation hop for every reader who's following the guide sequentially, which is most of them. The heading-based decomposition serves both random-access and sequential readers without the overhead of file-boundary navigation.
+
+**Across pages, shared content lives in MDX partials, not copy-paste.** The three install guides (`kubernetes-production`, `single-node-eval`, `air-gapped`) will all need the same "create the HF_TOKEN secret" step and the same GPU Operator prerequisite callout. Right now the exemplar has that content inline — which is correct for a single rendered page. Once the other two are written, that shared content moves into a `_partials/` directory (e.g. `_partials/secrets-setup.mdx`, `_partials/gpu-operator-prereq.mdx`) and gets `import`ed into all three guides. This prevents the silent-drift problem where someone updates the secret-creation command on the K8s guide and forgets to update the air-gapped guide — the kind of bug that generates a support ticket three months later and takes two hours to diagnose because the "wrong" version still looks plausible.
+
+**If a page outgrows its word budget, the job-to-be-done table is the splitting criterion.** Suppose `operations` needs 1,800 words once the alerting section is fully fleshed out — the table says its budget is 850. That's the trigger to split, and the job-to-be-done column tells you where to cut: "health model and metrics" is one job, "alerting and maintenance windows" is another. Two pages, two jobs, two entries in the table. The budget is a design constraint that forces decomposition decisions early, not a ceiling to be silently exceeded.
+
+## What I'd build next
+
+If this proposal were approved, the immediate follow-on work would be:
+
+1. **Fully render the remaining stubs.** Priority order: `security` (most requested by enterprise buyers during procurement), `operations` (most used post-deployment), `install/air-gapped` (highest sovereignty value, Mistral's sharpest differentiator).
+2. **Persist the Architecture Layer Map's persona filter across page navigations** (e.g., via a URL query parameter) — right now the filter resets every time the reader loads a new page, so a Security Reviewer who filtered to their layers on `structure-and-narrative` loses that filter if they navigate away and back.
+3. **Create a Grafana dashboard template** to ship alongside the Operations guide — not just documentation about what to monitor, but the actual `.json` dashboard definition that teams can import.
+4. **Write a "deployment validation script"** that automates the 6-point acceptance criteria checklist from the K8s Production guide, so teams can run `./validate.sh` instead of manually checking each criterion.

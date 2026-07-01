@@ -1,0 +1,115 @@
+---
+title: "Documentation Critique & Rewrite"
+sidebar_label: "Audit & IA Proposal"
+sidebar_position: 1
+---
+
+import {
+  AuditThesis,
+  FindingsExplorer,
+  BeforeAfterExplorer,
+  Roadmap,
+} from "@site/src/components/mistralBusinessCase/exercise1/DocAuditReport";
+
+# Exercise 1: Documentation Critique & Rewrite
+
+I read every navigable page on docs.mistral.ai as three different people: a developer evaluating whether to switch from OpenAI, a Solutions Engineer answering a bank's security team live on a call, and a coding agent fetching documentation to generate code. The most significant finding isn't about content that's missing — it's about content that exists and isn't findable by the reader who needs it.
+
+<AuditThesis>
+  In at least three of the highest-severity findings, the fix already exists somewhere on the site, and nobody connected it to the reader who needs it. A working migration guide from OpenAI sits under <em>Developers → Resources</em>, invisible to the evaluator deciding between Mistral and OpenAI right now. A complete error-handling and retry code sample sits on the same buried page, invisible to the developer debugging a <code>429</code> at 11pm. This is a <strong>findability problem wearing a missing-content costume</strong> — and it matters which one it is, because the wrong diagnosis leads to the wrong fix.
+</AuditThesis>
+
+## The restructured IA
+
+Every line below is a decision — a cut, a move, a new page, or a structural change. Pages kept exactly as-is are not listed; the annotation is the argument.
+
+```
+docs.mistral.ai (proposed)
+│
+├── Getting Started                          [SIMPLIFIED — 23 pages → 15]
+│   ├── Platform overview                   [keep]
+│   └── Quickstarts/
+│       ├── Vibe Work (×3)                  [keep]
+│       ├── Vibe Code (×2)                  [keep]
+│       ├── Studio (×3)                     [reduced from 4 — key-activation merged into first step]
+│       ├── Developer (×4)                  [keep; fix sidebar inconsistency across this folder]
+│       ├── Admin (×3)                      [keep]
+│       └── ~~Le Chat (×3)~~               [CUT — duplicate of Vibe Work under a retired product name]
+│
+├── Models                                   [RESTRUCTURED]
+│   ├── Overview                            [REWRITTEN — current 6 models only; no deprecated table]
+│   ├── Decision guide ← NEW               [use case → model → price → API name; one decision, one page]
+│   ├── Migration guide                     [SURFACED from Developers → Resources]
+│   └── Legacy models                       [MOVED from Overview — the 45-row deprecated table, one extra click]
+│
+├── Vibe                                     [UNCHANGED — best-organised section on the site]
+│   ├── Work (×3)
+│   └── Code (×2)
+│
+├── Studio & API                             [CONSOLIDATED — Studio + Developers merged]
+│   ├── ...existing Studio pages...
+│   ├── API Reference
+│   └── SDK clients                         [MOVED from Getting Started dead-link slug]
+│
+├── Deploy                                   [EXPANDED — 3 new pages added]
+│   ├── ...existing deployment pages...
+│   ├── Architecture ← NEW                  [diagrams cleared for customer-facing use; no NDA risk]
+│   ├── Compliance ← NEW                    [real certification dates; data flow diagrams; EU AI Act mapping]
+│   └── Decision guide ← NEW               [starts from customer's constraint, not Mistral's product names]
+│
+├── Production ← NEW SECTION
+│   ├── Model pinning ← NEW                [genuinely new content — only new page in this proposal]
+│   └── Error handling & retry             [SURFACED from Developers → Resources; content already exists]
+│
+└── Admin                                    [MODIFIED]
+    ├── Rate limits                          [keep here; add cross-link from Production]
+    └── ...existing admin pages...
+```
+
+**What this costs:** one extra click to reach deprecated model history, and one extra click for any user who had Le Chat quickstarts bookmarked. That is the complete list of things a current reader loses.
+
+**What is genuinely new writing** (as opposed to relocation and cross-linking): the Models Decision Guide, three Deploy pages, and one Production page. Four pages. The rest is architecture, not authorship.
+
+The top nav this maps to:
+
+```
+Getting Started  |  Models  |  Vibe  |  Studio & API  |  Deploy  |  Production  |  Admin
+```
+
+**Products** is cut — a container page that adds a click without adding understanding, since the homepage cards already link to Vibe and Studio. **Developers** is merged into Studio & API — one concept, one location.
+
+**The Models cut I'd defend hardest:** I would remove the 45-row Legacy/Deprecated table from the main Models Overview entirely — not shrink it, move it to its own page linked from a footer note. That table currently buries the six models that matter under 45 dead entries. One row is a real content bug, not a design choice: Devstral 2 appears simultaneously in the "Featured Models" carousel and the Legacy/Deprecated table with the identical version `25.12`. Confirmed via two direct fetches. A reader scanning the legacy table for migration guidance could reasonably conclude that a model Mistral is actively recommending is deprecated.
+
+**Deploy and Production are mostly relocation, not new writing:** the error-handling guide, rate limits reference, and migration guide from OpenAI all already exist on the site — filed under the wrong top-level concept. The actual new writing is three pages: compliance (real certification dates, EU AI Act mapping), architecture diagrams, and model pinning. The Vibe section is unchanged — it is the best-organised part of the current site, and a redesign that touches what already works signals the reviewer didn't evaluate carefully.
+
+---
+
+## How the docs change by reader
+
+The same underlying facts — the same models, the same deployment options, the same compliance status — need to be presented completely differently depending on who's asking. The test for whether docs truly understand their audience: take one real question and answer it for two different readers. If the two answers look the same with the nouns swapped, the docs don't have an audience model — they have a find-and-replace.
+
+<BeforeAfterExplorer />
+
+The full nine-segment audience map — entry point, journey stage, emotional state, per-segment workflow tables — is in the [Research Appendix](./research-appendix/audience-and-workflows).
+
+---
+
+## What's broken — the evidence
+
+Eight findings, each grounded in a specific page or behaviour confirmed by direct fetch — not inferred from a screenshot or assumed from a competitor's docs. An SE lead might filter to Enterprise Readiness; a support lead to Support Deflection.
+
+<FindingsExplorer />
+
+---
+
+## What ships first
+
+Ordered by credibility, not just priority — Week 1 items are fast, visible fixes that build the trust needed to make the bigger structural case internally. The findings that affect acquisition (the Models cut, the missing decision guide) are Week 1. The findings that affect deal velocity and support deflection (the Deploy section) are Week 2. The findings that affect production reliability are Week 3.
+
+<Roadmap />
+
+**Not on this list:** a page-scoped assistant — the one genuinely generative piece of the AI readiness work. That is a real feature with real trust and hallucination trade-offs, not a cleanup item. The full case for making docs.mistral.ai first-class for AI-agent readers — benchmarked against Stripe's implementation — is in [Docs for Humans and Agents](./docs-for-humans-and-agents).
+
+---
+
+**Research trail:** [Nine-segment audience analysis](./research-appendix/audience-and-workflows) · [Page-by-page content inventory](./research-appendix/content-inventory) · [Gap analysis — pages to workflows](./research-appendix/gap-analysis)

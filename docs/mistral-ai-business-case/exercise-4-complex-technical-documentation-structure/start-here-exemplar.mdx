@@ -1,0 +1,66 @@
+---
+title: "Exemplar: On-Premises Start Here (Persona Router)"
+sidebar_label: Start-here exemplar
+sidebar_position: 4
+description: "A lighter second exemplar — the persona-routing landing page referenced throughout this proposal, rendered rather than just described."
+---
+
+The Kubernetes Production guide is the deep exemplar — one fully rendered page proving the structure can carry
+technical weight. This page is the second, lighter exemplar: `start-here`, the persona router every path in
+this proposal begins from. It's included because the proposal talks about persona routing more than it shows
+it, and a routing page is only convincing once you've actually stood in front of it and picked a card.
+
+What follows is the page itself, at roughly the length a real landing page should be — short enough to scan in
+under thirty seconds, because its only job is to get the right reader onto the right path.
+
+---
+
+## On-Premises Deployment
+
+Run Mistral models on your own infrastructure — bare metal, your own Kubernetes cluster, or fully air-gapped.
+This section covers everything from "will this work for us?" through Day 2 operations.
+
+New to Mistral models generally? Start with the existing Model Selection Guide first — this section assumes you
+already know which model you're deploying.
+
+### Which of these describes you?
+
+**Evaluating whether this is feasible** — Solutions Engineer, Platform Lead, or anyone scoping a deployment
+before committing engineering time.
+→ Start at `architecture` to understand the stack, then `decision-guide` to pick a path.
+
+**Ready to build a production deployment** — Deployment Engineer or Platform Engineer with infrastructure
+already provisioned.
+→ Jump straight to [`install/kubernetes-production`](./kubernetes-production-exemplar.mdx), the fully
+rendered HA deployment guide.
+
+**Reviewing this for security or compliance approval** — Security Reviewer, Compliance Officer, or anyone
+running this past a procurement or audit process.
+→ Read `architecture` for the trust boundary, then `security` for the compliance evidence.
+
+**Operating a deployment that's already running** — SRE or Support, inheriting a live system.
+→ Go to `operations` for the health model, or straight to `troubleshooting` if something's on fire right now.
+
+**Just want to see it work** — a developer who wants one model responding on one GPU before anything else.
+→ `install/single-node-eval` — one Docker command, no cluster required.
+
+---
+
+*In the live implementation, this section renders as the Deployment Path Selector — an interactive
+questionnaire (production vs. evaluation, networked vs. air-gapped, available VRAM) that resolves to one of
+these five cards automatically rather than asking the reader to self-select. That component is specified in
+Part E of [Structure & narrative](./structure-and-narrative.mdx) but not built for this submission — the static
+version above is what a reader sees on first paint, before the component hydrates, and what any reader without
+JavaScript sees permanently. A router that only works with JavaScript enabled isn't actually a router for
+every visitor; the static fallback above is not an afterthought; it's the accessible baseline the interactive
+version enhances.*
+
+Not sure which of the five fits? `architecture` is the safest default — every path reads it first or second.
+
+---
+
+*Note on the links above: `install/kubernetes-production` links to its actual rendered exemplar in this
+submission, since that page exists. The other slugs (`architecture`, `decision-guide`, `security`,
+`operations`, `troubleshooting`, `install/single-node-eval`) are shown as plain page names, not links — those
+pages are specified in [Structure & narrative](./structure-and-narrative.mdx) but aren't rendered in this
+submission, and a dead link is worse than no link.*

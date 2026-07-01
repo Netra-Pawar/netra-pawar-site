@@ -1,0 +1,282 @@
+---
+title: "Exemplar: Kubernetes Production Deployment Guide"
+sidebar_label: Kubernetes production exemplar
+sidebar_position: 3
+description: "The one fully rendered page in the proposed IA — everything else is a structural stub. If this page works, the structure works."
+---
+
+This is the fully rendered page referenced throughout [Structure & narrative](./structure-and-narrative.mdx) —
+the one page in the proposed IA that isn't a stub. It sits at `/deploy/on-premises/install/kubernetes-production` and
+demonstrates the annotated-command pattern, the acceptance-criteria-as-evidence pattern, and the fixes that
+came out of stress-testing the manifest against its own claims (see [Design rationale](./index.mdx) → "Technical
+grounding").
+
+---
+
+## Kubernetes production deployment (vLLM)
+
+By the end of this guide, you will have a 2-replica vLLM inference service running `Mistral-Nemo-Instruct-2407`
+behind a ClusterIP service, with health probes, GPU resource limits, persistent model caching, and anti-affinity
+rules for high availability.
+
+### When to use this guide
+
+Use this guide if you selected the **Kubernetes Production** path from the Decision Guide's Deployment Path
+Selector.
+
+### Prerequisites
+
+- Kubernetes cluster v1.24+ with admin access, **spanning at least 2 distinct GPU nodes** — the anti-affinity
+  rules below place each replica on a different node, so 4 GPUs on a single node will leave one replica
+  permanently `Pending`
+- NVIDIA GPU Operator installed
+- A storage class capable of fast reads (NVMe SSDs)
+- `HF_TOKEN` with READ permission on the model repository
+
+:::warning Hardware sizing: 4 GPUs across 2+ nodes required
+The manifest below configures 2 replicas, each using tensor parallelism across 2 GPUs
+(`--tensor-parallel-size=2`). Run the [Hardware Sizing Calculator](./structure-and-narrative.mdx#hardware-sizing-calculator)
+on the Decision Guide page to confirm this matches your model and concurrency target — KV cache, not
+model weights, usually drives the real number at production concurrency.
+:::
+
+### Step 1: Provision the PersistentVolumeClaim
+
+The Deployment below references a PVC by name. Create it first — the Deployment will not create it for you,
+and applying the manifest before this step fails on first schedule.
+
+```yaml title="mistral-model-pvc.yaml"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mistral-model-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast-nvme # replace with your fast-read storage class
+  resources:
+    requests:
+      storage: 300Gi # sized for Mistral-Nemo-Instruct-2407; adjust per model
+```
+
+```bash
+kubectl apply -f mistral-model-pvc.yaml
+```
+
+:::warning ReadWriteOnce and multi-node scheduling
+The two replicas below land on two distinct nodes (see the anti-affinity rule in Step 3), and both mount
+this same PVC. `ReadWriteOnce` restricts a volume to being mounted by one node at a time — some CSI drivers
+implement this as node-local and will fail to attach on the second node. Confirm your storage class supports
+multi-node attach for `ReadWriteOnce` volumes before deploying (many NVMe-backed cloud CSI drivers do; check
+yours). If it doesn't, switch `accessModes` to `ReadWriteMany` if your storage class supports it, or provision
+one PVC per node instead of sharing this one — the trade-off there is each node re-downloads the model weights
+independently on first start.
+:::
+
+### Step 2: Configure secrets
+
+Never hardcode your Hugging Face token in deployment manifests.
+
+```bash
+kubectl create secret generic huggingface-token \
+  --from-literal=HF_TOKEN="<YOUR_TOKEN>" \
+  --namespace default
+```
+
+Also generate a bearer token for the vLLM server itself and store it as a secret — this is what the
+acceptance criteria below actually tests.
+
+```bash
+kubectl create secret generic vllm-api-key \
+  --from-literal=API_KEY="$(openssl rand -hex 32)" \
+  --namespace default
+```
+
+### Step 3: Define the deployment manifest
+
+A `Deployment` to manage the vLLM pods, a `Service` to expose the API internally, and a `PodDisruptionBudget`
+to ensure zero-downtime maintenance.
+
+```yaml title="mistral-vllm-deployment.yaml"
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: mistral-nemo-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: mistral-inference
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mistral-nemo-vllm
+  labels:
+    app: mistral-inference
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mistral-inference
+  template:
+    metadata:
+      labels:
+        app: mistral-inference
+    spec:
+      # Requires 2 distinct nodes with >=2 free GPUs each — see the
+      # "4 GPUs across 2+ nodes" warning above.
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: mistral-inference
+      containers:
+        - name: vllm-server
+          # Always pin to a specific version in production, never :latest.
+          # Verified current as of this writing — check
+          # https://hub.docker.com/r/vllm/vllm-openai/tags before deploying,
+          # since this pin will go stale the moment vLLM ships its next release.
+          image: vllm/vllm-openai:v0.24.0-cu129-ubuntu2404
+          command: ["python3", "-m", "vllm.entrypoints.openai.api_server"]
+          args:
+            - "--model=mistralai/Mistral-Nemo-Instruct-2407"
+            - "--tokenizer_mode=mistral"
+            - "--load_format=mistral"
+            - "--config_format=mistral"
+            - "--max-model-len=8192" # conservative default; Nemo supports up to 128k
+            - "--tensor-parallel-size=2" # distribute model across 2 GPUs per pod
+            - "--max-num-seqs=256" # scheduler ceiling, not a guaranteed reservation — see note below
+            - "--api-key=$(VLLM_API_KEY)" # enables the auth this page's acceptance
+                                            # criteria actually tests
+          env:
+            - name: HUGGING_FACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: huggingface-token
+                  key: HF_TOKEN
+            - name: VLLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: vllm-api-key
+                  key: API_KEY
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 60 # allow time for model weights to load into VRAM
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 20
+          resources:
+            limits:
+              nvidia.com/gpu: "2" # must match tensor-parallel-size
+            requests:
+              cpu: "8"
+              memory: "32Gi"
+              nvidia.com/gpu: "2"
+          volumeMounts:
+            - name: model-cache
+              mountPath: /root/.cache/huggingface
+      volumes:
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: mistral-model-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mistral-inference-service
+spec:
+  selector:
+    app: mistral-inference
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: ClusterIP
+```
+
+:::note Persistent caching is critical
+Using a `PersistentVolumeClaim` for the `model-cache` volume is critical. If you use an `emptyDir`, the pod
+will re-download the multi-gigabyte model weights from Hugging Face on every restart, causing 10–30 minutes
+of downtime per pod.
+:::
+
+:::info Reconciling --max-num-seqs with your GPU count
+`--max-num-seqs=256` caps how many requests vLLM's scheduler will admit into a batch at once — it is not a
+guarantee that 256 full-context requests run simultaneously in memory. At 2 GPUs and an 8k `--max-model-len`,
+KV cache capacity sustains roughly 30–60 concurrent full-context requests before the cache saturates; requests
+beyond that are queued by the scheduler, not rejected or OOM-killed. Run the [Hardware Sizing
+Calculator](./structure-and-narrative.mdx#hardware-sizing-calculator) with your own expected peak concurrency
+and context length before committing to a GPU count — this manifest's 2-GPU allocation is calibrated for a
+moderate concurrent load at 8k context, not a hard promise that any workload up to 256 concurrent requests
+fits on 2 GPUs.
+:::
+
+### Step 4: Apply the configuration
+
+```bash
+kubectl apply -f mistral-vllm-deployment.yaml
+```
+
+Monitor the deployment status. Wait until both pods reach `Running` and the readiness probe passes
+(`READY 1/1`).
+
+```bash
+kubectl get pods -l app=mistral-inference -w
+```
+
+### Step 5: Validate
+
+Deployment is not complete when services run; it is complete when a controlled application path can produce
+a valid response securely. Run this test only after the deployment owner confirms the private endpoint is
+reachable, authentication is configured, and logs are flowing to the observability stack.
+
+```bash
+# Extract the vLLM API key from the cluster secret first -- it exists inside
+# the cluster, not in your local shell or the debug pod you're about to start.
+VLLM_TEST_KEY=$(kubectl get secret vllm-api-key -o jsonpath='{.data.API_KEY}' | base64 -d)
+
+# Start a temporary interactive pod inside the cluster, passing the key in
+kubectl run -i --tty --rm debug --image=curlimages/curl --restart=Never \
+  --env="VLLM_TEST_KEY=$VLLM_TEST_KEY" -- sh
+
+# Inside the debug pod, send a validation request
+curl http://mistral-inference-service.default.svc.cluster.local/v1/chat/completions \
+  -H "Authorization: Bearer $VLLM_TEST_KEY" \
+  -H "Content-Type: application/json" \
+  -H "X-Request-ID: deployment-smoke-test-001" \
+  -d '{
+    "model": "mistralai/Mistral-Nemo-Instruct-2407",
+    "messages": [{"role": "user", "content": "Reply with the single word: acknowledged"}],
+    "max_tokens": 20
+  }'
+```
+
+**Acceptance criteria checklist** — collect this evidence to prove deployment success, not just that a
+service is running:
+
+- ✅ HTTP 200 response received
+- ✅ The response body contains a valid completion (LLM output isn't exact-match testable — check for
+  non-empty `choices[0].message.content`, not a literal string)
+- ✅ The `X-Request-ID` is visible in your centralized logging system
+- ✅ The latency metric is emitted to your observability stack
+- ✅ Auth enforced — repeat the request with an invalid or missing `Authorization` header and confirm `401`
+- ✅ No unexpected external network egress observed during inference
+
+### Step 6: Next steps — Day 2 operations
+
+Once validated, hand the deployment over to operations. Configure Prometheus to scrape pods labeled
+`app: mistral-inference` on port `8000` (`/metrics`). Pay special attention to `vllm:gpu_cache_usage_perc`
+to predict out-of-memory scenarios before they happen.
+
+Proceed to **Configuration** for advanced tuning, or **Operations** for alert thresholds and scaling.
