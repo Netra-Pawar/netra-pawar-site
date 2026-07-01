@@ -1,0 +1,43 @@
+---
+title: "Verification Notebook"
+sidebar_label: "Verification Notebook"
+sidebar_position: 9
+---
+
+# Verification Notebook
+
+This notebook contains the hands-on API verification for **Exercise 2: Simplifying Complex Technical Concepts**.
+
+I used it to validate the technical claims behind the vector embeddings documentation, including:
+
+- embedding API behavior
+- similarity scoring
+- vector normalization
+- query edge cases
+- retrieval failure scenarios
+- differences between REST and SDK parameter naming
+
+The notebook is stored in the repository rather than rendered directly as a Docusaurus page because Docusaurus does not automatically render Jupyter `.ipynb` files as documentation pages.
+
+## Open the notebook
+
+[Open the verification notebook on GitHub](https://github.com/Netra-Pawar/netra-pawar-site/blob/main/docs/mistral-ai-business-case/exercise-2-simplifying-concepts/exercise-2-verification.ipynb)
+
+## Run the notebook locally
+
+To reproduce the verification, open `exercise-2-verification.ipynb` in VS Code or JupyterLab, attach a Python 3 kernel, and run the cells with your own Mistral API key.
+
+The notebook expects the API key to be available as an environment variable. Do not paste the key into the notebook or commit it to the repository.
+
+```bash
+export MISTRAL_API_KEY="your_api_key_here"
+pip install mistralai numpy pandas scikit-learn jupyter
+```
+
+In VS Code, select a Python kernel from the notebook toolbar, then run the cells from top to bottom.
+
+## Why this notebook is included
+
+The notebook acts as a lightweight verification artifact for the documentation. It shows that the examples and claims in the Exercise 2 docs were tested against the Mistral API rather than written only from reference material.
+
+This is especially important for a concept like embeddings, where small implementation details can affect retrieval quality and developer trust.
